@@ -49,11 +49,11 @@ public class JavaFX_demo extends Application {
     
     // Stage and Scene
     
-//    primaryStage.setTitle("Stage and Scene");
-//    BorderPane bPane = new BorderPane();
-//    Scene scene = new Scene(bPane, Color.DARKGRAY);
-//    primaryStage.setScene(scene);
-//    primaryStage.show();
+    primaryStage.setTitle("Stage and Scene");
+    BorderPane bPane = new BorderPane();
+    Scene scene = new Scene(bPane, Color.BLANCHEDALMOND);
+    primaryStage.setScene(scene);
+    primaryStage.show();
     
     // Label
     
