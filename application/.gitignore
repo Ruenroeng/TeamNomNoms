@@ -5,3 +5,7 @@
 /BPTree$InternalNode.class
 /BPTree$LeafNode.class
 /BPTree$Node.class
+/BPTreeADT.class
+/FoodData.class
+/FoodDataADT.class
+/FoodItem.class
