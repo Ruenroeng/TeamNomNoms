@@ -46,8 +46,10 @@ public class Main extends Application {
         CaloriesBox.getChildren().add(CaloriesField);
         
         VBox ItemDetails = new VBox(10,ItemDetailsLabel);
-        ItemDetails.getChildren().addAll(CaloriesBox, ItemDetails);
-               
+        ItemDetails.getChildren().addAll(CaloriesBox);
+        
+        HBoxBottom.getChildren().add(ItemDetails);
+        
         
         Label bottomCenter = new Label("Filter");
         Label bottomRight = new Label("Nutrition Links");
