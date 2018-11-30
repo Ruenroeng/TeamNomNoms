@@ -36,18 +36,57 @@ public class Main extends Application {
         VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
         bPane.setLeft(VBoxLeft);
   
-        // bottom pane
+        /* bottom pane
+         * This will have 3 sections:
+         * 1) Add Item Box.
+         * 2) Filters Box.
+         * 3) Additional Resources
+        */
+        
         HBox HBoxBottom = new HBox(400);
-        Label bottomLeft = new Label("Add Food.");
+        
         Label ItemDetailsLabel = new Label("Item Details");
-        HBox CaloriesBox = new HBox();
+        
+      //Name Field Build
+        HBox NameBox = new HBox();
+        Label NameLabel = new Label("Name");
+        TextField NameField = new TextField("Enter Name");
+        NameBox.getChildren().addAll(NameLabel,NameField);
+        
+      //Calorie Field Build
+        HBox CaloriesBox = new HBox(20);
         Label CaloriesLabel = new Label("Calories");
-        TextField CaloriesField = new TextField("Calories");
-        CaloriesBox.getChildren().add(CaloriesLabel);
-        CaloriesBox.getChildren().add(CaloriesField);
+        TextField CaloriesField = new TextField("Enter Calories");
+        CaloriesBox.getChildren().addAll(CaloriesLabel,CaloriesField);
+        
+      //Fat Field Build
+        HBox FatBox = new HBox(20);
+        Label FatLabel = new Label("Fat");
+        TextField FatField = new TextField("Enter Fats");
+        FatBox.getChildren().addAll(FatLabel,FatField);
+        
+      //Carbs Field Build
+        HBox CarbsBox = new HBox(20);
+        Label CarbsLabel = new Label("Carbs");
+        TextField CarbsField = new TextField("Enter Carbs");
+        CarbsBox.getChildren().addAll(CarbsLabel,CarbsField);
+        //CarbsBox.setMargin(CarbsBox, 20);
+
+      //Fiber Field Build
+        HBox FiberBox = new HBox(20);
+        Label FiberLabel = new Label("Fiber");
+        TextField FiberField = new TextField("Enter Fiber");  
+        FiberBox.getChildren().addAll(FiberLabel,FiberField);
+        
+      //Protein Field Build
+        HBox ProteinBox = new HBox(20);
+        Label ProteinLabel = new Label("Protein");
+        TextField ProteinField = new TextField("Enter Protein");
+        ProteinBox.getChildren().addAll(ProteinLabel,ProteinField);
+             
         
         VBox ItemDetails = new VBox(10,ItemDetailsLabel);
-        ItemDetails.getChildren().addAll(CaloriesBox);
+        ItemDetails.getChildren().addAll(NameBox,CaloriesBox,FatBox,FiberBox,ProteinBox);
         
         HBoxBottom.getChildren().add(ItemDetails);
         
@@ -64,9 +103,13 @@ public class Main extends Application {
         comparatorSelect.getChildren().addAll(comparator, comparatorDropDown);
         TextField value = new TextField("Enter value");
         Label bottomRight = new Label("Nutrition Links");
+<<<<<<< HEAD
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
         bottomCenter.getChildren().add(filter);
         HBoxBottom.getChildren().addAll(bottomLeft, bottomCenter, bottomRight);
+=======
+        HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
+>>>>>>> refs/remotes/origin/master
         bPane.setBottom(HBoxBottom);
         
   
