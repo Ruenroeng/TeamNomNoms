@@ -1,15 +1,21 @@
 package application;
 	
+import application.Main.FoodItem;
+import application.Main.FoodListItem;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -124,8 +130,6 @@ public class Main extends Application {
         Label bottomRight = new Label("Nutrition Links");
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
         bottomCenter.getChildren().add(filter);
-        HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
-
         HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
         bPane.setBottom(HBoxBottom);
         
