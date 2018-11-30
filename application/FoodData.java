@@ -72,5 +72,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
         // TODO : Complete
         return null;
     }
-
+    public void saveFoodItems(String inputFile) {
+    	
+    }
 }
