@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,11 +36,26 @@ public class Main extends Application {
         bPane.setLeft(VBoxLeft);
   
         // bottom pane
-        HBox HBoxBottom = new HBox(400);
-        Label bottomLeft = new Label("Add Food.");
+
+
+        HBox HBoxBottom = new HBox(200);
+        Label ItemDetailsLabel = new Label("Item Details");
+        HBox CaloriesBox = new HBox();
+        Label CaloriesLabel = new Label("Calories");
+        TextField CaloriesField = new TextField("Calories");
+        CaloriesBox.getChildren().add(CaloriesLabel);
+        CaloriesBox.getChildren().add(CaloriesField);
+        
+        VBox ItemDetails = new VBox(10,ItemDetailsLabel);
+        ItemDetails.getChildren().add(CaloriesBox);
+        
+        HBoxBottom.getChildren().add(ItemDetails);
+        
+        
+
         Label bottomCenter = new Label("Filter");
         Label bottomRight = new Label("Nutrition Links");
-        HBoxBottom.getChildren().addAll(bottomLeft, bottomCenter, bottomRight);
+        HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
         bPane.setBottom(HBoxBottom);
         
   
