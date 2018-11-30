@@ -38,6 +38,21 @@ public class Main extends Application {
         // bottom pane
         HBox HBoxBottom = new HBox(400);
         Label bottomLeft = new Label("Add Food.");
+        HBox HBoxBottom = new HBox(200);
+        Label ItemDetailsLabel = new Label("Item Details");
+        HBox CaloriesBox = new HBox();
+        Label CaloriesLabel = new Label("Calories");
+        TextField CaloriesField = new TextField("Calories");
+        CaloriesBox.getChildren().add(CaloriesLabel);
+        CaloriesBox.getChildren().add(CaloriesField);
+        
+        VBox ItemDetails = new VBox(10,ItemDetailsLabel);
+        ItemDetails.getChildren().add(CaloriesBox);
+        
+        HBoxBottom.getChildren().add(ItemDetails);
+        
+        
+        HBox HBoxBottom = new HBox(200);
         Label ItemDetailsLabel = new Label("Item Details");
         HBox CaloriesBox = new HBox();
         Label CaloriesLabel = new Label("Calories");
