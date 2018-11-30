@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -51,8 +52,20 @@ public class Main extends Application {
         HBoxBottom.getChildren().add(ItemDetails);
         
         
-        Label bottomCenter = new Label("Filter");
+        VBox bottomCenter = new VBox(10);
+        HBox filter = new HBox(10);
+        HBox macroSelect = new HBox(1);
+        TextField macro = new TextField("Select Macro");
+        Button macroDropDown = new Button("V");
+        macroSelect.getChildren().addAll(macro, macroDropDown);
+        HBox comparatorSelect = new HBox(1);
+        TextField comparator = new TextField("Add comparator");
+        Button comparatorDropDown = new Button("V");
+        comparatorSelect.getChildren().addAll(comparator, comparatorDropDown);
+        TextField value = new TextField("Enter value");
         Label bottomRight = new Label("Nutrition Links");
+        filter.getChildren().addAll(macroSelect, comparatorSelect, value);
+        bottomCenter.getChildren().add(filter);
         HBoxBottom.getChildren().addAll(bottomLeft, bottomCenter, bottomRight);
         bPane.setBottom(HBoxBottom);
         
