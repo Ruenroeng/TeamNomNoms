@@ -35,15 +35,20 @@ public class Main extends Application {
         VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
         bPane.setLeft(VBoxLeft);
   
-        // bottom pane
+        /* bottom pane
+         * This will have 3 sections:
+         * 1) Add Item Box.
+         * 2) Filters Box.
+         * 3) Additional Resources
+        */
         HBox HBoxBottom = new HBox(400);
+        
         Label bottomLeft = new Label("Add Food.");
         Label ItemDetailsLabel = new Label("Item Details");
         HBox CaloriesBox = new HBox();
         Label CaloriesLabel = new Label("Calories");
         TextField CaloriesField = new TextField("Calories");
-        CaloriesBox.getChildren().add(CaloriesLabel);
-        CaloriesBox.getChildren().add(CaloriesField);
+        CaloriesBox.getChildren().addAll(CaloriesLabel,CaloriesField);
         
         VBox ItemDetails = new VBox(10,ItemDetailsLabel);
         ItemDetails.getChildren().addAll(CaloriesBox);
