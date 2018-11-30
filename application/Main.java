@@ -36,9 +36,8 @@ public class Main extends Application {
         bPane.setLeft(VBoxLeft);
   
         // bottom pane
-
-
-        HBox HBoxBottom = new HBox(200);
+        HBox HBoxBottom = new HBox(400);
+        Label bottomLeft = new Label("Add Food.");
         Label ItemDetailsLabel = new Label("Item Details");
         HBox CaloriesBox = new HBox();
         Label CaloriesLabel = new Label("Calories");
@@ -52,10 +51,9 @@ public class Main extends Application {
         HBoxBottom.getChildren().add(ItemDetails);
         
         
-
         Label bottomCenter = new Label("Filter");
         Label bottomRight = new Label("Nutrition Links");
-        HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
+        HBoxBottom.getChildren().addAll(bottomLeft, bottomCenter, bottomRight);
         bPane.setBottom(HBoxBottom);
         
   
