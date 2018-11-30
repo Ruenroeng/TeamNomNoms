@@ -17,18 +17,16 @@ public class Main extends Application {
         Scene scene = new Scene(bPane,1600,900);
       
         // top pane
-        HBox HBoxTop = new HBox();
-        HBoxTop.setSpacing(1300);
+        HBox HBoxTop = new HBox(1300);
         Label title = new Label("NomNom Meal Prep Program.");
         Button loadFoodButton = new Button();
         loadFoodButton.setText("Load Food");
-        HBoxTop.getChildren().add(title);
-        HBoxTop.getChildren().add(loadFoodButton);
+        HBoxTop.getChildren().addAll(title,loadFoodButton);
         bPane.setTop(HBoxTop);
       
         // right pane
         Label VBoxRightLabel = new Label("Meal");
-        VBox VBoxRight = new VBox(10, VBoxRightLabel);
+        VBox VBoxRight = new VBox(10,VBoxRightLabel);
         bPane.setRight(VBoxRight);
         
         // left pane
@@ -37,14 +35,11 @@ public class Main extends Application {
         bPane.setLeft(VBoxLeft);
   
         // bottom pane
-        HBox HBoxBottom = new HBox();
-        HBoxBottom.setSpacing(400);
+        HBox HBoxBottom = new HBox(400);
         Label bottomLeft = new Label("Add Food.");
         Label bottomCenter = new Label("Filter");
         Label bottomRight = new Label("Nutrition Links");
-        HBoxBottom.getChildren().add(bottomLeft);
-        HBoxBottom.getChildren().add(bottomCenter);
-        HBoxBottom.getChildren().add(bottomRight);
+        HBoxBottom.getChildren().addAll(bottomLeft, bottomCenter, bottomRight);
         bPane.setBottom(HBoxBottom);
         
   
