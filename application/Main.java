@@ -52,9 +52,9 @@ public class Main extends Application {
         HBoxBottom.getChildren().add(ItemDetails);
         
         
+
         Label bottomCenter = new Label("Filter");
         Label bottomRight = new Label("Nutrition Links");
-        HBoxBottom.getChildren().add(bottomLeft);
         HBoxBottom.getChildren().add(bottomCenter);
         HBoxBottom.getChildren().add(bottomRight);
         bPane.setBottom(HBoxBottom);
