@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -32,7 +33,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
   	    BorderPane bPane = new BorderPane();
-        Scene scene = new Scene(bPane,1600,900);
+        Scene scene = new Scene(bPane,1600,750);
       
         // top pane
         HBox HBoxTop = new HBox(500);
@@ -102,8 +103,9 @@ public class Main extends Application {
         
         GridPane ItemDetailsBox = new GridPane();
         constructItemDetailsBox(ItemDetailsBox);
-             
+        
         HBoxBottom.getChildren().add(ItemDetailsBox);        
+        HBox.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
         
         // Filter Options
         Label filterLabel = new Label("Filter List Options");
@@ -128,13 +130,9 @@ public class Main extends Application {
         NutritionLinksLabel.setFont(new Font("Arial",18));
         NutritionLinksBox.getChildren().add(NutritionLinksLabel);
         Hyperlink link = new Hyperlink("https://tinyurl.com/yccjpbok");
-       NutritionLinksBox.getChildren().add(new HBox(link));
+        NutritionLinksBox.getChildren().add(new HBox(link));
+        HBox.setMargin(NutritionLinksBox, new Insets(10,10,10,10));
 
-        
-        
-        
-        
-        
         
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
         Button filterButton = new Button("Add Filter");
@@ -187,27 +185,28 @@ public class Main extends Application {
    * @param ItemDetailsBox
    */
   private void constructItemDetailsBox(GridPane ItemDetailsBox) {
-    ColumnConstraints cc = new ColumnConstraints();
+    ColumnConstraints cc1 = new ColumnConstraints();
     //Column 1 setup
-    cc.setPercentWidth(30);
-    cc.setHalignment(HPos.LEFT);
-    ItemDetailsBox.getColumnConstraints().add(cc);
+    cc1.setMinWidth(50);
+    cc1.setHalignment(HPos.LEFT);
+    ItemDetailsBox.getColumnConstraints().add(cc1);
     
   //Column 2 setup
-    cc.setPercentWidth(70);
-    cc.setHalignment(HPos.CENTER);
-    ItemDetailsBox.getColumnConstraints().add(cc);
+    ColumnConstraints cc2 = new ColumnConstraints();
+    cc2.setMinWidth(200);
+    cc2.setFillWidth(true);
+    cc2.setHalignment(HPos.CENTER);
+    ItemDetailsBox.getColumnConstraints().add(cc2);
     
-//  //Column 3 setup
-//    cc.setPercentWidth(20);
-//    cc.setHalignment(HPos.LEFT);
-//    ItemDetailsBox.getColumnConstraints().add(cc);
+    //Overall Table Setup
+    ItemDetailsBox.setVgap(10);
+    GridPane.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
     
     Button AddItemButton = new Button("Add Item");
     ItemDetailsBox.add(AddItemButton, 0, 1);
 
    // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
-    Label ItemDetailsBoxLabel = new Label("Item Details");
+    Label ItemDetailsBoxLabel = new Label("Add New Food Item ");
     ItemDetailsBoxLabel.setFont(new Font("Arial",18));
     ItemDetailsBox.add(ItemDetailsBoxLabel, 0, 0, 2, 1);
     
