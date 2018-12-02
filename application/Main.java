@@ -88,7 +88,7 @@ public class Main extends Application {
          * 3) Additional Resources
         */
         
-        HBox HBoxBottom = new HBox(400);
+        HBox HBoxBottom = new HBox(200);
         
         //Begin Code on Item Details Box
         
