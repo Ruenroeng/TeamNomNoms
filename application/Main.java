@@ -175,7 +175,8 @@ public class Main extends Application {
         applyButton.setOnAction( new EventHandler<ActionEvent>(){
         	@Override
             public void handle(ActionEvent e) {
-        	System.out.println("Not implemented yet");
+        	Alert notImplementedYetAlert = new Alert(AlertType.INFORMATION, "Functionality not yet implemented.");
+        	notImplementedYetAlert.show();
         }});
         filterArea.add(appliedFilters, 0, 1);
         //RowConstraints rr = new RowConstraints();
