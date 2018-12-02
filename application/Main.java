@@ -35,6 +35,7 @@ public class Main extends Application {
       
         // top pane
         HBox HBoxTop = new HBox(1150);
+        HBox HBoxTopLeft = new HBox();
         Label title = new Label("NomNom Meal Prep Program.");
         title.setUnderline(true);
         title.setFont(new Font("Arial",20));
