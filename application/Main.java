@@ -67,7 +67,7 @@ public class Main extends Application {
         VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
         VBoxRight.setMinWidth(600);
-        bPane.setRight(VBoxRight);
+        //bPane.setRight(VBoxRight);
         BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
         
         
@@ -88,8 +88,22 @@ public class Main extends Application {
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         VBoxLeft.setAlignment(Pos.TOP_CENTER);
         VBoxLeft.setMinWidth(600);
-        bPane.setLeft(VBoxLeft);
-  
+        //bPane.setLeft(VBoxLeft);
+        
+        GridPane centerPane = new GridPane();
+		int numCols=2;
+		for (int col = 0 ; col < numCols; col++ ) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100/(numCols*1.0));
+            //cc.setFillWidth(true);
+            //cc.setHgrow(Priority.ALWAYS);
+            centerPane.getColumnConstraints().add(cc);
+		}
+		//centerPane.getChildren().addAll(VBoxLeft,VBoxRight);
+		centerPane.add(VBoxLeft, 0, 0);
+		centerPane.add(VBoxRight, 1, 0);
+		bPane.setCenter(centerPane);
+        
         /* bottom pane
          * This will have 3 sections:
          * 1) Add Item Box.
