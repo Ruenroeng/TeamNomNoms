@@ -390,7 +390,7 @@ public class Main extends Application {
                 carbsLabel.setText(item.getCarbs()+"");
                 fiberLabel.setText(item.getFiber()+"");
                 protienLabel.setText(item.getProtien()+"");
-                addButton.setText("Add");
+                addButton.setText(item.getButtonText());
                 //setGraphic(hBox);
                 setGraphic(gPane);
             }
