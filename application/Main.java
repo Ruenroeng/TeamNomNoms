@@ -5,13 +5,15 @@ import application.Main.FoodListItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.VPos;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -22,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 
 public class Main extends Application {
@@ -31,11 +34,17 @@ public class Main extends Application {
         Scene scene = new Scene(bPane,1600,900);
       
         // top pane
-        HBox HBoxTop = new HBox(1300);
+        HBox HBoxTop = new HBox(1150);
         Label title = new Label("NomNom Meal Prep Program.");
+        title.setUnderline(true);
+        title.setFont(new Font("Arial",20));
+        title.setMinWidth(350);
         Button loadFoodButton = new Button();
         loadFoodButton.setText("Load Food");
         HBoxTop.getChildren().addAll(title,loadFoodButton);
+        HBox.setHgrow(title, Priority.ALWAYS);
+        HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
+        HBoxTop.setMinHeight(50);
         bPane.setTop(HBoxTop);
       
         // right pane
@@ -46,10 +55,13 @@ public class Main extends Application {
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
         listViewRight.setCellFactory(param -> new FoodListItem());
-        VBox VBoxRight = new VBox();
+        //VBox VBoxRight = new VBox();
+				//VBoxRight.getChildren().addAll(getHeader(),listViewRight);
+        Label VBoxRightLabel = new Label("Meal");
+        VBoxRightLabel.setFont(new Font("Arial",18));
+        VBox VBoxRight = new VBox(10,VBoxRightLabel);
         VBoxRight.getChildren().addAll(getHeader(),listViewRight);
-        //Label VBoxRightLabel = new Label("Meal");
-        //VBox VBoxRight = new VBox(10,VBoxRightLabel);
+        VBoxRight.setAlignment(Pos.TOP_CENTER);
         bPane.setRight(VBoxRight);
         
         // left pane
@@ -60,9 +72,13 @@ public class Main extends Application {
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem());
-		VBox VBoxLeft = new VBox();
-		VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
-        //Label VBoxLeftLabel = new Label("Food List");
+		//VBox VBoxLeft = new VBox();
+		//VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
+        Label VBoxLeftLabel = new Label("Food List");
+        VBoxLeftLabel.setFont(new Font("Arial",18));
+        VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
+        VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
+        VBoxLeft.setAlignment(Pos.TOP_CENTER);
         bPane.setLeft(VBoxLeft);
   
         /* bottom pane
@@ -80,24 +96,57 @@ public class Main extends Application {
         constructItemDetailsBox(ItemDetailsBox);
              
         
-        HBoxBottom.getChildren().add(ItemDetailsBox);
-                
-        VBox bottomCenter = new VBox(10);
+        HBoxBottom.getChildren().add(ItemDetailsBox);        
+        
+        Label filterLabel = new Label("Filter List Options");
+        VBox bottomCenter = new VBox(10, filterLabel);
+        bottomCenter.setAlignment(Pos.CENTER);
+        GridPane filterArea = new GridPane();
         HBox filter = new HBox(10);
-        HBox macroSelect = new HBox(1);
-        TextField macro = new TextField("Select Macro");
-        Button macroDropDown = new Button("V");
-        macroSelect.getChildren().addAll(macro, macroDropDown);
-        HBox comparatorSelect = new HBox(1);
-        TextField comparator = new TextField("Add comparator");
-        Button comparatorDropDown = new Button("V");
-        comparatorSelect.getChildren().addAll(comparator, comparatorDropDown);
+        ComboBox<String> macroSelect = new ComboBox<String>();
+        macroSelect.getItems().addAll("Carbs", "Calories", "Fat", "Fiber", "Protein");
+        macroSelect.setPromptText("Macro");
+        macroSelect.setMinWidth(100);
+        ComboBox<String> comparatorSelect = new ComboBox<String>();
+        comparatorSelect.getItems().addAll("=", ">", "<", ">=", "<=");
+        comparatorSelect.setPromptText("Comparator");
         TextField value = new TextField("Enter value");
         Label bottomRight = new Label("Nutrition Links");
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
-        bottomCenter.getChildren().add(filter);
+        Button filterButton = new Button("Add Filter");
+        filterButton.setMinWidth(100);
+        Button clearButton = new Button("Clear Filters");
+        clearButton.setMinWidth(100);
+        Button applyButton = new Button ("Apply Filters");
+        applyButton.setMinWidth(100);
+        filterArea.add(filter, 0, 0);
+        filterArea.add(filterButton, 1, 0);
+        filterArea.add(clearButton, 1, 1);
+        filterArea.add(applyButton, 1, 2);
+        filterArea.setHgap(10);
+        filterArea.setVgap(10);
+        bottomCenter.getChildren().add(filterArea);
         HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
         bPane.setBottom(HBoxBottom);
+        VBox appliedFilters = new VBox(5);
+        filterButton.setOnAction( new EventHandler<ActionEvent>(){
+        	@Override
+            public void handle(ActionEvent e) {
+        	applyFilter(macroSelect, comparatorSelect, value, appliedFilters);
+        }});
+        
+        clearButton.setOnAction( new EventHandler<ActionEvent>(){
+        	@Override
+            public void handle(ActionEvent e) {
+        	appliedFilters.getChildren().clear();
+        }});
+        
+        applyButton.setOnAction( new EventHandler<ActionEvent>(){
+        	@Override
+            public void handle(ActionEvent e) {
+        	System.out.println("Not implemented yet");
+        }});
+        filterArea.add(appliedFilters, 0, 1, 2, 1);
         
   
         primaryStage.setTitle("NomNomNom");
@@ -204,6 +253,30 @@ public class Main extends Application {
 		gPane.add(new Label("Protien"), 5, 0);
 		gPane.add(new Label(""), 6, 0);
 		return gPane;
+	}
+	
+	public void applyFilter(ComboBox<String> macro, ComboBox<String> comparator, TextField value, VBox filters) {
+		int filterValue;
+		String filter;
+		if (macro.getValue() == null || macro.getValue().toString().isEmpty() || comparator.getValue() == null || comparator.getValue().toString().isEmpty()){
+                    System.out.println("No value selected for macro or comparator");
+                    return;
+		}
+        try {
+        	filterValue = Integer.parseInt(value.getText());
+        } catch(NumberFormatException e) {
+        	System.out.println("Filter value must be numeric");
+        	return;
+        }
+        
+        if (filterValue < 0) {
+        	System.out.println("Negative values not allowed");
+        	return;
+        }
+        filter = macro.getValue() + " " + comparator.getValue() + " " + filterValue;
+        filters.getChildren().add(new Label(filter));
+        
+		
 	}
 	public static class FoodItem {
 		String name;
