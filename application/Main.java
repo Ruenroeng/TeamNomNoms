@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -33,7 +35,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
   	    BorderPane bPane = new BorderPane();
-        Scene scene = new Scene(bPane,1600,900);
+        Scene scene = new Scene(bPane,1600,750);
       
         // top pane
         HBox HBoxTop = new HBox(500);
@@ -117,33 +119,55 @@ public class Main extends Application {
         
         GridPane ItemDetailsBox = new GridPane();
         constructItemDetailsBox(ItemDetailsBox);
-             
+        
         HBoxBottom.getChildren().add(ItemDetailsBox);        
+        HBox.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
         
         // Filter Options
         Label filterLabel = new Label("Filter List Options");
         filterLabel.setFont(new Font("Arial",18));
         VBox bottomCenter = new VBox(10, filterLabel);  //Add to the bottom center of the screen
+        bottomCenter.setAlignment(Pos.TOP_CENTER);
         
-        bottomCenter.setAlignment(Pos.CENTER);
+        // setup grid for filter area
         GridPane filterArea = new GridPane();
+        
+        // setup HBox for filter entries
         HBox filter = new HBox(10);
+        // Drop down list for Macro field options to choose from 
         ComboBox<String> macroSelect = new ComboBox<String>();
         macroSelect.getItems().addAll("Carbs", "Calories", "Fat", "Fiber", "Protein");
         macroSelect.setPromptText("Macro");
         macroSelect.setMinWidth(100);
+        // Drop down list for Comparator field options to choose from
         ComboBox<String> comparatorSelect = new ComboBox<String>();
         comparatorSelect.getItems().addAll("=", ">", "<", ">=", "<=");
         comparatorSelect.setPromptText("Comparator");
+        comparatorSelect.setMinWidth(100);
+        // Text field for numeric value to compare to
         TextField value = new TextField("Enter value");
-        Label bottomRight = new Label("Nutrition Links");
+        
+        //Nutrition Links Box
+        VBox NutritionLinksBox = new VBox();
+        Label NutritionLinksLabel = new Label("Nutrition Links");
+        NutritionLinksLabel.setFont(new Font("Arial",18));
+        NutritionLinksBox.getChildren().add(NutritionLinksLabel);
+        Hyperlink link = new Hyperlink("https://tinyurl.com/yccjpbok");
+        NutritionLinksBox.getChildren().add(new HBox(link));
+        HBox.setMargin(NutritionLinksBox, new Insets(10,10,10,10));
+
+        
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
+        
+        // create filter buttons
         Button filterButton = new Button("Add Filter");
         filterButton.setMinWidth(100);
         Button clearButton = new Button("Clear Filters");
         clearButton.setMinWidth(100);
         Button applyButton = new Button ("Apply Filters");
         applyButton.setMinWidth(100);
+        
+        // Add HBox and buttons to the filter area grid
         filterArea.add(filter, 0, 0);
         ColumnConstraints cc = new ColumnConstraints();
         filterArea.add(filterButton, 1, 0);
@@ -151,27 +175,35 @@ public class Main extends Application {
         filterArea.add(applyButton, 1, 2);
         filterArea.setHgap(10);
         filterArea.setVgap(10);
+        
         bottomCenter.getChildren().add(filterArea);
-        HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
+        HBoxBottom.getChildren().addAll(bottomCenter, NutritionLinksBox);
         bPane.setBottom(HBoxBottom);
+       
+        // Create VBox for list of currently applied filters
         VBox appliedFilters = new VBox(5);
         appliedFilters.setAlignment(Pos.CENTER);
+        
+        // create actions for when add filter button is pressed
         filterButton.setOnAction( new EventHandler<ActionEvent>(){
         	@Override
             public void handle(ActionEvent e) {
-        	applyFilter(macroSelect, comparatorSelect, value, appliedFilters);
+        	addFilter(macroSelect, comparatorSelect, value, appliedFilters);
         }});
         
+        // create action for when clear filters button is pressed
         clearButton.setOnAction( new EventHandler<ActionEvent>(){
         	@Override
             public void handle(ActionEvent e) {
         	appliedFilters.getChildren().clear();
         }});
         
+        // create actions for when apply filters button is pressed
         applyButton.setOnAction( new EventHandler<ActionEvent>(){
         	@Override
             public void handle(ActionEvent e) {
-        	System.out.println("Not implemented yet");
+        	Alert notImplementedYetAlert = new Alert(AlertType.INFORMATION, "Functionality not yet implemented.");
+        	notImplementedYetAlert.show();
         }});
         filterArea.add(appliedFilters, 0, 1);
         //RowConstraints rr = new RowConstraints();
@@ -188,27 +220,28 @@ public class Main extends Application {
    * @param ItemDetailsBox
    */
   private void constructItemDetailsBox(GridPane ItemDetailsBox) {
-    ColumnConstraints cc = new ColumnConstraints();
+    ColumnConstraints cc1 = new ColumnConstraints();
     //Column 1 setup
-    cc.setPercentWidth(30);
-    cc.setHalignment(HPos.LEFT);
-    ItemDetailsBox.getColumnConstraints().add(cc);
+    cc1.setMinWidth(50);
+    cc1.setHalignment(HPos.LEFT);
+    ItemDetailsBox.getColumnConstraints().add(cc1);
     
   //Column 2 setup
-    cc.setPercentWidth(70);
-    cc.setHalignment(HPos.CENTER);
-    ItemDetailsBox.getColumnConstraints().add(cc);
+    ColumnConstraints cc2 = new ColumnConstraints();
+    cc2.setMinWidth(200);
+    cc2.setFillWidth(true);
+    cc2.setHalignment(HPos.CENTER);
+    ItemDetailsBox.getColumnConstraints().add(cc2);
     
-//  //Column 3 setup
-//    cc.setPercentWidth(20);
-//    cc.setHalignment(HPos.LEFT);
-//    ItemDetailsBox.getColumnConstraints().add(cc);
+    //Overall Table Setup
+    ItemDetailsBox.setVgap(10);
+    GridPane.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
     
     Button AddItemButton = new Button("Add Item");
     ItemDetailsBox.add(AddItemButton, 0, 1);
 
    // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
-    Label ItemDetailsBoxLabel = new Label("Item Details");
+    Label ItemDetailsBoxLabel = new Label("Add New Food Item ");
     ItemDetailsBoxLabel.setFont(new Font("Arial",18));
     ItemDetailsBox.add(ItemDetailsBoxLabel, 0, 0, 2, 1);
     
@@ -250,7 +283,7 @@ public class Main extends Application {
     addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
 
     //Fiber Field Build
-    LabelString = "Fats";
+    LabelString = "Fiber";
     TextField FiberField = new TextField("Enter " + LabelString);
     LabelField = FiberField;
     row++;
@@ -296,16 +329,28 @@ public class Main extends Application {
 		return gPane;
 	}
 	
-	public void applyFilter(ComboBox<String> macro, ComboBox<String> comparator, TextField value, VBox filters) {
-		int filterValue;
+	/**
+	 * Validation checks and follow up actions for when add filter button is pressed
+	 * 
+	 * @param macro is the value from the macro field
+	 * @param comparator is the value from the comparator field
+	 * @param value is the value from the value field
+	 * @param filters is the VBox section that current filter will be added to if all check pass
+	 */
+	public void addFilter(ComboBox<String> macro, ComboBox<String> comparator, TextField value, VBox filters) {
+		Float filterValue;
 		String filter;
+		
+		// check if all fields were passed in. create warning popup if not
 		if (macro.getValue() == null || macro.getValue().toString().isEmpty() || comparator.getValue() == null || comparator.getValue().toString().isEmpty()){
                     Alert missingValueAlert = new Alert(AlertType.WARNING, "All Fields must be filled out before applying a filter");
                     missingValueAlert.show();
                     return;
 		}
+		
+		// check if a valid number was put in the numeric field area. create error popup if not
         try {
-        	filterValue = Integer.parseInt(value.getText());
+        	filterValue = Float.parseFloat(value.getText());
         } catch(NumberFormatException e) {
         	 Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Filter value " + value.getText() + " is non-numeric.");
              nonNumericValueAlert.show();
