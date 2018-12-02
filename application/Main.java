@@ -34,8 +34,7 @@ public class Main extends Application {
         Scene scene = new Scene(bPane,1600,900);
       
         // top pane
-        HBox HBoxTop = new HBox(1150);
-        HBox HBoxTopLeft = new HBox();
+        HBox HBoxTop = new HBox(500);
         Label title = new Label("NomNom Meal Prep Program.");
         title.setUnderline(true);
         title.setFont(new Font("Arial",20));
@@ -43,6 +42,7 @@ public class Main extends Application {
         Button loadFoodButton = new Button();
         loadFoodButton.setText("Load Food");
         HBoxTop.getChildren().addAll(title,loadFoodButton);
+        HBoxTop.setAlignment(Pos.CENTER_RIGHT);
         HBox.setHgrow(title, Priority.ALWAYS);
         HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
         HBoxTop.setMinHeight(50);
@@ -60,10 +60,14 @@ public class Main extends Application {
 				//VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         Label VBoxRightLabel = new Label("Meal");
         VBoxRightLabel.setFont(new Font("Arial",18));
+        //VBoxRightLabel.setAlignment(Pos.TOP_CENTER);
         VBox VBoxRight = new VBox(10,VBoxRightLabel);
         VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
+        VBoxRight.setMinWidth(600);
         bPane.setRight(VBoxRight);
+        BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
+        
         
         // left pane
         ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
@@ -77,9 +81,11 @@ public class Main extends Application {
         //VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
+        //VBoxLeftLabel.setAlignment(Pos.TOP_CENTER);
         VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         VBoxLeft.setAlignment(Pos.TOP_CENTER);
+        VBoxLeft.setMinWidth(600);
         bPane.setLeft(VBoxLeft);
   
         /* bottom pane
@@ -188,7 +194,7 @@ public class Main extends Application {
    // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
     Label ItemDetailsBoxLabel = new Label("Item Details");
     ItemDetailsBoxLabel.setFont(new Font("Arial",18));
-    ItemDetailsBox.add(ItemDetailsBoxLabel, 0, 0, 1, 1);
+    ItemDetailsBox.add(ItemDetailsBoxLabel, 0, 0, 2, 1);
     
     String LabelString;
     TextField LabelField;
