@@ -12,6 +12,8 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -284,19 +286,22 @@ public class Main extends Application {
 		int filterValue;
 		String filter;
 		if (macro.getValue() == null || macro.getValue().toString().isEmpty() || comparator.getValue() == null || comparator.getValue().toString().isEmpty()){
-                    System.out.println("No value selected for macro or comparator");
+                    Alert missingValueAlert = new Alert(AlertType.WARNING, "All Fields must be filled out before applying a filter");
+                    missingValueAlert.show();
                     return;
 		}
         try {
         	filterValue = Integer.parseInt(value.getText());
         } catch(NumberFormatException e) {
-        	System.out.println("Filter value must be numeric");
-        	return;
+        	 Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Filter value " + value.getText() + " is non-numeric.");
+             nonNumericValueAlert.show();
+             return;
         }
         
         if (filterValue < 0) {
-        	System.out.println("Negative values not allowed");
-        	return;
+        	Alert negativeValueAlert = new Alert(AlertType.ERROR, "Filter value " + value.getText() + " is not a positive number.");
+            negativeValueAlert.show();
+            return;
         }
         filter = macro.getValue() + " " + comparator.getValue() + " " + filterValue;
         filters.getChildren().add(new Label(filter));
