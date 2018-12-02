@@ -98,8 +98,11 @@ public class Main extends Application {
         
         HBoxBottom.getChildren().add(ItemDetailsBox);        
         
+        // Filter Options
         Label filterLabel = new Label("Filter List Options");
-        VBox bottomCenter = new VBox(10, filterLabel);
+        filterLabel.setFont(new Font("Arial",18));
+        VBox bottomCenter = new VBox(10, filterLabel);  //Add to the bottom center of the screen
+        
         bottomCenter.setAlignment(Pos.CENTER);
         GridPane filterArea = new GridPane();
         HBox filter = new HBox(10);
@@ -120,6 +123,7 @@ public class Main extends Application {
         Button applyButton = new Button ("Apply Filters");
         applyButton.setMinWidth(100);
         filterArea.add(filter, 0, 0);
+        ColumnConstraints cc = new ColumnConstraints();
         filterArea.add(filterButton, 1, 0);
         filterArea.add(clearButton, 1, 1);
         filterArea.add(applyButton, 1, 2);
@@ -129,6 +133,7 @@ public class Main extends Application {
         HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
         bPane.setBottom(HBoxBottom);
         VBox appliedFilters = new VBox(5);
+        appliedFilters.setAlignment(Pos.CENTER);
         filterButton.setOnAction( new EventHandler<ActionEvent>(){
         	@Override
             public void handle(ActionEvent e) {
@@ -146,7 +151,10 @@ public class Main extends Application {
             public void handle(ActionEvent e) {
         	System.out.println("Not implemented yet");
         }});
-        filterArea.add(appliedFilters, 0, 1, 2, 1);
+        filterArea.add(appliedFilters, 0, 1);
+        //RowConstraints rr = new RowConstraints();
+        
+        
         
   
         primaryStage.setTitle("NomNomNom");
