@@ -157,7 +157,6 @@ public class Main extends Application {
    * @param ItemDetailsBox
    */
   private void constructItemDetailsBox(GridPane ItemDetailsBox) {
-    int numCols=3;
     ColumnConstraints cc = new ColumnConstraints();
     //Column 1 setup
     cc.setPercentWidth(30);
@@ -165,21 +164,22 @@ public class Main extends Application {
     ItemDetailsBox.getColumnConstraints().add(cc);
     
   //Column 2 setup
-    cc.setPercentWidth(50);
+    cc.setPercentWidth(70);
     cc.setHalignment(HPos.CENTER);
     ItemDetailsBox.getColumnConstraints().add(cc);
     
-  //Column 3 setup
-    cc.setPercentWidth(20);
-    cc.setHalignment(HPos.LEFT);
-    ItemDetailsBox.getColumnConstraints().add(cc);
+//  //Column 3 setup
+//    cc.setPercentWidth(20);
+//    cc.setHalignment(HPos.LEFT);
+//    ItemDetailsBox.getColumnConstraints().add(cc);
     
     Button AddItemButton = new Button("Add Item");
     ItemDetailsBox.add(AddItemButton, 0, 1);
 
    // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
-    
-    ItemDetailsBox.add(new Label("Item Details"), 0, 0, 1, 1);
+    Label ItemDetailsBoxLabel = new Label("Item Details");
+    ItemDetailsBoxLabel.setFont(new Font("Arial",18));
+    ItemDetailsBox.add(ItemDetailsBoxLabel, 0, 0, 1, 1);
     
     String LabelString;
     TextField LabelField;
