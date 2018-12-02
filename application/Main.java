@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -114,7 +115,21 @@ public class Main extends Application {
         comparatorSelect.getItems().addAll("=", ">", "<", ">=", "<=");
         comparatorSelect.setPromptText("Comparator");
         TextField value = new TextField("Enter value");
-        Label bottomRight = new Label("Nutrition Links");
+        
+        //Nutrition Links Box
+        VBox NutritionLinksBox = new VBox();
+        Label NutritionLinksLabel = new Label("Nutrition Links");
+        NutritionLinksLabel.setFont(new Font("Arial",18));
+        NutritionLinksBox.getChildren().add(NutritionLinksLabel);
+        Hyperlink link = new Hyperlink("https://tinyurl.com/yccjpbok");
+       NutritionLinksBox.getChildren().add(new HBox(link));
+
+        
+        
+        
+        
+        
+        
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
         Button filterButton = new Button("Add Filter");
         filterButton.setMinWidth(100);
@@ -130,7 +145,7 @@ public class Main extends Application {
         filterArea.setHgap(10);
         filterArea.setVgap(10);
         bottomCenter.getChildren().add(filterArea);
-        HBoxBottom.getChildren().addAll(bottomCenter, bottomRight);
+        HBoxBottom.getChildren().addAll(bottomCenter, NutritionLinksBox);
         bPane.setBottom(HBoxBottom);
         VBox appliedFilters = new VBox(5);
         appliedFilters.setAlignment(Pos.CENTER);
