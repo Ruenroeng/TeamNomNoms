@@ -52,9 +52,9 @@ public class Main extends Application {
       
         // right pane
         ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
-        menuList.add(new FoodItem("First Food", 1,2,3,4,5,"Add"));
-        menuList.add(new FoodItem("Second Food", 6,7,8,9,10,"Add"));
-        menuList.add(new FoodItem("Third Food", 11,12,13,14,15,"Add"));
+        menuList.add(new FoodItem("First Food", 1,2,3,4,5,"Remove"));
+        menuList.add(new FoodItem("Second Food", 6,7,8,9,10,"Remove"));
+        menuList.add(new FoodItem("Third Food", 11,12,13,14,15,"Remove"));
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
         listViewRight.setCellFactory(param -> new FoodListItem());
@@ -73,9 +73,9 @@ public class Main extends Application {
         
         // left pane
         ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
-        foodList.add(new FoodItem("First Food", 1,2,3,4,5,"Remove"));
-        foodList.add(new FoodItem("Second Food", 6,7,8,9,10,"Remove"));
-        foodList.add(new FoodItem("Third Food", 11,12,13,14,15,"Remove"));
+        foodList.add(new FoodItem("First Food", 1,2,3,4,5,"Add"));
+        foodList.add(new FoodItem("Second Food", 6,7,8,9,10,"Add"));
+        foodList.add(new FoodItem("Third Food", 11,12,13,14,15,"Add"));
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem());
@@ -420,7 +420,7 @@ public class Main extends Application {
                 carbsLabel.setText(item.getCarbs()+"");
                 fiberLabel.setText(item.getFiber()+"");
                 protienLabel.setText(item.getProtien()+"");
-                addButton.setText("Add");
+                addButton.setText(item.getButtonText());
                 //setGraphic(hBox);
                 setGraphic(gPane);
             }
