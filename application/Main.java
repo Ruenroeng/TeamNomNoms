@@ -5,6 +5,9 @@ import application.Main.FoodListItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
@@ -42,8 +46,8 @@ public class Main extends Application {
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
         listViewRight.setCellFactory(param -> new FoodListItem());
-		VBox VBoxRight = new VBox();
-		VBoxRight.getChildren().addAll(getHeader(),listViewRight);
+        VBox VBoxRight = new VBox();
+        VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         //Label VBoxRightLabel = new Label("Meal");
         //VBox VBoxRight = new VBox(10,VBoxRightLabel);
         bPane.setRight(VBoxRight);
@@ -70,52 +74,14 @@ public class Main extends Application {
         
         HBox HBoxBottom = new HBox(400);
         
-        Label ItemDetailsLabel = new Label("Item Details");
+        //Begin Code on Item Details Box
         
-      //Name Field Build
-        HBox NameBox = new HBox();
-        Label NameLabel = new Label("Name");
-        TextField NameField = new TextField("Enter Name");
-        NameBox.getChildren().addAll(NameLabel,NameField);
-        
-      //Calorie Field Build
-        HBox CaloriesBox = new HBox(20);
-        Label CaloriesLabel = new Label("Calories");
-        TextField CaloriesField = new TextField("Enter Calories");
-        CaloriesBox.getChildren().addAll(CaloriesLabel,CaloriesField);
-        
-      //Fat Field Build
-        HBox FatBox = new HBox(20);
-        Label FatLabel = new Label("Fat");
-        TextField FatField = new TextField("Enter Fats");
-        FatBox.getChildren().addAll(FatLabel,FatField);
-        
-      //Carbs Field Build
-        HBox CarbsBox = new HBox(20);
-        Label CarbsLabel = new Label("Carbs");
-        TextField CarbsField = new TextField("Enter Carbs");
-        CarbsBox.getChildren().addAll(CarbsLabel,CarbsField);
-        //CarbsBox.setMargin(CarbsBox, 20);
-
-      //Fiber Field Build
-        HBox FiberBox = new HBox(20);
-        Label FiberLabel = new Label("Fiber");
-        TextField FiberField = new TextField("Enter Fiber");  
-        FiberBox.getChildren().addAll(FiberLabel,FiberField);
-        
-      //Protein Field Build
-        HBox ProteinBox = new HBox(20);
-        Label ProteinLabel = new Label("Protein");
-        TextField ProteinField = new TextField("Enter Protein");
-        ProteinBox.getChildren().addAll(ProteinLabel,ProteinField);
+        GridPane ItemDetailsBox = new GridPane();
+        constructItemDetailsBox(ItemDetailsBox);
              
         
-        VBox ItemDetails = new VBox(10,ItemDetailsLabel);
-        ItemDetails.getChildren().addAll(NameBox,CaloriesBox,FatBox,FiberBox,ProteinBox);
-        
-        HBoxBottom.getChildren().add(ItemDetails);
-        
-        
+        HBoxBottom.getChildren().add(ItemDetailsBox);
+                
         VBox bottomCenter = new VBox(10);
         HBox filter = new HBox(10);
         HBox macroSelect = new HBox(1);
@@ -139,6 +105,87 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
+  /**
+   * @param ItemDetailsBox
+   */
+  private void constructItemDetailsBox(GridPane ItemDetailsBox) {
+    int numCols=2;
+    //Column 1 is labels
+    for (int col = 0 ; col < numCols; col++ ) {
+      ColumnConstraints cc = new ColumnConstraints();
+      cc.setPercentWidth(100/(numCols*1.0));
+      cc.setHalignment(HPos.CENTER);
+      //cc.setFillWidth(true);
+      //cc.setHgrow(Priority.ALWAYS);
+      ItemDetailsBox.getColumnConstraints().add(cc);
+  }       
+   // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
+    int row = 0;
+    ItemDetailsBox.add(new Label("Item Details"), 0, row, 1, 1);
+
+    
+    String LabelString;
+    TextField LabelField;
+    
+    //Name Field Build
+    LabelString = "Name";
+    TextField NameField = new TextField("Enter " + LabelString);
+    LabelField = NameField;
+    row++;
+            
+    addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+    
+    
+    //Calories Field Build
+    LabelString = "Calories";
+    TextField CaloriesField = new TextField("Enter " + LabelString);
+    LabelField = CaloriesField;
+    row++;
+            
+    addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+    
+    //Fats Field Build
+    LabelString = "Fats";
+    TextField FatsField = new TextField("Enter " + LabelString);
+    LabelField = FatsField;
+    row++;
+            
+    addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+    
+    //Carbs Field Build
+    LabelString = "Carbs";
+    TextField CarbsField = new TextField("Enter " + LabelString);
+    LabelField = CarbsField;
+    row++;
+            
+    addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+
+    //Fiber Field Build
+    LabelString = "Fats";
+    TextField FiberField = new TextField("Enter " + LabelString);
+    LabelField = FiberField;
+    row++;
+            
+    addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+    
+    //Protein Field Build
+    LabelString = "Protein";
+    TextField ProteinField = new TextField("Enter " + LabelString);
+    LabelField = ProteinField;
+    row++;
+            
+    addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+  }
+  /**
+   * @param ItemDetailsBox
+   * @param LabelString
+   * @param LabelField
+   * @param row
+   */
+  private void addItemDetailsRow(GridPane ItemDetailsBox, String LabelString, TextField LabelField, int row) {
+    ItemDetailsBox.add(new Label(LabelString), 0, row);
+    ItemDetailsBox.add(LabelField, 1, row);
+  }
 	public Node getHeader() {
 		GridPane gPane = new GridPane();
 		int numCols=7;
