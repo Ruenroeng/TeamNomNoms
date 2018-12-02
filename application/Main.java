@@ -72,8 +72,8 @@ public class Main extends Application {
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem());
-		//VBox VBoxLeft = new VBox();
-		//VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
+        //VBox VBoxLeft = new VBox();
+        //VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
         VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
@@ -95,7 +95,6 @@ public class Main extends Application {
         GridPane ItemDetailsBox = new GridPane();
         constructItemDetailsBox(ItemDetailsBox);
              
-        
         HBoxBottom.getChildren().add(ItemDetailsBox);        
         
         Label filterLabel = new Label("Filter List Options");
@@ -158,23 +157,33 @@ public class Main extends Application {
    * @param ItemDetailsBox
    */
   private void constructItemDetailsBox(GridPane ItemDetailsBox) {
-    int numCols=2;
-    //Column 1 is labels
-    for (int col = 0 ; col < numCols; col++ ) {
-      ColumnConstraints cc = new ColumnConstraints();
-      cc.setPercentWidth(100/(numCols*1.0));
-      cc.setHalignment(HPos.CENTER);
-      //cc.setFillWidth(true);
-      //cc.setHgrow(Priority.ALWAYS);
-      ItemDetailsBox.getColumnConstraints().add(cc);
-  }       
-   // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
-    int row = 0;
-    ItemDetailsBox.add(new Label("Item Details"), 0, row, 1, 1);
+    int numCols=3;
+    ColumnConstraints cc = new ColumnConstraints();
+    //Column 1 setup
+    cc.setPercentWidth(30);
+    cc.setHalignment(HPos.LEFT);
+    ItemDetailsBox.getColumnConstraints().add(cc);
+    
+  //Column 2 setup
+    cc.setPercentWidth(50);
+    cc.setHalignment(HPos.CENTER);
+    ItemDetailsBox.getColumnConstraints().add(cc);
+    
+  //Column 3 setup
+    cc.setPercentWidth(20);
+    cc.setHalignment(HPos.LEFT);
+    ItemDetailsBox.getColumnConstraints().add(cc);
+    
+    Button AddItemButton = new Button("Add Item");
+    ItemDetailsBox.add(AddItemButton, 0, 1);
 
+   // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
+    
+    ItemDetailsBox.add(new Label("Item Details"), 0, 0, 1, 1);
     
     String LabelString;
     TextField LabelField;
+    int row = 1;
     
     //Name Field Build
     LabelString = "Name";
@@ -224,6 +233,7 @@ public class Main extends Application {
     row++;
             
     addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+    
   }
   /**
    * @param ItemDetailsBox
