@@ -113,7 +113,7 @@ public class Main extends Application {
         Label filterLabel = new Label("Filter List Options");
         filterLabel.setFont(new Font("Arial",18));
         VBox bottomCenter = new VBox(10, filterLabel);  //Add to the bottom center of the screen
-        bottomCenter.setAlignment(Pos.CENTER);
+        bottomCenter.setAlignment(Pos.TOP_CENTER);
         
         // setup grid for filter area
         GridPane filterArea = new GridPane();
@@ -269,7 +269,7 @@ public class Main extends Application {
     addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
 
     //Fiber Field Build
-    LabelString = "Fats";
+    LabelString = "Fiber";
     TextField FiberField = new TextField("Enter " + LabelString);
     LabelField = FiberField;
     row++;
