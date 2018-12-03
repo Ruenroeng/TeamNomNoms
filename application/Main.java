@@ -27,6 +27,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -112,7 +113,7 @@ public class Main extends Application {
         // Filter Options
         Label filterLabel = new Label("Filter List Options");
         filterLabel.setFont(new Font("Arial",18));
-        VBox bottomCenter = new VBox(10, filterLabel);  //Add to the bottom center of the screen
+        HBox bottomCenter = new HBox(10);  //Add to the bottom center of the screen
         bottomCenter.setAlignment(Pos.TOP_CENTER);
         
         // setup grid for filter area
@@ -146,23 +147,26 @@ public class Main extends Application {
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
         
         // create filter buttons
+        VBox buttons = new VBox(10);
         Button filterButton = new Button("Add Filter");
         filterButton.setMinWidth(100);
         Button clearButton = new Button("Clear Filters");
         clearButton.setMinWidth(100);
         Button applyButton = new Button ("Apply Filters");
         applyButton.setMinWidth(100);
+        buttons.getChildren().addAll(filterButton, clearButton, applyButton);
         
         // Add HBox and buttons to the filter area grid
-        filterArea.add(filter, 0, 0);
-        ColumnConstraints cc = new ColumnConstraints();
-        filterArea.add(filterButton, 1, 0);
-        filterArea.add(clearButton, 1, 1);
-        filterArea.add(applyButton, 1, 2);
+        filterArea.add(filterLabel, 0, 0);
+        filterArea.add(filter, 0, 1);
+        //filterArea.add(buttons, 1, 1);
+        GridPane.setHalignment(filterLabel, HPos.CENTER);
+        //filterArea.add(clearButton, 1, 1);
+        //filterArea.add(applyButton, 1, 2);
         filterArea.setHgap(10);
         filterArea.setVgap(10);
         
-        bottomCenter.getChildren().add(filterArea);
+        bottomCenter.getChildren().addAll(filterArea, buttons);
         HBoxBottom.getChildren().addAll(bottomCenter, NutritionLinksBox);
         bPane.setBottom(HBoxBottom);
        
@@ -191,7 +195,7 @@ public class Main extends Application {
         	Alert notImplementedYetAlert = new Alert(AlertType.INFORMATION, "Functionality not yet implemented.");
         	notImplementedYetAlert.show();
         }});
-        filterArea.add(appliedFilters, 0, 1);
+        filterArea.add(appliedFilters, 0, 2);
         //RowConstraints rr = new RowConstraints();
         
         
