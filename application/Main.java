@@ -132,7 +132,8 @@ public class Main extends Application {
         comparatorSelect.setPromptText("Comparator");
         comparatorSelect.setMinWidth(100);
         // Text field for numeric value to compare to
-        TextField value = new TextField("Enter value");
+        TextField value = new TextField();
+        value.setPromptText("Value");
         
         //Nutrition Links Box
         VBox NutritionLinksBox = new VBox();
