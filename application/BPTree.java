@@ -234,6 +234,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
         void insert(K key, V value) {
             //if this is the first key in the node
             if(this.keys.isEmpty()) {
+                System.out.println("DO NOT REMOVE*******************************************");
                 this.keys.add(key);
                 this.children.add(new LeafNode());
                 this.children.get(0).insert(key, value);
@@ -245,23 +246,8 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                 int comp = key.compareTo(this.keys.get(index));
                 //insert to the left of this node, equals go to the right
                 if(comp < 0) {
-                    this.children.get(index).insert(key, value);
-                    //see if we need to split the child
-                    if(this.children.get(index).isOverflow()) {
-                        //get the middle key from the child and add it to the current node
-                        K middleKey = this.children.get(index).keys.get(branchingFactor / 2);
-                        this.keys.add(index + 1, middleKey);
-                        //split the child and add it as a child to the current node
-                        Node sibling = this.children.get(index).split();
-                        this.children.add(index + 1, sibling);
-                    }
-                    return;
+                    break;
                 }
-            }
-            //reached the end of the node, so insert to the right
-            if(this.children.size() <= index) {
-                // create leaf node if there was not one already there
-                this.children.add(index, new LeafNode());
             }
             this.children.get(index).insert(key, value);
             //see if we need to split the child
@@ -271,7 +257,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                 this.keys.add(index, middleKey);
                 //split the child and add it as a child to the current node
                 Node sibling = this.children.get(index).split();
-                this.children.add(index, sibling);
+                this.children.add(index + 1, sibling);
             }
         }
         
@@ -283,15 +269,16 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
             int middleIndex = this.keys.size() / 2;
             //middle key has already been propagated up so remove it from the internal node
             this.keys.remove(middleIndex);
-            //split the child of the middle index
-            Node newChild = this.children.get(middleIndex).split();
-            this.children.add((middleIndex + 1), newChild);
+            //create internal node sibling and add right side of original node to it
             InternalNode sibling = new InternalNode();
-            for(int index = middleIndex; index < this.keys.size(); index++) {
+            int originalSize = this.keys.size();
+            for(int index = middleIndex; index < originalSize; index++) {
                 //remove keys and children from current node and add to sibling
                 sibling.keys.add(this.keys.remove(middleIndex));
                 sibling.children.add(this.children.remove(middleIndex + 1));
             }
+            //need to move the last child
+            sibling.children.add(this.children.remove(middleIndex + 1));
             return sibling;
         }
         
@@ -342,9 +329,11 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#getFirstLeafKey()
          */
         K getFirstLeafKey() {
+            //if there are no keys return null
             if(this.keys.size() == 0) {
                 return null;
             }
+            //return the first key in the leaf
             return this.keys.get(0);
         }
         
@@ -385,12 +374,13 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
         Node split() {
             LeafNode sibling = new LeafNode();
             int middleIndex = this.keys.size() / 2;
-            for(int index = middleIndex; index < this.keys.size(); index++) {
+            int originalSize = this.keys.size();
+            for(int index = middleIndex; index < originalSize; index++) {
                 //take key from leaf and add to sibling
                 sibling.keys.add(this.keys.remove(middleIndex));
                 sibling.values.add(this.values.remove(middleIndex));
             }
-            //fix previous and next pointers
+            //set previous and next pointers
             sibling.next = this.next;
             sibling.previous = this;
             this.next = sibling;
