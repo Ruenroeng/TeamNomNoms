@@ -42,8 +42,7 @@ public class FoodItem {
      * @return id of the food item
      */
     public String getID() {
-        // TODO : Complete
-        return null;
+        return this.id;
     }
     
     /**

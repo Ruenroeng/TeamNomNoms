@@ -250,7 +250,8 @@ public class Main extends Application {
     
     //Calories Field Build
     LabelString = "Calories";
-    TextField CaloriesField = new TextField("Enter " + LabelString);
+    TextField CaloriesField = new TextField();
+    CaloriesField.setPromptText("Enter " + LabelString);
     LabelField = CaloriesField;
     row++;
             
