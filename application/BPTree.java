@@ -52,9 +52,9 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
      */
     @Override
     public void insert(K key, V value) {
-        //root is null
+        //root is null, start out with a leaf node
         if(root == null) {
-           root = new InternalNode();
+           root = new LeafNode();
         }
         root.insert(key, value);
         //see if the root is too big
@@ -246,7 +246,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                 //insert to the left of this node, equals go to the right
                 if(comp < 0) {
                     this.children.get(index).insert(key, value);
-                    //see if we need to split
+                    //see if we need to split the child
                     if(this.children.get(index).isOverflow()) {
                         //get the middle key from the child and add it to the current node
                         K middleKey = this.children.get(index).keys.get(branchingFactor / 2);
@@ -264,7 +264,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                 this.children.add(index, new LeafNode());
             }
             this.children.get(index).insert(key, value);
-            //see if we need to split
+            //see if we need to split the child
             if(this.children.get(index).isOverflow()) {
                 //get the middle key from the child and add it to the current node
                 K middleKey = this.children.get(index).keys.get(branchingFactor / 2);
@@ -280,12 +280,17 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
         Node split() {
-            int middleIndex = branchingFactor / 2;
+            int middleIndex = this.keys.size() / 2;
+            //middle key has already been propagated up so remove it from the internal node
+            this.keys.remove(middleIndex);
+            //split the child of the middle index
+            Node newChild = this.children.get(middleIndex).split();
+            this.children.add((middleIndex + 1), newChild);
             InternalNode sibling = new InternalNode();
-            for(int index = middleIndex; index < branchingFactor; index++) {
+            for(int index = middleIndex; index < this.keys.size(); index++) {
                 //remove keys and children from current node and add to sibling
                 sibling.keys.add(this.keys.remove(middleIndex));
-                sibling.children.add(this.children.remove(middleIndex));
+                sibling.children.add(this.children.remove(middleIndex + 1));
             }
             return sibling;
         }
@@ -379,8 +384,8 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          */
         Node split() {
             LeafNode sibling = new LeafNode();
-            int middleIndex = branchingFactor / 2;
-            for(int index = middleIndex; index < branchingFactor; index++) {
+            int middleIndex = this.keys.size() / 2;
+            for(int index = middleIndex; index < this.keys.size(); index++) {
                 //take key from leaf and add to sibling
                 sibling.keys.add(this.keys.remove(middleIndex));
                 sibling.values.add(this.values.remove(middleIndex));
