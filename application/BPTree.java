@@ -408,8 +408,8 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                         //if at beginning of index, jump to previous unless it is null
                         if(index == 0) {
                             if(current.previous == null) {
-                                //we are at the lowest value in the tree, and still not low enough
-                                return values;
+                                //we are at the lowest value in the tree
+                                break;
                             }
                             current = current.previous;
                             index = current.keys.size() - 1;
@@ -418,7 +418,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                         }
                     }
                     //go right until we are greater than key in leaf, adding values that are equal
-                    while(key.compareTo(current.keys.get(index)) >= 0){
+                    while(key.compareTo(current.keys.get(index)) >= 0) {
                         //add to values if equal
                         if(key.compareTo(current.keys.get(index)) == 0) {
                             values.add(current.values.get(index));
@@ -438,7 +438,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                     break;
                 case ">=":
                     //go left until we are less than key in leaf
-                    while(key.compareTo(current.keys.get(index)) <= 0){
+                    while(key.compareTo(current.keys.get(index)) <= 0) {
                         //if at beginning of index, jump to previous unless it is null
                         if(index == 0) {
                             if(current.previous == null) {
@@ -451,9 +451,9 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                             index--;
                         }
                     }
-                    //go right until we are greater than key in leaf, adding values that are >=
-                    while(key.compareTo(current.keys.get(index)) >= 0){
-                        //add to values if equal
+                    //go right until we are at the end, adding values that are >=
+                    while(true){
+                        //add to values if >=
                         if(key.compareTo(current.keys.get(index)) <= 0) {
                             values.add(current.values.get(index));
                         }
@@ -469,9 +469,39 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                             index++;
                         }
                     }
-                    break;
                 case "<=":
-                    break;
+                    //go right until we are greater than key in leaf
+                    while(key.compareTo(current.keys.get(index)) >= 0) {
+                        //if at end of index, jump to next unless it is null
+                        if(index + 1 == current.keys.size()) {
+                            if(current.next == null) {
+                                //we are at the highest value in the tree
+                                break;
+                            }
+                            current = current.next;
+                            index = 0;
+                        } else {
+                            index++;
+                        }
+                    }
+                    //go left until we are at the end, adding values that are <=
+                    while(true){
+                        //add to values if <=
+                        if(key.compareTo(current.keys.get(index)) >= 0) {
+                            values.add(current.values.get(index));
+                        }
+                        //if at beginning of index, jump to previous unless it is null
+                        if(index == 0) {
+                            if(current.previous == null) {
+                                //we are at the lowest value in the tree
+                                return values;
+                            }
+                            current = current.previous;
+                            index = current.keys.size() - 1;
+                        } else {
+                            index--;
+                        }
+                    }
             }
             return values;
         }
@@ -509,8 +539,8 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
             bpTree.insert(j, j);
             System.out.println("\n\nTree structure:\n" + bpTree.toString());
         }
-        //List<Double> filteredValues = bpTree.rangeSearch(0.2d, ">=");
-        //System.out.println("Filtered values: " + filteredValues.toString());
+        List<Double> filteredValues = bpTree.rangeSearch(0.5d, "<=");
+        System.out.println("Filtered values: " + filteredValues.toString());
         
         //Second test with alphabet
         BPTree<Integer, String> bpTree2 = new BPTree<>(5);
@@ -521,7 +551,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
         }
         System.out.println("Filtered values (>=4): " + bpTree2.rangeSearch(4, ">=").toString());
         System.out.println("Filtered values (==9): " + bpTree2.rangeSearch(9, "==").toString());
-        //System.out.println("Filtered values (<=11): " + bpTree2.rangeSearch(11, "<=").toString());
+        System.out.println("Filtered values (<=11): " + bpTree2.rangeSearch(11, "<=").toString());
     }
 
 } // End of class BPTree
