@@ -1,6 +1,5 @@
 package application;
 	
-import application.Main.FoodItem;
 import application.Main.FoodListItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -55,9 +54,7 @@ public class Main extends Application {
       
         // right pane
         ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
-        menuList.add(new FoodItem("First Food", 1,2,3,4,5,"Remove"));
-        menuList.add(new FoodItem("Second Food", 6,7,8,9,10,"Remove"));
-        menuList.add(new FoodItem("Third Food", 11,12,13,14,15,"Remove"));
+        //TODO add menu food here
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
         listViewRight.setCellFactory(param -> new FoodListItem());
@@ -76,9 +73,7 @@ public class Main extends Application {
         
         // left pane
         ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
-        foodList.add(new FoodItem("First Food", 1,2,3,4,5,"Add"));
-        foodList.add(new FoodItem("Second Food", 6,7,8,9,10,"Add"));
-        foodList.add(new FoodItem("Third Food", 11,12,13,14,15,"Add"));
+        //TODO add food items here
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem());
@@ -372,46 +367,8 @@ public class Main extends Application {
         
 		
 	}
-	public static class FoodItem {
-		String name;
-		int cals;
-		int fat;
-		int carbs;
-		int fiber;
-		int protien;
-		String buttonText;
-		FoodItem(String s, int cal, int fa , int carb,int fib,int pro,String b){
-			name=s;
-			cals=cal;
-			fat = fa;
-			carbs = carb;
-			fiber = fib;
-			protien = pro;
-			buttonText=b;
-		}
-		public String getName() {
-			return name;
-		}
-		public int getCals() {
-			return cals;
-		}
-		public int getFat() {
-			return fat;
-		}
-		public int getCarbs() {
-			return carbs;
-		}
-		public int getFiber() {
-			return fiber;
-		}
-		public int getProtien() {
-			return protien;
-		}
-		public String getButtonText() {
-			return buttonText;
-		}
-		
-	}
+	
+	
 	public static class FoodListItem extends ListCell<FoodItem>{
 		//HBox hBox = new HBox();
 		GridPane gPane = new GridPane();
@@ -449,12 +406,12 @@ public class Main extends Application {
                 setGraphic(null);
             } else {
                 nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-                calsLabel.setText(item.getCals()+"");
-                fatLabel.setText(item.getFat()+"");
-                carbsLabel.setText(item.getCarbs()+"");
-                fiberLabel.setText(item.getFiber()+"");
-                protienLabel.setText(item.getProtien()+"");
-                addButton.setText(item.getButtonText());
+                calsLabel.setText(item.getNutrientValue("Cals")+"");
+                fatLabel.setText(item.getNutrientValue("Fat")+"");
+                carbsLabel.setText(item.getNutrientValue("Carbs")+"");
+                fiberLabel.setText(item.getNutrientValue("Fiber")+"");
+                protienLabel.setText(item.getNutrientValue("Protein")+"");
+                addButton.setText("Add/Remove");
                 //setGraphic(hBox);
                 setGraphic(gPane);
             }
