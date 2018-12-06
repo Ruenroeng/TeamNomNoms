@@ -349,7 +349,7 @@ public class Main extends Application {
 	 * @param filters is the VBox section that current filter will be added to if all check pass
 	 */
 	public void addFilter(ComboBox<String> macro, ComboBox<String> comparator, TextField value, VBox filters) {
-		Float filterValue;
+		Double filterValue;
 		String filter;
 		
 		// check if all fields were passed in. create warning popup if not
@@ -361,7 +361,7 @@ public class Main extends Application {
 		
 		// check if a valid number was put in the numeric field area. create error popup if not
         try {
-        	filterValue = Float.parseFloat(value.getText());
+        	filterValue = Double.parseDouble(value.getText());
         } catch(NumberFormatException e) {
         	 Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Filter value " + value.getText() + " is non-numeric.");
              nonNumericValueAlert.show();
