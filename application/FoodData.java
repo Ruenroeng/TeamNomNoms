@@ -51,6 +51,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
     	try {
         BufferedReader inStream = new BufferedReader(new FileReader(filePath));
         String inLine;
+        try {
     	while ((inLine = inStream.readLine()) != null) {
     		String[] foodInfo = inLine.split(",");
     		if (foodInfo.length != 13) {
@@ -90,11 +91,17 @@ public class FoodData implements FoodDataADT<FoodItem> {
     		}
     		
     	}
+        } catch(IOException e) {
+        	filePath ="ERROR";
+        } finally {
+        	inStream.close();
+        }
     	} catch (FileNotFoundException e) {
     		filePath = "ERROR";
-    	} catch(IOException e) {
+    	} catch (IOException e) {
     		filePath = "ERROR";
     	}
+    
     	
    
     }
