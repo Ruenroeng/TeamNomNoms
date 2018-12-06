@@ -55,9 +55,13 @@ public class Main extends Application {
         // right pane
         ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
         //TODO add menu food here
+        menuList.add(new FoodItem("0","1 Food"));
+        menuList.add(new FoodItem("1","2 Food"));
+        menuList.add(new FoodItem("2","3 Food"));
+        menuList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
-        listViewRight.setCellFactory(param -> new FoodListItem("Remove"));
+        listViewRight.setCellFactory(param -> new FoodListItem(true));
         //VBox VBoxRight = new VBox();
 				//VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         Label VBoxRightLabel = new Label("Meal");
@@ -74,9 +78,13 @@ public class Main extends Application {
         // left pane
         ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
         //TODO add food items here
+        foodList.add(new FoodItem("0","1 Food"));
+        foodList.add(new FoodItem("1","2 Food"));
+        foodList.add(new FoodItem("2","3 Food"));
+        foodList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
-        listViewLeft.setCellFactory(param -> new FoodListItem("Add"));
+        listViewLeft.setCellFactory(param -> new FoodListItem(false));
         //VBox VBoxLeft = new VBox();
         //VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         Label VBoxLeftLabel = new Label("Food List");
@@ -378,11 +386,14 @@ public class Main extends Application {
 		Label carbsLabel = new Label();
 		Label fiberLabel = new Label();
 		Label protienLabel = new Label();
-		Button addButton = new Button();
+		Button button = new Button();
+            
 		String buttonText;
-		public FoodListItem( String text ) {
+		public boolean isMeal;
+		public FoodListItem( boolean isMeal ) {
 			super();
-			buttonText=text;
+			buttonText=(isMeal == true ? "Remove" : "Add");
+			this.isMeal=isMeal;
 			//hBox.getChildren().addAll(nameLabel,calsLabel,addButton);
 			int numCols=7;
 			for (int col = 0 ; col < numCols; col++ ) {
@@ -398,7 +409,7 @@ public class Main extends Application {
 			gPane.add(carbsLabel, 3, 0);
 			gPane.add(fiberLabel, 4, 0);
 			gPane.add(protienLabel, 5, 0);
-			gPane.add(addButton, 6, 0);
+			gPane.add(button, 6, 0);
 		}
 		@Override
         protected void updateItem(FoodItem item, boolean empty) {
@@ -413,7 +424,26 @@ public class Main extends Application {
                 carbsLabel.setText(item.getNutrientValue("Carbs")+"");
                 fiberLabel.setText(item.getNutrientValue("Fiber")+"");
                 protienLabel.setText(item.getNutrientValue("Protein")+"");
-                addButton.setText(this.buttonText);
+                button.setText(this.buttonText);
+                if(this.isMeal) {
+                	button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	System.out.println("Remove " + getItem());
+                        getListView().getItems().remove(getItem());
+                    }
+                });
+                } else {
+                	button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            //TODO add to mealList
+                        	System.out.println("Add " + getItem());
+                            //getListView().getItems().remove(getItem());
+                        }
+                    });
+                }
+                
                 //setGraphic(hBox);
                 setGraphic(gPane);
             }
