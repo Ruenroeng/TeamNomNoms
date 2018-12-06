@@ -57,7 +57,7 @@ public class Main extends Application {
         //TODO add menu food here
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
-        listViewRight.setCellFactory(param -> new FoodListItem());
+        listViewRight.setCellFactory(param -> new FoodListItem("Remove"));
         //VBox VBoxRight = new VBox();
 				//VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         Label VBoxRightLabel = new Label("Meal");
@@ -76,7 +76,7 @@ public class Main extends Application {
         //TODO add food items here
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
-        listViewLeft.setCellFactory(param -> new FoodListItem());
+        listViewLeft.setCellFactory(param -> new FoodListItem("Add"));
         //VBox VBoxLeft = new VBox();
         //VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         Label VBoxLeftLabel = new Label("Food List");
@@ -321,8 +321,8 @@ public class Main extends Application {
             gPane.getColumnConstraints().add(cc);
 		}
 		gPane.add(new Label("Name"), 0, 0);
-		gPane.add(new Label("Cals"), 1, 0);
-		gPane.add(new Label("Fat"), 2, 0);
+		gPane.add(new Label("Calories"), 1, 0);
+		gPane.add(new Label("Fats"), 2, 0);
 		gPane.add(new Label("Carbs"), 3, 0);
 		gPane.add(new Label("Fiber"), 4, 0);
 		gPane.add(new Label("Protien"), 5, 0);
@@ -380,8 +380,10 @@ public class Main extends Application {
 		Label fiberLabel = new Label();
 		Label protienLabel = new Label();
 		Button addButton = new Button();
-		public FoodListItem () {
+		String buttonText;
+		public FoodListItem( String text ) {
 			super();
+			buttonText=text;
 			//hBox.getChildren().addAll(nameLabel,calsLabel,addButton);
 			int numCols=7;
 			for (int col = 0 ; col < numCols; col++ ) {
@@ -407,12 +409,12 @@ public class Main extends Application {
                 setGraphic(null);
             } else {
                 nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-                calsLabel.setText(item.getNutrientValue("Cals")+"");
-                fatLabel.setText(item.getNutrientValue("Fat")+"");
+                calsLabel.setText(item.getNutrientValue("Calories")+"");
+                fatLabel.setText(item.getNutrientValue("Fats")+"");
                 carbsLabel.setText(item.getNutrientValue("Carbs")+"");
                 fiberLabel.setText(item.getNutrientValue("Fiber")+"");
                 protienLabel.setText(item.getNutrientValue("Protein")+"");
-                addButton.setText("Add/Remove");
+                addButton.setText(this.buttonText);
                 //setGraphic(hBox);
                 setGraphic(gPane);
             }
