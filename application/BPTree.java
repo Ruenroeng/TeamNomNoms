@@ -8,7 +8,6 @@ import java.util.Queue;
 import java.util.Random;
 
 /**
- * This is a Test
  * Implementation of a B+ tree to allow efficient access to
  * many different indexes of a large data set. 
  * BPTree objects are created for each type of index
