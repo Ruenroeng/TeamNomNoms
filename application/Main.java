@@ -41,7 +41,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
-      
+        FoodData FoodData = new FoodData();
+        
         // top pane
         HBox HBoxTop = new HBox(500);
         Label title = new Label("NomNom Meal Prep Program.");
@@ -57,17 +58,7 @@ public class Main extends Application {
               public void handle(final ActionEvent e) {
                   File file = fileChooser.showOpenDialog(primaryStage);
                   if (file != null) {
-                    long counter;
-                    try {
-                      counter = Files.lines(file.toPath())
-                         .map(String::trim)
-                         .map(String::toLowerCase)
-                         .count();
-                      System.out.println(counter);
-                    } catch (IOException e1) {
-                      // TODO Auto-generated catch block
-                      e1.printStackTrace();
-                    } 
+                  FoodData.loadFoodItems(file.getAbsolutePath());   
                   }
               }
           });
