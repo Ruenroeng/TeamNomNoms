@@ -69,7 +69,7 @@ public class FoodItem {
      * If not present, then returns 0.
      */
     public double getNutrientValue(String name) {
-        return nutrients.get(name);
+        return nutrients.get(name) == null ? 0 : nutrients.get(name);
         
     }
     
