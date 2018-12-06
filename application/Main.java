@@ -1,5 +1,9 @@
 package application;
 	
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import application.Main.FoodListItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -9,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -44,13 +49,41 @@ public class Main extends Application {
         title.setFont(new Font("Arial",20));
         title.setMinWidth(350);
         Button loadFoodButton = new Button();
-        loadFoodButton.setText("Load Food");
-        HBoxTop.getChildren().addAll(title,loadFoodButton);
+        loadFoodButton.setText("Load Food List");
+        final FileChooser fileChooser = new FileChooser();
+        loadFoodButton.setOnAction(
+            new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(final ActionEvent e) {
+                  File file = fileChooser.showOpenDialog(primaryStage);
+                  if (file != null) {
+                    long counter;
+                    try {
+                      counter = Files.lines(file.toPath())
+                         .map(String::trim)
+                         .map(String::toLowerCase)
+                         .count();
+                      System.out.println(counter);
+                    } catch (IOException e1) {
+                      // TODO Auto-generated catch block
+                      e1.printStackTrace();
+                    } 
+                  }
+              }
+          });
+        Button saveFoodButton = new Button();
+        saveFoodButton.setText("Save Food List");
+        VBox fileButtons = new VBox();
+        
+        fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
+        HBoxTop.getChildren().addAll(title,fileButtons);
+        HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
         HBoxTop.setAlignment(Pos.CENTER_RIGHT);
         HBox.setHgrow(title, Priority.ALWAYS);
         HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
         HBoxTop.setMinHeight(50);
         bPane.setTop(HBoxTop);
+        
       
         // right pane
         ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
@@ -419,6 +452,7 @@ public class Main extends Application {
             }
         }
 	}
+	
 	
 	public static void main(String[] args) {
 		launch(args);
