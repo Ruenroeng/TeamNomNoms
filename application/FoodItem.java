@@ -24,7 +24,9 @@ public class FoodItem {
      * @param id unique id of the food item 
      */
     public FoodItem(String id, String name) {
-        // TODO : Complete
+    	this.id=id;
+    	this.name=name;
+    	this.nutrients= new HashMap<String,Double>();
     }
     
     /**
@@ -42,7 +44,7 @@ public class FoodItem {
      * @return id of the food item
      */
     public String getID() {
-        return this.id;
+        return id;
     }
     
     /**
@@ -51,8 +53,7 @@ public class FoodItem {
      * @return nutrients of the food item
      */
     public HashMap<String, Double> getNutrients() {
-        // TODO : Complete
-        return null;
+        return nutrients;
     }
 
     /**
@@ -60,7 +61,7 @@ public class FoodItem {
      * If nutrient already exists, updates its value.
      */
     public void addNutrient(String name, double value) {
-        // TODO : Complete
+        nutrients.put(name, value);
     }
 
     /**
@@ -68,8 +69,8 @@ public class FoodItem {
      * If not present, then returns 0.
      */
     public double getNutrientValue(String name) {
-        // TODO : Complete
-        return 0;
+        return nutrients.get(name);
+        
     }
     
 }
