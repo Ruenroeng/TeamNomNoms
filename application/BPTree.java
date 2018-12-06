@@ -385,6 +385,9 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                 sibling.values.add(this.values.remove(middleIndex));
             }
             //set previous and next pointers
+            if(this.next != null) {
+                this.next.previous = sibling;
+            }
             sibling.next = this.next;
             sibling.previous = this;
             this.next = sibling;
