@@ -39,10 +39,11 @@ import javafx.scene.text.Font;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+		
+		FoodData foodMaster = new FoodData();
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
-        FoodData FoodData = new FoodData();
-        
+      
         // top pane
         HBox HBoxTop = new HBox(500);
         Label title = new Label("NomNom Meal Prep Program.");
@@ -57,9 +58,24 @@ public class Main extends Application {
               @Override
               public void handle(final ActionEvent e) {
                   File file = fileChooser.showOpenDialog(primaryStage);
-                  if (file != null) {
-                  FoodData.loadFoodItems(file.getAbsolutePath());   
+                  String fileName = file.getName();
+                  foodMaster.loadFoodItems(fileName);
+                  if (fileName.equals("ERROR")) {
+                	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                   }
+                 /*( if (file != null) {
+                    long counter;
+                    try {
+                      counter = Files.lines(file.toPath())
+                         .map(String::trim)
+                         .map(String::toLowerCase)
+                         .count();
+                      System.out.println(counter);
+                    } catch (IOException e1) {
+                      // TODO Auto-generated catch block
+                      e1.printStackTrace();
+                    } 
+                  }*/
               }
           });
         Button saveFoodButton = new Button();
@@ -175,7 +191,8 @@ public class Main extends Application {
         comparatorSelect.setPromptText("Comparator");
         comparatorSelect.setMinWidth(100);
         // Text field for numeric value to compare to
-        TextField value = new TextField("Enter value");
+        TextField value = new TextField();
+        value.setPromptText("Value");
         
         //Nutrition Links Box
         VBox NutritionLinksBox = new VBox();
@@ -372,7 +389,7 @@ public class Main extends Application {
 	 * @param filters is the VBox section that current filter will be added to if all check pass
 	 */
 	public void addFilter(ComboBox<String> macro, ComboBox<String> comparator, TextField value, VBox filters) {
-		Float filterValue;
+		Double filterValue;
 		String filter;
 		
 		// check if all fields were passed in. create warning popup if not
@@ -384,7 +401,7 @@ public class Main extends Application {
 		
 		// check if a valid number was put in the numeric field area. create error popup if not
         try {
-        	filterValue = Float.parseFloat(value.getText());
+        	filterValue = Double.parseDouble(value.getText());
         } catch(NumberFormatException e) {
         	 Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Filter value " + value.getText() + " is non-numeric.");
              nonNumericValueAlert.show();
