@@ -39,6 +39,8 @@ import javafx.scene.text.Font;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+		
+		FoodData foodMaster = new FoodData();
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
       
@@ -56,7 +58,12 @@ public class Main extends Application {
               @Override
               public void handle(final ActionEvent e) {
                   File file = fileChooser.showOpenDialog(primaryStage);
-                  if (file != null) {
+                  String fileName = file.getName();
+                  foodMaster.loadFoodItems(fileName);
+                  if (fileName.equals("ERROR")) {
+                	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
+                  }
+                 /*( if (file != null) {
                     long counter;
                     try {
                       counter = Files.lines(file.toPath())
@@ -68,7 +75,7 @@ public class Main extends Application {
                       // TODO Auto-generated catch block
                       e1.printStackTrace();
                     } 
-                  }
+                  }*/
               }
           });
         Button saveFoodButton = new Button();
