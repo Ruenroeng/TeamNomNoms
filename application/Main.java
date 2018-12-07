@@ -183,10 +183,10 @@ public class Main extends Application {
         
         // right pane
         //TODO add menu food here
-        menuList.add(new FoodItem("0","1 Food"));
-        menuList.add(new FoodItem("1","2 Food"));
-        menuList.add(new FoodItem("2","3 Food"));
-        menuList.add(new FoodItem("3","4 Food"));
+        //menuList.add(new FoodItem("0","1 Food"));
+        //menuList.add(new FoodItem("1","2 Food"));
+        //menuList.add(new FoodItem("2","3 Food"));
+        //menuList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
         listViewRight.setCellFactory(param -> new FoodListItem(true));
@@ -206,10 +206,10 @@ public class Main extends Application {
      // left pane
         //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
         //TODO add food items here
-        foodList.add(new FoodItem("0","1 Food"));
-        foodList.add(new FoodItem("1","2 Food"));
-        foodList.add(new FoodItem("2","3 Food"));
-        foodList.add(new FoodItem("3","4 Food"));
+        //foodList.add(new FoodItem("0","1 Food"));
+        //foodList.add(new FoodItem("1","2 Food"));
+        //foodList.add(new FoodItem("2","3 Food"));
+        //foodList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem(false));
