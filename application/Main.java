@@ -1,7 +1,11 @@
 package application;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -235,13 +239,6 @@ public class Main extends Application {
         
         
      // left food pane
-        //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
-        //TODO add food items here
-        //foodList.add(new FoodItem("0","1 Food"));
-        //foodList.add(new FoodItem("1","2 Food"));
-        //foodList.add(new FoodItem("2","3 Food"));
-        //foodList.add(new FoodItem("3","4 Food"));
-        //TODO add food items here
         FoodItem f1 = new FoodItem("0","Soda");
         f1.addNutrient("Calories", 123.4);
         f1.addNutrient("Fats", 0);
@@ -297,7 +294,7 @@ public class Main extends Application {
         //Begin Code on Item Details Box
         
         GridPane ItemDetailsBox = new GridPane();
-        constructItemDetailsBox(ItemDetailsBox);
+        constructItemDetailsBox(ItemDetailsBox,foodMaster);
         
         HBoxBottom.getChildren().add(ItemDetailsBox);        
         HBox.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
@@ -402,7 +399,7 @@ public class Main extends Application {
   /**
    * @param ItemDetailsBox
    */
-  private void constructItemDetailsBox(GridPane ItemDetailsBox) {
+  private void constructItemDetailsBox(GridPane ItemDetailsBox, FoodData foodMaster) {
     ColumnConstraints cc1 = new ColumnConstraints();
     //Column 1 setup
     cc1.setMinWidth(50);
@@ -482,13 +479,20 @@ public class Main extends Application {
     row++;
             
     addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+    
     //Setup Listener for AddItemButton
     AddItemButton.setOnAction(
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(final ActionEvent e) {
+            String nameValue;
+            Double caloriesValue;
+            Double fatsValue;
+            Double carbsValue;
+            Double fiberValue;
+            Double proteinValue;
             try {
-              String nameValue = NameField.getText();
+              nameValue = NameField.getText();
               if (nameValue.equals("")) throw new Exception(); 
             }
             catch(Exception err) {
@@ -497,7 +501,7 @@ public class Main extends Application {
               return;
             }
             try {
-              double caloriesValue = Double.parseDouble(CaloriesField.getText());
+              caloriesValue = Double.parseDouble(CaloriesField.getText());
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Calories value \"" + CaloriesField.getText() + "\" is non-numeric.");
@@ -505,7 +509,7 @@ public class Main extends Application {
               return;
             }
             try {
-              double fatsValue = Double.parseDouble(FatsField.getText());
+              fatsValue = Double.parseDouble(FatsField.getText());
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fats value \"" + FatsField.getText() + "\" is non-numeric.");
@@ -513,7 +517,7 @@ public class Main extends Application {
               return;
             }
             try {
-              double carbsValue = Double.parseDouble(CarbsField.getText());
+              carbsValue = Double.parseDouble(CarbsField.getText());
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Carbs value \"" + CarbsField.getText() + "\" is non-numeric.");
@@ -521,7 +525,7 @@ public class Main extends Application {
               return;
             }
             try {
-              double fiberValue = Double.parseDouble(FiberField.getText());
+              fiberValue = Double.parseDouble(FiberField.getText());
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fiber value \"" + FiberField.getText() + "\" is non-numeric.");
@@ -529,18 +533,46 @@ public class Main extends Application {
               return;
             }
             try {
-              double proteinValue = Double.parseDouble(ProteinField.getText());
+              proteinValue = Double.parseDouble(ProteinField.getText());
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Protein value \"" + ProteinField.getText() + "\" is non-numeric.");
               nonNumericValueAlert.show();
               return; 
             }
-            
+            String uniqueID = nameValue+caloriesValue+fatsValue+carbsValue+fiberValue+proteinValue;
+            try {
+              uniqueID = generateSHA256(uniqueID);
+            } catch (NoSuchAlgorithmException e1) {
+              e1.printStackTrace();
+            }
+            uniqueID = uniqueID.substring(0, 24);
+            FoodItem newFood = new FoodItem(uniqueID, nameValue);
+            newFood.addNutrient("calories", caloriesValue);
+            newFood.addNutrient("fats", fatsValue);
+            newFood.addNutrient("carbohydrate", carbsValue);
+            newFood.addNutrient("fiber", fiberValue);
+            newFood.addNutrient("protein", proteinValue);
+            foodMaster.addFoodItem(newFood);
+            resetDisplay(foodMaster);
           }
         }
     );
   }
+  public String generateSHA256(String input) throws NoSuchAlgorithmException {
+    return generateString(input, "SHA-256", 64);
+}
+  
+  private static String generateString(String input, String algorithm, int minLength) throws NoSuchAlgorithmException {
+    MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
+    byte[] bytes = messageDigest.digest(input.getBytes());
+    BigInteger integer = new BigInteger(1, bytes);
+    String result = integer.toString(16);
+    while (result.length() < minLength) {
+        result = "0" + result;
+    }
+    return result;
+}
   /**
    * @param ItemDetailsBox
    * @param LabelString
