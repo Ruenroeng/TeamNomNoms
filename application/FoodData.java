@@ -54,7 +54,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
         try {
     	while ((inLine = inStream.readLine()) != null) {
     		String[] foodInfo = inLine.split(",");
-    		if (foodInfo.length != 13) {
+    		if (foodInfo.length != 12) {
     			continue;
     		}
     		String id = foodInfo[0].trim();
@@ -64,7 +64,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
     		String carbLabel = foodInfo[6].trim();
     		String fiberLabel = foodInfo[8].trim();
     		String proteinLabel = foodInfo[10].trim();
-    		if (!calorieLabel.equals("calories") || !fatLabel.equals("fat") || !carbLabel.equals("carbohydrate") || !fiberLabel.equals("fiber") || !proteinLabel.equals("Protein")) {
+    		if (!calorieLabel.equals("calories") || !fatLabel.equals("fat") || !carbLabel.equals("carbohydrate") || !fiberLabel.equals("fiber") || !proteinLabel.equals("protein")) {
     			continue;
     		}
     		try {
@@ -101,9 +101,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
     	} catch (IOException e) {
     		filePath = "ERROR";
     	}
-    
-    	
-   
     }
     
 
@@ -142,8 +139,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public List<FoodItem> getAllFoodItems() {
-        // TODO : Complete
-        return null;
+        return foodItemList;
     }
     public void saveFoodItems(String inputFile) {
     	
