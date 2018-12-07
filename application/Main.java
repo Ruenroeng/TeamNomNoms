@@ -1,5 +1,4 @@
 package application;
-	
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,6 +34,8 @@ import javafx.scene.text.Font;
 
 
 public class Main extends Application {
+	FoodData foodMaster = new FoodData();
+	ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
 	@Override
 	public void start(Stage primaryStage) {
 		ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
@@ -114,8 +115,6 @@ public class Main extends Application {
 	            }
 	        }
 		}
-		
-		FoodData foodMaster = new FoodData();           
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
       
@@ -132,15 +131,37 @@ public class Main extends Application {
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
-                  File file = fileChooser.showOpenDialog(primaryStage);
-                  if (file!=null) {
-                  String fileName = file.getName();
-                  foodMaster.loadFoodItems(fileName);
-                  foodList.addAll(foodMaster.getAllFoodItems());
-                  if (fileName.equals("ERROR")) {
+                  //File file = fileChooser.showOpenDialog(primaryStage);
+                  //String fileName = file.getName();
+            	  String fileName = "foodItems.txt";
+                  /*try {
+                	  Files.lines(file.toPath());
+                  } catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
-                  }}
-                }
+                	  invalidFileAlert.show();
+                  }*/
+                  foodMaster = new FoodData();
+                  foodMaster.loadFoodItems(fileName);
+                  ObservableList<FoodItem> newList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
+                  foodList.clear();
+                  for (FoodItem food : newList) {
+                	  foodList.add(food);
+                  }
+                  //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
+                 /*( if (file != null) {
+                    long counter;
+                    try {
+                      counter = Files.lines(file.toPath())
+                         .map(String::trim)
+                         .map(String::toLowerCase)
+                         .count();
+                      System.out.println(counter);
+                    } catch (IOException e1) {
+                      // TODO Auto-generated catch block
+                      e1.printStackTrace();
+                    } 
+                  }*/
+              }
           });
         Button saveFoodButton = new Button();
         saveFoodButton.setText("Save Food List");
@@ -183,6 +204,9 @@ public class Main extends Application {
         
      // left pane
         //ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
+
+        //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
+        //TODO add food items here
         foodList.add(new FoodItem("0","1 Food"));
         foodList.add(new FoodItem("1","2 Food"));
         foodList.add(new FoodItem("2","3 Food"));
