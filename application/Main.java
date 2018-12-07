@@ -277,6 +277,8 @@ public class Main extends Application {
     GridPane.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
     
     Button AddItemButton = new Button("Add Item");
+    
+            
     ItemDetailsBox.add(AddItemButton, 0, 1);
 
    // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
@@ -290,7 +292,7 @@ public class Main extends Application {
     
     //Name Field Build
     LabelString = "Name";
-    TextField NameField = new TextField("Enter " + LabelString);
+    TextField NameField = new TextField();
     LabelField = NameField;
     row++;
             
@@ -300,7 +302,6 @@ public class Main extends Application {
     //Calories Field Build
     LabelString = "Calories";
     TextField CaloriesField = new TextField();
-    CaloriesField.setPromptText("Enter " + LabelString);
     LabelField = CaloriesField;
     row++;
             
@@ -308,7 +309,7 @@ public class Main extends Application {
     
     //Fats Field Build
     LabelString = "Fats";
-    TextField FatsField = new TextField("Enter " + LabelString);
+    TextField FatsField = new TextField();
     LabelField = FatsField;
     row++;
             
@@ -316,7 +317,7 @@ public class Main extends Application {
     
     //Carbs Field Build
     LabelString = "Carbs";
-    TextField CarbsField = new TextField("Enter " + LabelString);
+    TextField CarbsField = new TextField();
     LabelField = CarbsField;
     row++;
             
@@ -324,7 +325,7 @@ public class Main extends Application {
 
     //Fiber Field Build
     LabelString = "Fiber";
-    TextField FiberField = new TextField("Enter " + LabelString);
+    TextField FiberField = new TextField();
     LabelField = FiberField;
     row++;
             
@@ -332,12 +333,69 @@ public class Main extends Application {
     
     //Protein Field Build
     LabelString = "Protein";
-    TextField ProteinField = new TextField("Enter " + LabelString);
+    TextField ProteinField = new TextField();
     LabelField = ProteinField;
     row++;
             
     addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
-    
+    //Setup Listener for AddItemButton
+    AddItemButton.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(final ActionEvent e) {
+            try {
+              String nameValue = NameField.getText();
+              if (nameValue.equals("")) throw new Exception(); 
+            }
+            catch(Exception err) {
+            Alert BlankNameAlert = new Alert(AlertType.ERROR, "Name value cannot be blank.");
+              BlankNameAlert.show();
+              return;
+            }
+            try {
+              double caloriesValue = Double.parseDouble(CaloriesField.getText());
+            }
+            catch(NumberFormatException err) {
+            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Calories value \"" + CaloriesField.getText() + "\" is non-numeric.");
+              nonNumericValueAlert.show();
+              return;
+            }
+            try {
+              double fatsValue = Double.parseDouble(FatsField.getText());
+            }
+            catch(NumberFormatException err) {
+            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fats value \"" + FatsField.getText() + "\" is non-numeric.");
+              nonNumericValueAlert.show();
+              return;
+            }
+            try {
+              double carbsValue = Double.parseDouble(CarbsField.getText());
+            }
+            catch(NumberFormatException err) {
+            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Carbs value \"" + CarbsField.getText() + "\" is non-numeric.");
+              nonNumericValueAlert.show();
+              return;
+            }
+            try {
+              double fiberValue = Double.parseDouble(FiberField.getText());
+            }
+            catch(NumberFormatException err) {
+            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fiber value \"" + FiberField.getText() + "\" is non-numeric.");
+              nonNumericValueAlert.show();
+              return;
+            }
+            try {
+              double proteinValue = Double.parseDouble(ProteinField.getText());
+            }
+            catch(NumberFormatException err) {
+            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Protein value \"" + ProteinField.getText() + "\" is non-numeric.");
+              nonNumericValueAlert.show();
+              return; 
+            }
+            
+          }
+        }
+    );
   }
   /**
    * @param ItemDetailsBox
@@ -348,6 +406,7 @@ public class Main extends Application {
   private void addItemDetailsRow(GridPane ItemDetailsBox, String LabelString, TextField LabelField, int row) {
     ItemDetailsBox.add(new Label(LabelString), 0, row);
     ItemDetailsBox.add(LabelField, 1, row);
+    LabelField.setPromptText("Enter " + LabelString);
   }
 	public Node getHeader() {
 		GridPane gPane = new GridPane();
