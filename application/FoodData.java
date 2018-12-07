@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents the backend for managing all 
@@ -54,7 +55,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
         try {
     	while ((inLine = inStream.readLine()) != null) {
     		String[] foodInfo = inLine.split(",");
-    		if (foodInfo.length != 13) {
+    		if (foodInfo.length != 12) {
     			continue;
     		}
     		String id = foodInfo[0].trim();
@@ -64,7 +65,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
     		String carbLabel = foodInfo[6].trim();
     		String fiberLabel = foodInfo[8].trim();
     		String proteinLabel = foodInfo[10].trim();
-    		if (!calorieLabel.equals("calories") || !fatLabel.equals("fat") || !carbLabel.equals("carbohydrate") || !fiberLabel.equals("fiber") || !proteinLabel.equals("Protein")) {
+    		if (!calorieLabel.equals("calories") || !fatLabel.equals("fat") || !carbLabel.equals("carbohydrate") || !fiberLabel.equals("fiber") || !proteinLabel.equals("protein")) {
     			continue;
     		}
     		try {
@@ -123,7 +124,33 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public List<FoodItem> filterByNutrients(List<String> rules) {
-        // TODO : Complete
+    	List <FoodItem> filteredList = foodItemList;
+        for (String rule : rules) {
+        	List<FoodItem> singleRuleResult;
+        	String[] ruleParts = rule.split("^");
+        	String macro = ruleParts[0].trim();
+        	String comparator = ruleParts[1].trim();
+        	double value = Double.parseDouble(ruleParts[2].trim());
+        	switch(macro.charAt(2)) {
+        	case 'r':
+        		singleRuleResult = carbTree.rangeSearch(value, comparator);
+        		break;
+        	case 't':
+        		singleRuleResult = fatTree.rangeSearch(value, comparator);
+        		break;
+        	case 'b':
+        		singleRuleResult = fiberTree.rangeSearch(value, comparator);
+        		break;
+        	case 'l':
+        		singleRuleResult = calorieTree.rangeSearch(value, comparator);
+        		break;
+        	default:
+        		singleRuleResult = proteinTree.rangeSearch(value, comparator);
+        	}
+        	
+        	filteredList.retainAll(singleRuleResult);
+        	
+        }
         return null;
     }
 
@@ -143,7 +170,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
     @Override
     public List<FoodItem> getAllFoodItems() {
         // TODO : Complete
-        return null;
+        return foodItemList;
     }
     public void saveFoodItems(String inputFile) {
     	

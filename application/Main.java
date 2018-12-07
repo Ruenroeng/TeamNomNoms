@@ -37,10 +37,11 @@ import javafx.scene.text.Font;
 
 
 public class Main extends Application {
+	FoodData foodMaster = new FoodData();
+	ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
 	@Override
 	public void start(Stage primaryStage) {
 		
-		FoodData foodMaster = new FoodData();
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
       
@@ -57,12 +58,23 @@ public class Main extends Application {
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
-                  File file = fileChooser.showOpenDialog(primaryStage);
-                  String fileName = file.getName();
-                  foodMaster.loadFoodItems(fileName);
-                  if (fileName.equals("ERROR")) {
+                  //File file = fileChooser.showOpenDialog(primaryStage);
+                  //String fileName = file.getName();
+            	  String fileName = "foodItems.txt";
+                  /*try {
+                	  Files.lines(file.toPath());
+                  } catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
+                	  invalidFileAlert.show();
+                  }*/
+                  foodMaster = new FoodData();
+                  foodMaster.loadFoodItems(fileName);
+                  ObservableList<FoodItem> newList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
+                  foodList.clear();
+                  for (FoodItem food : newList) {
+                	  foodList.add(food);
                   }
+                  //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
                  /*( if (file != null) {
                     long counter;
                     try {
@@ -118,7 +130,8 @@ public class Main extends Application {
         
         
      // left pane
-        ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
+        //ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
+        //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
         //TODO add food items here
         foodList.add(new FoodItem("0","1 Food"));
         foodList.add(new FoodItem("1","2 Food"));
@@ -419,6 +432,7 @@ public class Main extends Application {
 		
 	}
 	
+
 	
 	public static class FoodListItem extends ListCell<FoodItem>{
 		//HBox hBox = new HBox();
