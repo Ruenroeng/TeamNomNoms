@@ -36,10 +36,9 @@ import javafx.scene.text.Font;
 public class Main extends Application {
 	FoodData foodMaster = new FoodData();
 	ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
+	ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
 	@Override
 	public void start(Stage primaryStage) {
-		ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
-		ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
 		class FoodListItem extends ListCell<FoodItem>{
 			//HBox hBox = new HBox();
 			GridPane gPane = new GridPane();
@@ -506,15 +505,15 @@ public class Main extends Application {
 		
 	}
 	
-	public void resetDisplay(ObservableList<FoodItem> ol, FoodData d) {
-		ol.clear();
+	public void resetDisplay(FoodData d) {
+		menuList.clear();
 		for(FoodItem f : d.getAllFoodItems()) {
-			ol.add(f);
+			menuList.add(f);
 		}
 	}
 	
-	public void addToDisplay(ObservableList<FoodItem> ol, FoodItem f) {
-		ol.add(f);
+	public void addToDisplay( FoodItem f) {
+		menuList.add(f);
 	}
 	
 	
