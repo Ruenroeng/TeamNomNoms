@@ -179,7 +179,6 @@ public class Main extends Application {
         
         
         // right pane
-        //ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
         //TODO add menu food here
         menuList.add(new FoodItem("0","1 Food"));
         menuList.add(new FoodItem("1","2 Food"));
@@ -202,8 +201,6 @@ public class Main extends Application {
         
         
      // left pane
-        //ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
-
         //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
         //TODO add food items here
         foodList.add(new FoodItem("0","1 Food"));
@@ -213,27 +210,21 @@ public class Main extends Application {
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem(false));
-        //VBox VBoxLeft = new VBox();
-        //VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
-        //VBoxLeftLabel.setAlignment(Pos.TOP_CENTER);
         VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         VBoxLeft.setAlignment(Pos.TOP_CENTER);
         VBoxLeft.setMinWidth(600);
-        //bPane.setLeft(VBoxLeft);
         
         GridPane centerPane = new GridPane();
 		int numCols=2;
 		for (int col = 0 ; col < numCols; col++ ) {
             ColumnConstraints cc = new ColumnConstraints();
             cc.setPercentWidth(100/(numCols*1.0));
-            //cc.setFillWidth(true);
-            //cc.setHgrow(Priority.ALWAYS);
             centerPane.getColumnConstraints().add(cc);
 		}
-		//centerPane.getChildren().addAll(VBoxLeft,VBoxRight);
+		
 		centerPane.add(VBoxLeft, 0, 0);
 		centerPane.add(VBoxRight, 1, 0);
 		bPane.setCenter(centerPane);
@@ -506,14 +497,14 @@ public class Main extends Application {
 	}
 	
 	public void resetDisplay(FoodData d) {
-		menuList.clear();
+		foodList.clear();
 		for(FoodItem f : d.getAllFoodItems()) {
-			menuList.add(f);
+			foodList.add(f);
 		}
 	}
 	
 	public void addToDisplay( FoodItem f) {
-		menuList.add(f);
+		foodList.add(f);
 	}
 	
 	
