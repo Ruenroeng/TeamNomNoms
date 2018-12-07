@@ -130,6 +130,8 @@ public class Main extends Application {
 	            }
 	        }
 		}
+		FoodData foodMaster = new FoodData();
+    ObservableList<FoodItem> foodList = FXCollections.observableArrayList();           
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
       
@@ -155,12 +157,11 @@ public class Main extends Application {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
                   }*/
-                  foodMaster = new FoodData();
                   foodMaster.loadFoodItems(fileName);
-                  ObservableList<FoodItem> newList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
-                  foodList.clear();
-                  for (FoodItem food : newList) {
-                	  foodList.add(food);
+                  foodList.addAll(foodMaster.getAllFoodItems());
+                  if (fileName.equals("ERROR")) {
+                	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
+                	  invalidFileAlert.show();
                   }
                   //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
                  /*( if (file != null) {
@@ -177,6 +178,8 @@ public class Main extends Application {
                     } 
                   }*/
               }
+                 
+                //}
           });
         Button saveFoodButton = new Button();
         saveFoodButton.setText("Save Food List");
