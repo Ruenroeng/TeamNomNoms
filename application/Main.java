@@ -37,11 +37,11 @@ import javafx.scene.text.Font;
 
 
 public class Main extends Application {
-	FoodData foodMaster = new FoodData();
-	ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
 	@Override
 	public void start(Stage primaryStage) {
 		
+		FoodData foodMaster = new FoodData();
+    ObservableList<FoodItem> foodList = FXCollections.observableArrayList();           
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
       
@@ -60,19 +60,22 @@ public class Main extends Application {
               public void handle(final ActionEvent e) {
                   //File file = fileChooser.showOpenDialog(primaryStage);
                   //String fileName = file.getName();
-            	  String fileName = "foodItems.txt";
+            	 
                   /*try {
                 	  Files.lines(file.toPath());
                   } catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
                   }*/
-                  foodMaster = new FoodData();
+            
+                  //File file = fileChooser.showOpenDialog(primaryStage);
+                  //if (file!=null) {
+                  String fileName = "foodItems.txt";
                   foodMaster.loadFoodItems(fileName);
-                  ObservableList<FoodItem> newList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
-                  foodList.clear();
-                  for (FoodItem food : newList) {
-                	  foodList.add(food);
+                  foodList.addAll(foodMaster.getAllFoodItems());
+                  if (fileName.equals("ERROR")) {
+                	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
+                	  invalidFileAlert.show();
                   }
                   //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
                  /*( if (file != null) {
@@ -89,6 +92,8 @@ public class Main extends Application {
                     } 
                   }*/
               }
+                 
+                //}
           });
         Button saveFoodButton = new Button();
         saveFoodButton.setText("Save Food List");
@@ -137,6 +142,11 @@ public class Main extends Application {
         foodList.add(new FoodItem("1","2 Food"));
         foodList.add(new FoodItem("2","3 Food"));
         foodList.add(new FoodItem("3","4 Food"));
+        //ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
+//        foodList.add(new FoodItem("0","1 Food"));
+//        foodList.add(new FoodItem("1","2 Food"));
+//        foodList.add(new FoodItem("2","3 Food"));
+//        foodList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem(false,menuList));

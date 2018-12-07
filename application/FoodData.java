@@ -102,9 +102,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
     	} catch (IOException e) {
     		filePath = "ERROR";
     	}
-    
-    	
-   
     }
     
 
@@ -169,7 +166,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public List<FoodItem> getAllFoodItems() {
-        // TODO : Complete
+
         return foodItemList;
     }
     public void saveFoodItems(String inputFile) {
