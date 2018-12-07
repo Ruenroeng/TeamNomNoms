@@ -1,10 +1,7 @@
 package application;
-	
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
-import application.Main.FoodListItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,9 +34,86 @@ import javafx.scene.text.Font;
 
 
 public class Main extends Application {
+	FoodData foodMaster = new FoodData();
+	ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
+	ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
 	@Override
 	public void start(Stage primaryStage) {
-		
+		class FoodListItem extends ListCell<FoodItem>{
+			//HBox hBox = new HBox();
+			GridPane gPane = new GridPane();
+			Label nameLabel = new Label();
+			Label calsLabel = new Label();
+			Label fatLabel = new Label();
+			Label carbsLabel = new Label();
+			Label fiberLabel = new Label();
+			Label protienLabel = new Label();
+			Button button = new Button();
+			//ObservableList<FoodItem> target;
+			String buttonText;
+			public boolean isMeal;
+			public FoodListItem( boolean isMeal) { //, ObservableList<FoodItem> target) {
+				super();
+				buttonText=(isMeal == true ? "Remove" : "Add");
+				this.isMeal=isMeal;
+				//this.target=target;
+				//hBox.getChildren().addAll(nameLabel,calsLabel,addButton);
+				int numCols=7;
+				for (int col = 0 ; col < numCols; col++ ) {
+		            ColumnConstraints cc = new ColumnConstraints();
+		            cc.setPercentWidth(100/(numCols*1.0));
+		            //cc.setFillWidth(true);
+		            //cc.setHgrow(Priority.ALWAYS);
+		            gPane.getColumnConstraints().add(cc);
+				}
+				gPane.add(nameLabel, 0, 0);
+				gPane.add(calsLabel, 1, 0);
+				gPane.add(fatLabel, 2, 0);
+				gPane.add(carbsLabel, 3, 0);
+				gPane.add(fiberLabel, 4, 0);
+				gPane.add(protienLabel, 5, 0);
+				gPane.add(button, 6, 0);
+			}
+			@Override
+	        protected void updateItem(FoodItem item, boolean empty) {
+	            super.updateItem(item, empty);
+	            setText(null);  // No text in label of super class
+	            if (empty) {
+	                setGraphic(null);
+	            } else {
+	                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
+	                calsLabel.setText(item.getNutrientValue("Calories")+"");
+	                fatLabel.setText(item.getNutrientValue("Fats")+"");
+	                carbsLabel.setText(item.getNutrientValue("Carbs")+"");
+	                fiberLabel.setText(item.getNutrientValue("Fiber")+"");
+	                protienLabel.setText(item.getNutrientValue("Protein")+"");
+	                button.setText(this.buttonText);
+	                
+	                if(this.isMeal) {
+	                	button.setOnAction(new EventHandler<ActionEvent>() {
+	                    @Override
+	                    public void handle(ActionEvent event) {
+	                    	System.out.println("Remove " + getItem());
+	                        getListView().getItems().remove(getItem());
+	                    }
+	                });
+	                } else {
+	                	button.setOnAction(new EventHandler<ActionEvent>() {
+	                        @Override
+	                        public void handle(ActionEvent event) {
+	                            //target.add(getItem());
+	                            menuList.add(getItem());
+	                        	System.out.println("Add " + getItem());
+	                            //getListView().getItems().remove(getItem());
+	                        }
+	                    });
+	                }
+	             
+	                //setGraphic(hBox);
+	                setGraphic(gPane);
+	            }
+	        }
+		}
 		FoodData foodMaster = new FoodData();
     ObservableList<FoodItem> foodList = FXCollections.observableArrayList();           
   	    BorderPane bPane = new BorderPane();
@@ -60,17 +134,13 @@ public class Main extends Application {
               public void handle(final ActionEvent e) {
                   //File file = fileChooser.showOpenDialog(primaryStage);
                   //String fileName = file.getName();
-            	 
+            	  String fileName = "foodItems.txt";
                   /*try {
                 	  Files.lines(file.toPath());
                   } catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
                   }*/
-            
-                  //File file = fileChooser.showOpenDialog(primaryStage);
-                  //if (file!=null) {
-                  String fileName = "foodItems.txt";
                   foodMaster.loadFoodItems(fileName);
                   foodList.addAll(foodMaster.getAllFoodItems());
                   if (fileName.equals("ERROR")) {
@@ -112,7 +182,6 @@ public class Main extends Application {
         
         
         // right pane
-        ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
         //TODO add menu food here
         menuList.add(new FoodItem("0","1 Food"));
         menuList.add(new FoodItem("1","2 Food"));
@@ -120,7 +189,7 @@ public class Main extends Application {
         menuList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
-        listViewRight.setCellFactory(param -> new FoodListItem(true,null));
+        listViewRight.setCellFactory(param -> new FoodListItem(true));
         //VBox VBoxRight = new VBox();
 				//VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         Label VBoxRightLabel = new Label("Meal");
@@ -135,42 +204,30 @@ public class Main extends Application {
         
         
      // left pane
-        //ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
         //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
         //TODO add food items here
         foodList.add(new FoodItem("0","1 Food"));
         foodList.add(new FoodItem("1","2 Food"));
         foodList.add(new FoodItem("2","3 Food"));
         foodList.add(new FoodItem("3","4 Food"));
-        //ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
-//        foodList.add(new FoodItem("0","1 Food"));
-//        foodList.add(new FoodItem("1","2 Food"));
-//        foodList.add(new FoodItem("2","3 Food"));
-//        foodList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
-        listViewLeft.setCellFactory(param -> new FoodListItem(false,menuList));
-        //VBox VBoxLeft = new VBox();
-        //VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
+        listViewLeft.setCellFactory(param -> new FoodListItem(false));
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
-        //VBoxLeftLabel.setAlignment(Pos.TOP_CENTER);
         VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
         VBoxLeft.setAlignment(Pos.TOP_CENTER);
         VBoxLeft.setMinWidth(600);
-        //bPane.setLeft(VBoxLeft);
         
         GridPane centerPane = new GridPane();
 		int numCols=2;
 		for (int col = 0 ; col < numCols; col++ ) {
             ColumnConstraints cc = new ColumnConstraints();
             cc.setPercentWidth(100/(numCols*1.0));
-            //cc.setFillWidth(true);
-            //cc.setHgrow(Priority.ALWAYS);
             centerPane.getColumnConstraints().add(cc);
 		}
-		//centerPane.getChildren().addAll(VBoxLeft,VBoxRight);
+		
 		centerPane.add(VBoxLeft, 0, 0);
 		centerPane.add(VBoxRight, 1, 0);
 		bPane.setCenter(centerPane);
@@ -442,81 +499,15 @@ public class Main extends Application {
 		
 	}
 	
-
-	
-	public static class FoodListItem extends ListCell<FoodItem>{
-		//HBox hBox = new HBox();
-		GridPane gPane = new GridPane();
-		Label nameLabel = new Label();
-		Label calsLabel = new Label();
-		Label fatLabel = new Label();
-		Label carbsLabel = new Label();
-		Label fiberLabel = new Label();
-		Label protienLabel = new Label();
-		Button button = new Button();
-		ObservableList<FoodItem> target;
-		String buttonText;
-		public boolean isMeal;
-		public FoodListItem( boolean isMeal , ObservableList<FoodItem> target) {
-			super();
-			buttonText=(isMeal == true ? "Remove" : "Add");
-			this.isMeal=isMeal;
-			this.target=target;
-			//hBox.getChildren().addAll(nameLabel,calsLabel,addButton);
-			int numCols=7;
-			for (int col = 0 ; col < numCols; col++ ) {
-	            ColumnConstraints cc = new ColumnConstraints();
-	            cc.setPercentWidth(100/(numCols*1.0));
-	            //cc.setFillWidth(true);
-	            //cc.setHgrow(Priority.ALWAYS);
-	            gPane.getColumnConstraints().add(cc);
-			}
-			gPane.add(nameLabel, 0, 0);
-			gPane.add(calsLabel, 1, 0);
-			gPane.add(fatLabel, 2, 0);
-			gPane.add(carbsLabel, 3, 0);
-			gPane.add(fiberLabel, 4, 0);
-			gPane.add(protienLabel, 5, 0);
-			gPane.add(button, 6, 0);
+	public void resetDisplay(FoodData d) {
+		foodList.clear();
+		for(FoodItem f : d.getAllFoodItems()) {
+			foodList.add(f);
 		}
-		@Override
-        protected void updateItem(FoodItem item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(null);  // No text in label of super class
-            if (empty) {
-                setGraphic(null);
-            } else {
-                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-                calsLabel.setText(item.getNutrientValue("Calories")+"");
-                fatLabel.setText(item.getNutrientValue("Fats")+"");
-                carbsLabel.setText(item.getNutrientValue("Carbs")+"");
-                fiberLabel.setText(item.getNutrientValue("Fiber")+"");
-                protienLabel.setText(item.getNutrientValue("Protein")+"");
-                button.setText(this.buttonText);
-                
-                if(this.isMeal) {
-                	button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                    	System.out.println("Remove " + getItem());
-                        getListView().getItems().remove(getItem());
-                    }
-                });
-                } else {
-                	button.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            target.add(getItem());
-                        	System.out.println("Add " + getItem());
-                            //getListView().getItems().remove(getItem());
-                        }
-                    });
-                }
-             
-                //setGraphic(hBox);
-                setGraphic(gPane);
-            }
-        }
+	}
+	
+	public void addToDisplay( FoodItem f) {
+		foodList.add(f);
 	}
 	
 	
