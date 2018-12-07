@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents the backend for managing all 
@@ -120,7 +121,33 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public List<FoodItem> filterByNutrients(List<String> rules) {
-        // TODO : Complete
+    	List <FoodItem> filteredList = foodItemList;
+        for (String rule : rules) {
+        	List<FoodItem> singleRuleResult;
+        	String[] ruleParts = rule.split("^");
+        	String macro = ruleParts[0].trim();
+        	String comparator = ruleParts[1].trim();
+        	double value = Double.parseDouble(ruleParts[2].trim());
+        	switch(macro.charAt(2)) {
+        	case 'r':
+        		singleRuleResult = carbTree.rangeSearch(value, comparator);
+        		break;
+        	case 't':
+        		singleRuleResult = fatTree.rangeSearch(value, comparator);
+        		break;
+        	case 'b':
+        		singleRuleResult = fiberTree.rangeSearch(value, comparator);
+        		break;
+        	case 'l':
+        		singleRuleResult = calorieTree.rangeSearch(value, comparator);
+        		break;
+        	default:
+        		singleRuleResult = proteinTree.rangeSearch(value, comparator);
+        	}
+        	
+        	filteredList.retainAll(singleRuleResult);
+        	
+        }
         return null;
     }
 
@@ -139,6 +166,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public List<FoodItem> getAllFoodItems() {
+
         return foodItemList;
     }
     public void saveFoodItems(String inputFile) {
