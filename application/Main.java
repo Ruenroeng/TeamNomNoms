@@ -97,11 +97,11 @@ public class Main extends Application {
 	                setGraphic(null);
 	            } else {
 	                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-	                calsLabel.setText(item.getNutrientValue("Calories")+"");
-	                fatLabel.setText(item.getNutrientValue("Fats")+"");
-	                carbsLabel.setText(item.getNutrientValue("Carbs")+"");
-	                fiberLabel.setText(item.getNutrientValue("Fiber")+"");
-	                protienLabel.setText(item.getNutrientValue("Protein")+"");
+	                calsLabel.setText(item.getNutrientValue("calories")+"");
+	                fatLabel.setText(item.getNutrientValue("fat")+"");
+	                carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
+	                fiberLabel.setText(item.getNutrientValue("fiber")+"");
+	                protienLabel.setText(item.getNutrientValue("protein")+"");
 	                button.setText(this.buttonText);
 	                
 	                if(this.isMeal) {
@@ -566,11 +566,11 @@ public class Main extends Application {
 	public void addToMenu(FoodItem f){
 		menuList.add(f);
 		menuCount++;
-		totalCals += f.getNutrientValue("Calories");
-		totalFats += f.getNutrientValue("Fats");
-		totalCarbs += f.getNutrientValue("Carbs");
-		totalFiber += f.getNutrientValue("Fiber");
-		totalProtein += f.getNutrientValue("Protein");
+		totalCals += f.getNutrientValue("calories");
+		totalFats += f.getNutrientValue("fat");
+		totalCarbs += f.getNutrientValue("carbohydrate");
+		totalFiber += f.getNutrientValue("fiber");
+		totalProtein += f.getNutrientValue("protein");
 		totalCalsLabel.setText(totalCals + "");
 		totalFatsLabel.setText(totalFats + "");
 		totalCarbsLabel.setText(totalCarbs + "");
@@ -581,11 +581,11 @@ public class Main extends Application {
 	public void subFromMenu(FoodItem f){
 		menuList.remove(f);
 		menuCount--;
-		totalCals -= f.getNutrientValue("Calories");
-		totalFats -= f.getNutrientValue("Fats");
-		totalCarbs -= f.getNutrientValue("Carbs");
-		totalFiber -= f.getNutrientValue("Fiber");
-		totalProtein -= f.getNutrientValue("Protein");
+		totalCals -= f.getNutrientValue("calories");
+		totalFats -= f.getNutrientValue("fat");
+		totalCarbs -= f.getNutrientValue("carbohydrate");
+		totalFiber -= f.getNutrientValue("fiber");
+		totalProtein -= f.getNutrientValue("protein");
 		totalCalsLabel.setText(totalCals + "");
 		totalFatsLabel.setText(totalFats + "");
 		totalCarbsLabel.setText(totalCarbs + "");
