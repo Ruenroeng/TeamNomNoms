@@ -37,6 +37,21 @@ public class Main extends Application {
 	FoodData foodMaster = new FoodData();
 	ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
 	ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
+	int foodCount = 0;
+	int menuCount = 0;
+	double totalCals = 0;
+	double totalFats = 0;
+	double totalCarbs = 0;
+	double totalFiber = 0;
+	double totalProtein = 0;
+	Label totalCalsLabel = new Label(totalCals + "");
+	Label totalFatsLabel = new Label(totalFats + "");
+	Label totalCarbsLabel = new Label(totalCarbs + "");
+	Label totalFiberLabel = new Label(totalFiber + "");
+	Label totalProteinLabel = new Label(totalProtein + "");
+	Label foodCountLabel = new Label("Count: "+foodCount);
+	Label menuCountLabel = new Label("Count: "+menuCount);
+	
 	@Override
 	public void start(Stage primaryStage) {
 		class FoodListItem extends ListCell<FoodItem>{
@@ -93,17 +108,18 @@ public class Main extends Application {
 	                	button.setOnAction(new EventHandler<ActionEvent>() {
 	                    @Override
 	                    public void handle(ActionEvent event) {
-	                    	System.out.println("Remove " + getItem());
-	                        getListView().getItems().remove(getItem());
+	                    	//System.out.println("Remove " + getItem());
+	                    	subFromMenu(getItem());
+	                        //getListView().getItems().remove(getItem());
 	                    }
 	                });
 	                } else {
 	                	button.setOnAction(new EventHandler<ActionEvent>() {
 	                        @Override
 	                        public void handle(ActionEvent event) {
-	                            //target.add(getItem());
-	                            menuList.add(getItem());
-	                        	System.out.println("Add " + getItem());
+	                            addToMenu(getItem());
+	                        	//menuList.add(getItem());
+	                        	//System.out.println("Add " + getItem());
 	                            //getListView().getItems().remove(getItem());
 	                        }
 	                    });
@@ -178,42 +194,68 @@ public class Main extends Application {
       
         
         
-        // right pane
-        //TODO add menu food here
-        menuList.add(new FoodItem("0","1 Food"));
-        menuList.add(new FoodItem("1","2 Food"));
-        menuList.add(new FoodItem("2","3 Food"));
-        menuList.add(new FoodItem("3","4 Food"));
+        // right menu pane
+        //menuList.add(new FoodItem("0","1 Food"));
+        //menuList.add(new FoodItem("1","2 Food"));
+        //menuList.add(new FoodItem("2","3 Food"));
+        //menuList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         
         listViewRight.setCellFactory(param -> new FoodListItem(true));
-        //VBox VBoxRight = new VBox();
-				//VBoxRight.getChildren().addAll(getHeader(),listViewRight);
         Label VBoxRightLabel = new Label("Meal");
         VBoxRightLabel.setFont(new Font("Arial",18));
-        //VBoxRightLabel.setAlignment(Pos.TOP_CENTER);
+        GridPane menuTotals = new GridPane();
+		for (int col = 0 ; col < 7; col++ ) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100/(7*1.0));
+            menuTotals.getColumnConstraints().add(cc);
+		}
+		menuTotals.add(new Label("Totals"), 0, 0);
+		menuTotals.add(totalCalsLabel, 1, 0);
+		menuTotals.add(totalFatsLabel, 2, 0);
+		menuTotals.add(totalCarbsLabel, 3, 0);
+		menuTotals.add(totalFiberLabel, 4, 0);
+		menuTotals.add(totalProteinLabel, 5, 0);
+		menuTotals.add(menuCountLabel, 6, 0);
         VBox VBoxRight = new VBox(10,VBoxRightLabel);
-        VBoxRight.getChildren().addAll(getHeader(),listViewRight);
+        VBoxRight.getChildren().addAll(getHeader(),listViewRight,menuTotals);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
         VBoxRight.setMinWidth(600);
         //bPane.setRight(VBoxRight);
         BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
         
         
-     // left pane
+     // left food pane
         //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
         //TODO add food items here
-        foodList.add(new FoodItem("0","1 Food"));
-        foodList.add(new FoodItem("1","2 Food"));
-        foodList.add(new FoodItem("2","3 Food"));
-        foodList.add(new FoodItem("3","4 Food"));
+        FoodItem f1 = new FoodItem("0","Soda");
+        f1.addNutrient("Calories", 123.4);
+        f1.addNutrient("Fats", 0);
+        f1.addNutrient("Carbs", 23);
+        f1.addNutrient("Fiber", 0);
+        f1.addNutrient("Protein", .1);
+        FoodItem f2 = new FoodItem("1","Pizza");
+        f2.addNutrient("Calories", 200);
+        f2.addNutrient("Fats", 20);
+        f2.addNutrient("Carbs", 25);
+        f2.addNutrient("Fiber", 10);
+        f2.addNutrient("Protein", 14);
+        FoodItem f3 = new FoodItem("2","Bread Sticks");
+        f3.addNutrient("Calories", 150);
+        f3.addNutrient("Fats", 10);
+        f3.addNutrient("Carbs", 30);
+        f3.addNutrient("Fiber", 7);
+        f3.addNutrient("Protein", 2);
+        foodList.add(f1);
+        foodList.add(f2);
+        foodList.add(f3);
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem(false));
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
         VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
-        VBoxLeft.getChildren().addAll(getHeader(),listViewLeft);
+        VBoxLeft.getChildren().addAll(getHeader(),listViewLeft,foodCountLabel);
         VBoxLeft.setAlignment(Pos.TOP_CENTER);
         VBoxLeft.setMinWidth(600);
         
@@ -452,7 +494,7 @@ public class Main extends Application {
 		gPane.add(new Label("Fats"), 2, 0);
 		gPane.add(new Label("Carbs"), 3, 0);
 		gPane.add(new Label("Fiber"), 4, 0);
-		gPane.add(new Label("Protien"), 5, 0);
+		gPane.add(new Label("Protein"), 5, 0);
 		gPane.add(new Label(""), 6, 0);
 		return gPane;
 	}
@@ -507,7 +549,36 @@ public class Main extends Application {
 		foodList.add(f);
 	}
 	
-	
+	public void addToMenu(FoodItem f){
+		menuList.add(f);
+		menuCount++;
+		totalCals += f.getNutrientValue("Calories");
+		totalFats += f.getNutrientValue("Fats");
+		totalCarbs += f.getNutrientValue("Carbs");
+		totalFiber += f.getNutrientValue("Fiber");
+		totalProtein += f.getNutrientValue("Protein");
+		totalCalsLabel.setText(totalCals + "");
+		totalFatsLabel.setText(totalFats + "");
+		totalCarbsLabel.setText(totalCarbs + "");
+		totalFiberLabel.setText(totalFiber + "");
+		totalProteinLabel.setText(totalProtein + "");
+		menuCountLabel.setText("Count: "+menuCount);
+	}
+	public void subFromMenu(FoodItem f){
+		menuList.remove(f);
+		menuCount--;
+		totalCals -= f.getNutrientValue("Calories");
+		totalFats -= f.getNutrientValue("Fats");
+		totalCarbs -= f.getNutrientValue("Carbs");
+		totalFiber -= f.getNutrientValue("Fiber");
+		totalProtein -= f.getNutrientValue("Protein");
+		totalCalsLabel.setText(totalCals + "");
+		totalFatsLabel.setText(totalFats + "");
+		totalCarbsLabel.setText(totalCarbs + "");
+		totalFiberLabel.setText(totalFiber + "");
+		totalProteinLabel.setText(totalProtein + "");
+		menuCountLabel.setText("Count: "+menuCount);
+	}
 	public static void main(String[] args) {
 		launch(args);
 	}
