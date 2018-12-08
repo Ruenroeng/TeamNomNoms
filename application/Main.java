@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -136,7 +137,7 @@ public class Main extends Application {
 	        }
 		}
 		FoodData foodMaster = new FoodData();
-    ObservableList<FoodItem> foodList = FXCollections.observableArrayList();           
+		ObservableList<FoodItem> foodList = FXCollections.observableArrayList();           
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
       
@@ -153,15 +154,15 @@ public class Main extends Application {
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
-                  //File file = fileChooser.showOpenDialog(primaryStage);
-                  //String fileName = file.getName();
-            	  String fileName = "test.txt";
-                  /*try {
+                  File file = fileChooser.showOpenDialog(primaryStage);
+                  String fileName = file.getName();
+            	  //String fileName = "test.txt";
+                  try {
                 	  Files.lines(file.toPath());
                   } catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
-                  }*/
+                  }
                   foodMaster.loadFoodItems(fileName);
                   foodList.setAll(foodMaster.getAllFoodItems());
                   if (fileName.equals("ERROR")) {
