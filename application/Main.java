@@ -26,6 +26,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -162,7 +163,7 @@ public class Main extends Application {
                 	  invalidFileAlert.show();
                   }*/
                   foodMaster.loadFoodItems(fileName);
-                  foodList.addAll(foodMaster.getAllFoodItems());
+                  foodList.setAll(foodMaster.getAllFoodItems());
                   if (fileName.equals("ERROR")) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
@@ -484,7 +485,7 @@ public class Main extends Application {
     AddItemButton.setOnAction(
         new EventHandler<ActionEvent>() {
           @Override
-          public void handle(final ActionEvent e) {
+          public void handle(ActionEvent e) {
             String nameValue;
             Double caloriesValue;
             Double fatsValue;
@@ -554,7 +555,7 @@ public class Main extends Application {
             newFood.addNutrient("fiber", fiberValue);
             newFood.addNutrient("protein", proteinValue);
             foodMaster.addFoodItem(newFood);
-            resetDisplay(foodMaster);
+            foodList.setAll(foodMaster.getAllFoodItems());
           }
         }
     );
@@ -644,11 +645,8 @@ public class Main extends Application {
 	}
 	
 	public void resetDisplay(FoodData d) {
-		foodList.clear();
-		for(FoodItem f : d.getAllFoodItems()) {
-			foodList.add(f);
+		foodList.setAll(d.getAllFoodItems());
 		}
-	}
 	
 	public void addToDisplay( FoodItem f) {
 		foodList.add(f);

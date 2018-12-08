@@ -49,7 +49,8 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public void loadFoodItems(String filePath){ 
-    	try {
+    	foodItemList.clear();
+      try {
         BufferedReader inStream = new BufferedReader(new FileReader(filePath));
         String inLine;
         try {
@@ -157,7 +158,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public void addFoodItem(FoodItem foodItem) {
-        // TODO : Complete
+      foodItemList.add(foodItem);
     }
 
     /*
