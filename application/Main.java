@@ -200,13 +200,13 @@ public class Main extends Application {
                   //File file = fileChooser.showOpenDialog(primaryStage);
                   //String fileName = file.getName();
                 String fileName = "newList.txt";
-                foodMaster.saveFoodItems(fileName);
                 Path path = FileSystems.getDefault().getPath(fileName);
                 try {
                 Files.newBufferedWriter(path);
                 if (!Files.isWritable(path)) {
                 	throw new Exception();
                 }
+                foodMaster.saveFoodItems(fileName);
                 } catch (Exception e1) {
                 	Alert invalidFileAlert = new Alert(AlertType.ERROR, "Cannot write to file.");
                     invalidFileAlert.show();
