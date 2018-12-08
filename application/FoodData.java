@@ -137,11 +137,30 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public List<FoodItem> filterByNutrients(List<String> rules) {
-    	List <FoodItem> filteredList = foodItemList;
+    	List <FoodItem> filteredList = new ArrayList<FoodItem>();
+    	for (FoodItem food : foodItemList) {
+    		filteredList.add(food);
+    	}
         for (String rule : rules) {
         	List<FoodItem> singleRuleResult;
-        	String[] ruleParts = rule.split("^");
+        	String[] ruleParts = rule.split(" ");
         	String macro = ruleParts[0].trim();
+        	switch(macro.charAt(2)) {
+        	case 'r':
+        		macro = "carbohydrate";
+        		break;
+        	case 'l':
+        		macro = "calories";
+        		break;
+        	case 't':
+        		macro = "fat";
+        		break;
+        	case 'b':
+        		macro = "fiber";
+        		break;
+        	default:
+        		macro = "protein";
+        	}
         	String comparator = ruleParts[1].trim();
         	double value = Double.parseDouble(ruleParts[2].trim());
         	switch(macro.charAt(2)) {
@@ -164,7 +183,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
         	filteredList.retainAll(singleRuleResult);
         	
         }
-        return null;
+        return filteredList;
     }
 
     /*

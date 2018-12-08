@@ -8,6 +8,8 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -70,7 +72,7 @@ public class Main extends Application {
 			Label fatLabel = new Label();
 			Label carbsLabel = new Label();
 			Label fiberLabel = new Label();
-			Label protienLabel = new Label();
+			Label proteinLabel = new Label();
 			Button button = new Button();
 			//ObservableList<FoodItem> target;
 			String buttonText;
@@ -85,6 +87,7 @@ public class Main extends Application {
 				for (int col = 0 ; col < numCols; col++ ) {
 		            ColumnConstraints cc = new ColumnConstraints();
 		            cc.setPercentWidth(100/(numCols*1.0));
+		            cc.setMaxWidth(60);
 		            //cc.setFillWidth(true);
 		            //cc.setHgrow(Priority.ALWAYS);
 		            gPane.getColumnConstraints().add(cc);
@@ -94,7 +97,7 @@ public class Main extends Application {
 				gPane.add(fatLabel, 2, 0);
 				gPane.add(carbsLabel, 3, 0);
 				gPane.add(fiberLabel, 4, 0);
-				gPane.add(protienLabel, 5, 0);
+				gPane.add(proteinLabel, 5, 0);
 				gPane.add(button, 6, 0);
 			}
 			@Override
@@ -104,12 +107,18 @@ public class Main extends Application {
 	            if (empty) {
 	                setGraphic(null);
 	            } else {
+	            	nameLabel.setWrapText(true);
+	            	calsLabel.setWrapText(true);
+	            	fatLabel.setWrapText(true);
+	            	carbsLabel.setWrapText(true);
+	            	fiberLabel.setWrapText(true);
+	            	proteinLabel.setWrapText(true);
 	                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
 	                calsLabel.setText(item.getNutrientValue("calories")+"");
 	                fatLabel.setText(item.getNutrientValue("fat")+"");
 	                carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
 	                fiberLabel.setText(item.getNutrientValue("fiber")+"");
-	                protienLabel.setText(item.getNutrientValue("protein")+"");
+	                proteinLabel.setText(item.getNutrientValue("protein")+"");
 	                button.setText(this.buttonText);
 	                
 	                if(this.isMeal) {
@@ -137,9 +146,7 @@ public class Main extends Application {
 	                setGraphic(gPane);
 	            }
 	        }
-		}
-		FoodData foodMaster = new FoodData();
-		ObservableList<FoodItem> foodList = FXCollections.observableArrayList();           
+		}          
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
       
@@ -401,14 +408,23 @@ public class Main extends Application {
         	@Override
             public void handle(ActionEvent e) {
         	appliedFilters.getChildren().clear();
+        	try {
+        	applyFilters(appliedFilters);
+        	} catch(Exception e1) {
+        		
+        	}
         }});
         
         // create actions for when apply filters button is pressed
         applyButton.setOnAction( new EventHandler<ActionEvent>(){
         	@Override
             public void handle(ActionEvent e) {
-        	Alert notImplementedYetAlert = new Alert(AlertType.INFORMATION, "Functionality not yet implemented.");
-        	notImplementedYetAlert.show();
+        		try {
+        			applyFilters(appliedFilters);
+        			} catch(Exception e1) {
+        				Alert noFiltersAlert = new Alert(AlertType.INFORMATION, "No filters selected.");
+        				noFiltersAlert.show();
+        			}
         }});
         filterArea.add(appliedFilters, 0, 2);
         //RowConstraints rr = new RowConstraints();
@@ -627,6 +643,7 @@ public class Main extends Application {
 		for (int col = 0 ; col < numCols; col++ ) {
             ColumnConstraints cc = new ColumnConstraints();
             cc.setPercentWidth(100/(numCols*1.0));
+            cc.setMaxWidth(60);
             //cc.setFillWidth(true);
             //cc.setHgrow(Priority.ALWAYS);
             gPane.getColumnConstraints().add(cc);
@@ -680,7 +697,20 @@ public class Main extends Application {
 		
 	}
 	
-	public void applyFilters(VBox Filters) {
+	public void applyFilters(VBox filters) throws Exception {
+		if (filters.getChildren().isEmpty()) {
+			resetDisplay(foodMaster);
+			return;
+		}
+		List<String> filterList = new ArrayList<String>();
+		ObservableList<Node> filterNodes = filters.getChildren();
+		for (Node filterNode : filterNodes) {
+			Label filterLabel = (Label)filterNode;
+			String filter = filterLabel.getText();
+			filterList.add(filter);
+		}
+		List<FoodItem> filteredList = foodMaster.filterByNutrients(filterList);
+		foodList.retainAll(filteredList);
 		
 	}
 	
