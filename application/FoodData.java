@@ -45,6 +45,15 @@ public class FoodData implements FoodDataADT<FoodItem> {
         foodItemList = new ArrayList<FoodItem>();
     }
     
+    public void clearFoodData() {
+    	foodItemList.clear();
+    	calorieTree.clear();
+    	fatTree.clear();
+    	carbTree.clear();
+    	fiberTree.clear();
+    	proteinTree.clear();
+    }
+    
     
     /*
      * (non-Javadoc)
@@ -52,7 +61,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public void loadFoodItems(String filePath){ 
-    	foodItemList.clear();
+    	clearFoodData();
       try {
         BufferedReader inStream = new BufferedReader(new FileReader(filePath));
         String inLine;
@@ -97,14 +106,14 @@ public class FoodData implements FoodDataADT<FoodItem> {
     		
     	}
         } catch(IOException e) {
-        	filePath ="ERROR";
+        	
         } finally {
         	inStream.close();
         }
     	} catch (FileNotFoundException e) {
-    		filePath = "ERROR";
+    		
     	} catch (IOException e) {
-    		filePath = "ERROR";
+    		
     	}
     }
     
