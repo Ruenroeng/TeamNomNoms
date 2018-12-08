@@ -643,6 +643,10 @@ public class Main extends Application {
 		
 	}
 	
+	public void applyFilters(VBox Filters) {
+		
+	}
+	
 	public void resetDisplay(FoodData d) {
 		foodList.clear();
 		for(FoodItem f : d.getAllFoodItems()) {
