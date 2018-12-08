@@ -185,7 +185,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
       String saveString = new String();
       
       try {
-        BufferedWriter Writer = new BufferedWriter(new FileWriter("testWrite.txt"));
+        BufferedWriter Writer = new BufferedWriter(new FileWriter(filePath));
         while (itr.hasNext()) {
           StringBuilder sb = new StringBuilder();
           currFood = itr.next();
