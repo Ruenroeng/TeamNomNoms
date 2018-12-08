@@ -445,6 +445,14 @@ public class Main extends Application {
     TextField LabelField;
     int row = 1;
     
+  //Name Field Build
+    LabelString = "UniqueID";
+    TextField UniqueIDField = new TextField();
+    LabelField = UniqueIDField;
+    row++;
+            
+    addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
+    
     //Name Field Build
     LabelString = "Name";
     TextField NameField = new TextField();
@@ -499,12 +507,22 @@ public class Main extends Application {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent e) {
+            String uniqueIDValue;
             String nameValue;
             Double caloriesValue;
             Double fatsValue;
             Double carbsValue;
             Double fiberValue;
             Double proteinValue;
+            try {
+              uniqueIDValue = UniqueIDField.getText();
+              if (uniqueIDValue.equals("")) throw new Exception(); 
+            }
+            catch(Exception err) {
+            Alert BlankNameAlert = new Alert(AlertType.ERROR, "A unique ID must be specified.");
+              BlankNameAlert.show();
+              return;
+            }
             try {
               nameValue = NameField.getText();
               if (nameValue.equals("")) throw new Exception(); 
@@ -554,14 +572,8 @@ public class Main extends Application {
               nonNumericValueAlert.show();
               return; 
             }
-            String uniqueID = nameValue+caloriesValue+fatsValue+carbsValue+fiberValue+proteinValue;
-            try {
-              uniqueID = generateSHA256(uniqueID);
-            } catch (NoSuchAlgorithmException e1) {
-              e1.printStackTrace();
-            }
-            uniqueID = uniqueID.substring(0, 24);
-            FoodItem newFood = new FoodItem(uniqueID, nameValue);
+
+            FoodItem newFood = new FoodItem(uniqueIDValue, nameValue);
             newFood.addNutrient("calories", caloriesValue);
             newFood.addNutrient("fat", fatsValue);
             newFood.addNutrient("carbohydrate", carbsValue);
@@ -573,7 +585,7 @@ public class Main extends Application {
         }
     );
   }
-  public String generateSHA256(String input) throws NoSuchAlgorithmException {
+  private String generateSHA256(String input) throws NoSuchAlgorithmException {
     return generateString(input, "SHA-256", 64);
 }
   

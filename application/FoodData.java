@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -172,8 +173,13 @@ public class FoodData implements FoodDataADT<FoodItem> {
     public List<FoodItem> getAllFoodItems() {
         return foodItemList;
     }
+    
+    /**
+     * Save the list of food items in ascending order by name
+     * 
+     * @param filename name of the file where the data needs to be saved 
+     */
     public void saveFoodItems(String filePath) {
-//TODO Sort the list
       Iterator<FoodItem> itr = this.foodItemList.iterator();
       FoodItem currFood = null;
       String saveString = new String();
@@ -198,4 +204,19 @@ public class FoodData implements FoodDataADT<FoodItem> {
         System.out.println("Could not write to file.");
       }
     }
+    private class stringComparator  implements Comparator<String> {
+      public int compare(String obj1, String obj2) {
+        if (obj1 == obj2) {
+            return 0;
+        }
+        if (obj1 == null) {
+            return -1;
+        }
+        if (obj2 == null) {
+            return 1;
+        }
+        return obj1.compareTo(obj2);
+      }
+    }
 }
+
