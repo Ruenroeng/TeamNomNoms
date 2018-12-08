@@ -11,7 +11,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * This class represents the backend for managing all 
@@ -192,12 +194,19 @@ public class FoodData implements FoodDataADT<FoodItem> {
       Iterator<FoodItem> itr = this.foodItemList.iterator();
       FoodItem currFood = null;
       String saveString = new String();
+      TreeMap<String, FoodItem> map = new TreeMap<String, FoodItem>();
+      while (itr.hasNext()) {
+    	  currFood = itr.next();
+    	  map.put(currFood.getName(), currFood);
+      }
       
       try {
         BufferedWriter Writer = new BufferedWriter(new FileWriter(filePath));
-        while (itr.hasNext()) {
+        Set<Map.Entry<String, FoodItem>> foodItems = map.entrySet();
+        Iterator<Map.Entry<String, FoodItem>> itr2 = foodItems.iterator();
+        while (itr2.hasNext()) {
           StringBuilder sb = new StringBuilder();
-          currFood = itr.next();
+          currFood = itr2.next().getValue();
           sb.append(currFood.getID()+",");
           sb.append(currFood.getName()+",");
           sb.append("calories"+","+currFood.getNutrientValue("calories")+",");

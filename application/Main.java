@@ -199,7 +199,7 @@ public class Main extends Application {
               public void handle(final ActionEvent e) {
                   //File file = fileChooser.showOpenDialog(primaryStage);
                   //String fileName = file.getName();
-                String fileName = "newList.txt";
+                String fileName = "testWrite.txt";
                 Path path = FileSystems.getDefault().getPath(fileName);
                 try {
                 Files.newBufferedWriter(path);
