@@ -218,7 +218,6 @@ public class Main extends Application {
         
         
         // right pane
-        //TODO add menu food here
         //menuList.add(new FoodItem("0","1 Food"));
         //menuList.add(new FoodItem("1","2 Food"));
         //menuList.add(new FoodItem("2","3 Food"));
@@ -310,22 +309,7 @@ public class Main extends Application {
         //Begin Code on Item Details Box
         
         GridPane ItemDetailsBox = new GridPane();
-        constructItemDetailsBox(ItemDetailsBox,foodMaster,foodList);
-        
-        saveFoodButton.setOnAction(
-            new EventHandler<ActionEvent>() {
-              @Override
-              public void handle(final ActionEvent e) {
-                  //File file = fileChooser.showOpenDialog(primaryStage);
-                  //String fileName = file.getName();
-                String fileName = "newList.txt";
-                  foodMaster.saveFoodItems(fileName);                  
-                  if (fileName.equals("ERROR")) {
-                    Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
-                    invalidFileAlert.show();
-                  }
-                }
-            });   
+        constructItemDetailsBox(ItemDetailsBox,foodMaster,foodList);   
         
         HBoxBottom.getChildren().add(ItemDetailsBox);        
         HBox.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
@@ -580,7 +564,7 @@ public class Main extends Application {
             uniqueID = uniqueID.substring(0, 24);
             FoodItem newFood = new FoodItem(uniqueID, nameValue);
             newFood.addNutrient("calories", caloriesValue);
-            newFood.addNutrient("fats", fatsValue);
+            newFood.addNutrient("fat", fatsValue);
             newFood.addNutrient("carbohydrate", carbsValue);
             newFood.addNutrient("fiber", fiberValue);
             newFood.addNutrient("protein", proteinValue);

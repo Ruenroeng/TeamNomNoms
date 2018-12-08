@@ -1,11 +1,14 @@
 package application;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -167,10 +170,32 @@ public class FoodData implements FoodDataADT<FoodItem> {
      */
     @Override
     public List<FoodItem> getAllFoodItems() {
-
         return foodItemList;
     }
-    public void saveFoodItems(String inputFile) {
-    	
+    public void saveFoodItems(String filePath) {
+//TODO Sort the list
+      Iterator<FoodItem> itr = this.foodItemList.iterator();
+      FoodItem currFood = null;
+      String saveString = new String();
+      
+      try {
+        BufferedWriter Writer = new BufferedWriter(new FileWriter("testWrite.txt"));
+        while (itr.hasNext()) {
+          StringBuilder sb = new StringBuilder();
+          currFood = itr.next();
+          sb.append(currFood.getID()+",");
+          sb.append(currFood.getName()+",");
+          sb.append("calories"+","+currFood.getNutrientValue("calories")+",");
+          sb.append("fat"+","+currFood.getNutrientValue("fat")+",");
+          sb.append("carbohydrate"+","+currFood.getNutrientValue("carbohydrate")+",");
+          sb.append("fiber"+","+currFood.getNutrientValue("fiber")+",");
+          sb.append("protein"+","+currFood.getNutrientValue("protein"));
+          saveString = sb.toString();
+          Writer.write(saveString+"\n");
+        } 
+        Writer.close();
+      } catch (Exception e) {
+        System.out.println("Could not write to file.");
+      }
     }
 }
