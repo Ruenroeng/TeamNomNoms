@@ -2,8 +2,10 @@ package application;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -158,14 +160,16 @@ public class Main extends Application {
                   String fileName = file.getName();
             	  //String fileName = "test.txt";
                   try {
+                	  Path path = FileSystems.getDefault().getPath(fileName);
+                	  if (!Files.exists(path)) {
+                		  Alert noFileAlert = new Alert(AlertType.ERROR, "File Doesn't exist.");
+                		  noFileAlert.show();
+                		  return;
+                	  }
                 	  Files.lines(file.toPath());
+                	  foodMaster.loadFoodItems(fileName);
+                      foodList.setAll(foodMaster.getAllFoodItems());
                   } catch(IOException e1) {
-                	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
-                	  invalidFileAlert.show();
-                  }
-                  foodMaster.loadFoodItems(fileName);
-                  foodList.setAll(foodMaster.getAllFoodItems());
-                  if (fileName.equals("ERROR")) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
                   }
@@ -196,11 +200,17 @@ public class Main extends Application {
                   //File file = fileChooser.showOpenDialog(primaryStage);
                   //String fileName = file.getName();
                 String fileName = "newList.txt";
-                  foodMaster.saveFoodItems(fileName);                  
-                  if (fileName.equals("ERROR")) {
-                    Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
+                foodMaster.saveFoodItems(fileName);
+                Path path = FileSystems.getDefault().getPath(fileName);
+                try {
+                Files.newBufferedWriter(path);
+                if (!Files.isWritable(path)) {
+                	throw new Exception();
+                }
+                } catch (Exception e1) {
+                	Alert invalidFileAlert = new Alert(AlertType.ERROR, "Cannot write to file.");
                     invalidFileAlert.show();
-                  }
+                }
                 }
             });
         VBox fileButtons = new VBox();
