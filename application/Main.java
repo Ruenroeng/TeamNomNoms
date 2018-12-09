@@ -113,13 +113,13 @@ public class Main extends Application {
 	            	carbsLabel.setWrapText(true);
 	            	fiberLabel.setWrapText(true);
 	            	proteinLabel.setWrapText(true);
-                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-                calsLabel.setText(item.getNutrientValue("calories")+"");
-                fatLabel.setText(item.getNutrientValue("fat")+"");
-                carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
-                fiberLabel.setText(item.getNutrientValue("fiber")+"");
-                proteinLabel.setText(item.getNutrientValue("protein")+"");
-                button.setText(this.buttonText);
+	            	nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
+	            	calsLabel.setText(item.getNutrientValue("calories")+"");
+	            	fatLabel.setText(item.getNutrientValue("fat")+"");
+	            	carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
+	            	fiberLabel.setText(item.getNutrientValue("fiber")+"");
+	            	proteinLabel.setText(item.getNutrientValue("protein")+"");
+	            	button.setText(this.buttonText);
 	                
 	                if(this.isMeal) {
 	                	button.setOnAction(new EventHandler<ActionEvent>() {
@@ -163,10 +163,10 @@ public class Main extends Application {
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
-                  File file = fileChooser.showOpenDialog(primaryStage);
-                  String fileName = file.getName();
-            	  //String fileName = "test.txt";
-                  try {
+                  //File file = fileChooser.showOpenDialog(primaryStage);
+                  //String fileName = file.getName();
+            	  String fileName = "foodItems.txt";
+                  /*try {
                 	  Path path = FileSystems.getDefault().getPath(fileName);
                 	  if (!Files.exists(path)) {
                 		  Alert noFileAlert = new Alert(AlertType.ERROR, "File Doesn't exist.");
@@ -177,10 +177,10 @@ public class Main extends Application {
                 	  foodMaster.loadFoodItems(fileName);
                       //foodList.setAll(foodMaster.getAllFoodItems());
                       resetDisplay(foodMaster);
-                  } catch(IOException e1) {
+                  /*} catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
-                  }
+                  }*/
                   //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
                  /*( if (file != null) {
                     long counter;

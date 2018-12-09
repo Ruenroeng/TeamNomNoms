@@ -167,6 +167,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
         		macro = "protein";
         	}
         	String comparator = ruleParts[1].trim();
+        	comparator = (comparator.equals("="))? "==": comparator;
         	double value = Double.parseDouble(ruleParts[2].trim());
         	switch(macro.charAt(2)) {
         	case 'r':
