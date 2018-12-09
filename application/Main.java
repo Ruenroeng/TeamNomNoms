@@ -223,9 +223,9 @@ public class Main extends Application {
         VBox fileButtons = new VBox();
         
         fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
-        HBoxTop.getChildren().addAll(title,fileButtons);
+        HBoxTop.getChildren().addAll(fileButtons,title);
         HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
-        HBoxTop.setAlignment(Pos.CENTER_RIGHT);
+        HBoxTop.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(title, Priority.ALWAYS);
         HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
         HBoxTop.setMinHeight(50);
