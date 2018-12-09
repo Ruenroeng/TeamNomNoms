@@ -167,6 +167,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
         		macro = "protein";
         	}
         	String comparator = ruleParts[1].trim();
+        	comparator = (comparator.equals("="))? "==": comparator;
         	double value = Double.parseDouble(ruleParts[2].trim());
         	switch(macro.charAt(2)) {
         	case 'r':
@@ -198,6 +199,11 @@ public class FoodData implements FoodDataADT<FoodItem> {
     @Override
     public void addFoodItem(FoodItem foodItem) {
       foodItemList.add(foodItem);
+      calorieTree.insert(foodItem.getNutrientValue("calories"), foodItem);
+      fatTree.insert(foodItem.getNutrientValue("fat"), foodItem);
+      carbTree.insert(foodItem.getNutrientValue("carbohydrate"), foodItem);
+      fiberTree.insert(foodItem.getNutrientValue("fiber"), foodItem);
+      proteinTree.insert(foodItem.getNutrientValue("protein"), foodItem);
     }
 
     /*
