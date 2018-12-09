@@ -163,23 +163,23 @@ public class Main extends Application {
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
-                  File file = fileChooser.showOpenDialog(primaryStage);
-                  String fileName = file.getName();
-            	  //String fileName = "test.txt";
-                  try {
+                  //File file = fileChooser.showOpenDialog(primaryStage);
+                  //String fileName = file.getName();
+            	  String fileName = "foodItems.txt";
+                  /*try {
                 	  Path path = FileSystems.getDefault().getPath(fileName);
                 	  if (!Files.exists(path)) {
                 		  Alert noFileAlert = new Alert(AlertType.ERROR, "File Doesn't exist.");
                 		  noFileAlert.show();
                 		  return;
-                	  }
-                	  Files.lines(file.toPath());
+                	  }*/
+                	  //Files.lines(file.toPath());
                 	  foodMaster.loadFoodItems(fileName);
                       foodList.setAll(foodMaster.getAllFoodItems());
-                  } catch(IOException e1) {
+                  /*} catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
-                  }
+                  }*/
                   //foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
                  /*( if (file != null) {
                     long counter;
