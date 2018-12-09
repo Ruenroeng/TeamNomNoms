@@ -215,7 +215,7 @@ public class Main extends Application {
         clearMenuButton.setOnAction(new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
-            	  menuList.clear();
+            	  clearMenu();
               }
             });
         
@@ -786,6 +786,24 @@ public class Main extends Application {
 		foodList.add(f);
 	}
 	*/
+	
+	public void clearMenu() {
+		menuList.clear();
+		menuCount = 0;
+		totalCals = 0;
+		totalFats = 0;
+		totalCarbs = 0;
+		totalFiber = 0;
+		totalProtein = 0;
+		//displaying text
+		totalCalsLabel.setText(totalCals + "");
+		totalFatsLabel.setText(totalFats + "");
+		totalCarbsLabel.setText(totalCarbs + "");
+		totalFiberLabel.setText(totalFiber + "");
+		totalProteinLabel.setText(totalProtein + "");
+		menuCountLabel.setText("Count: "+menuCount);
+	}
+	
 	public void addToMenu(FoodItem f){
 		menuList.add(f);
 		menuCount++;
