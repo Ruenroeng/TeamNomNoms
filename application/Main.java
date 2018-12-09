@@ -200,7 +200,7 @@ public class Main extends Application {
           });
         Button saveFoodButton = new Button();
         saveFoodButton.setText("Save Food List");
-       saveFoodButton.setOnAction(
+        saveFoodButton.setOnAction(
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
