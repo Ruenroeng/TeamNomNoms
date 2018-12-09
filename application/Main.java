@@ -37,6 +37,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -151,7 +152,8 @@ public class Main extends Application {
         Scene scene = new Scene(bPane,1600,750);
       
         // top pane
-        HBox HBoxTop = new HBox(500);
+        //HBox HBoxTop = new HBox();
+        GridPane gPaneTop = new GridPane();
         Label title = new Label("NomNom Meal Prep Program.");
         title.setUnderline(true);
         title.setFont(new Font("Arial",20));
@@ -233,14 +235,33 @@ public class Main extends Application {
               }
             });
         
-        HBoxTop.getChildren().addAll(fileButtons,title,clearMenuButton);
-        HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
-        HBoxTop.setAlignment(Pos.CENTER_LEFT);
+        gPaneTop.add(fileButtons, 0, 0);
+        gPaneTop.add(title, 1, 0);
+        gPaneTop.add(clearMenuButton, 2, 0);
+        
+        ColumnConstraints lc = new ColumnConstraints();
+        lc.setPercentWidth(100/(3*1.0));
+        lc.setHalignment(HPos.LEFT);
+        gPaneTop.getColumnConstraints().add(lc);
+        
+        ColumnConstraints c = new ColumnConstraints();
+        c.setPercentWidth(100/(3*1.0));
+        c.setHalignment(HPos.CENTER);
+        gPaneTop.getColumnConstraints().add(c);
+        
+        ColumnConstraints rc = new ColumnConstraints();
+        rc.setPercentWidth(100/(3*1.0));
+        rc.setHalignment(HPos.RIGHT);
+        gPaneTop.getColumnConstraints().add(rc);
+        
+        //HBoxTop.getChildren().addAll(fileButtons,title,clearMenuButton);
+        HBox.setMargin(gPaneTop, new Insets(10,10,10,10));
+        //HBoxTop.setAlignment(Pos.CENTER_LEFT);
         //HBox.setHgrow(title, Priority.ALWAYS);
         //HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
         //HBox.setHgrow(clearMenuButton, Priority.ALWAYS);
-        HBoxTop.setMinHeight(50);
-        bPane.setTop(HBoxTop);
+        gPaneTop.setMinHeight(50);
+        bPane.setTop(gPaneTop);
         
       
         
