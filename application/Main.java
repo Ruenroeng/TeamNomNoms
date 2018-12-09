@@ -113,13 +113,13 @@ public class Main extends Application {
 	            	carbsLabel.setWrapText(true);
 	            	fiberLabel.setWrapText(true);
 	            	proteinLabel.setWrapText(true);
-	                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-	                calsLabel.setText(item.getNutrientValue("calories")+"");
-	                fatLabel.setText(item.getNutrientValue("fat")+"");
-	                carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
-	                fiberLabel.setText(item.getNutrientValue("fiber")+"");
-	                proteinLabel.setText(item.getNutrientValue("protein")+"");
-	                button.setText(this.buttonText);
+                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
+                calsLabel.setText(item.getNutrientValue("calories")+"");
+                fatLabel.setText(item.getNutrientValue("fat")+"");
+                carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
+                fiberLabel.setText(item.getNutrientValue("fiber")+"");
+                proteinLabel.setText(item.getNutrientValue("protein")+"");
+                button.setText(this.buttonText);
 	                
 	                if(this.isMeal) {
 	                	button.setOnAction(new EventHandler<ActionEvent>() {
@@ -250,18 +250,18 @@ public class Main extends Application {
         Label VBoxRightLabel = new Label("Meal");
         VBoxRightLabel.setFont(new Font("Arial",18));
         GridPane menuTotals = new GridPane();
-		for (int col = 0 ; col < 7; col++ ) {
+        for (int col = 0 ; col < 7; col++ ) {
             ColumnConstraints cc = new ColumnConstraints();
             cc.setPercentWidth(100/(7*1.0));
             menuTotals.getColumnConstraints().add(cc);
-		}
-		menuTotals.add(new Label("Totals"), 0, 0);
-		menuTotals.add(totalCalsLabel, 1, 0);
-		menuTotals.add(totalFatsLabel, 2, 0);
-		menuTotals.add(totalCarbsLabel, 3, 0);
-		menuTotals.add(totalFiberLabel, 4, 0);
-		menuTotals.add(totalProteinLabel, 5, 0);
-		menuTotals.add(menuCountLabel, 6, 0);
+    		}
+    		menuTotals.add(new Label("Totals"), 0, 0);
+    		menuTotals.add(totalCalsLabel, 1, 0);
+    		menuTotals.add(totalFatsLabel, 2, 0);
+    		menuTotals.add(totalCarbsLabel, 3, 0);
+    		menuTotals.add(totalFiberLabel, 4, 0);
+    		menuTotals.add(totalProteinLabel, 5, 0);
+    		menuTotals.add(menuCountLabel, 6, 0);
         VBox VBoxRight = new VBox(10,VBoxRightLabel);
         VBoxRight.getChildren().addAll(getHeader(),listViewRight,menuTotals);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
@@ -310,9 +310,9 @@ public class Main extends Application {
             centerPane.getColumnConstraints().add(cc);
 		}
 		
-		centerPane.add(VBoxLeft, 0, 0);
-		centerPane.add(VBoxRight, 1, 0);
-		bPane.setCenter(centerPane);
+    		centerPane.add(VBoxLeft, 0, 0);
+    		centerPane.add(VBoxRight, 1, 0);
+    		bPane.setCenter(centerPane);
         
         /* bottom pane
          * This will have 3 sections:
@@ -561,43 +561,68 @@ public class Main extends Application {
             }
             try {
               caloriesValue = Double.parseDouble(CaloriesField.getText());
+              if (caloriesValue<0) throw new Exception();
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Calories value \"" + CaloriesField.getText() + "\" is non-numeric.");
               nonNumericValueAlert.show();
               return;
+            }  catch(Exception err) {
+                Alert negativeValueAlert = new Alert(AlertType.ERROR, "Calories cannot be a negative value");
+                negativeValueAlert.show();
+              return;
             }
             try {
               fatsValue = Double.parseDouble(FatsField.getText());
+              if (fatsValue<0) throw new Exception();
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fats value \"" + FatsField.getText() + "\" is non-numeric.");
               nonNumericValueAlert.show();
               return;
-            }
+            }  catch(Exception err) {
+              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Fats cannot be a negative value");
+              negativeValueAlert.show();
+            return;
+            } 
             try {
               carbsValue = Double.parseDouble(CarbsField.getText());
+              if (carbsValue<0) throw new Exception();
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Carbs value \"" + CarbsField.getText() + "\" is non-numeric.");
               nonNumericValueAlert.show();
               return;
+            }  catch(Exception err) {
+              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Carbohydrate cannot be a negative value");
+              negativeValueAlert.show();
+            return;
             }
             try {
               fiberValue = Double.parseDouble(FiberField.getText());
+              if (fiberValue<0) throw new Exception();
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fiber value \"" + FiberField.getText() + "\" is non-numeric.");
               nonNumericValueAlert.show();
               return;
+            }  catch(Exception err) {
+              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Fiber cannot be a negative value");
+              negativeValueAlert.show();
+            return;
             }
             try {
               proteinValue = Double.parseDouble(ProteinField.getText());
+              if (proteinValue<0) throw new Exception();
             }
             catch(NumberFormatException err) {
             Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Protein value \"" + ProteinField.getText() + "\" is non-numeric.");
               nonNumericValueAlert.show();
               return; 
+            }  catch(Exception err) {
+              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Protein cannot be a negative value");
+              negativeValueAlert.show();
+            return;
             }
 
             FoodItem newFood = new FoodItem(uniqueIDValue, nameValue);

@@ -94,8 +94,12 @@ public class FoodData implements FoodDataADT<FoodItem> {
     		newFood.addNutrient(calorieLabel, calorieCount);
     		newFood.addNutrient(fatLabel, fatCount);
     		newFood.addNutrient(carbLabel, carbCount);
-    		newFood.addNutrient(fiberLabel, fiberCount);
+    		newFood.addNutrient(fiberLabel, fiberCount);	
     		newFood.addNutrient(proteinLabel, proteinCount);
+    		if (calorieCount<0||fatCount<0||carbCount<0||fiberCount<0||proteinCount<0) {
+    		  continue;
+    		}
+    		
     		calorieTree.insert(calorieCount, newFood);
     		fatTree.insert(fatCount, newFood);
     		carbTree.insert(carbCount, newFood);
@@ -103,21 +107,22 @@ public class FoodData implements FoodDataADT<FoodItem> {
     		proteinTree.insert(proteinCount, newFood);
     		foodItemList.add(newFood);
     		
+    		
     		} catch (NumberFormatException e) {
     			continue;
+    		  } 
     		}
-    		
-    	}
         } catch(IOException e) {
         	
         } finally {
         	inStream.close();
         }
     	} catch (FileNotFoundException e) {
-    		
+    		System.out.println("File was not found.");
     	} catch (IOException e) {
-    		
-    	}
+    	  System.out.print("Could not write to file.");
+    	} 
+      
     }
     
 
@@ -239,20 +244,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
         Writer.close();
       } catch (Exception e) {
         System.out.println("Could not write to file.");
-      }
-    }
-    private class stringComparator  implements Comparator<String> {
-      public int compare(String obj1, String obj2) {
-        if (obj1 == obj2) {
-            return 0;
-        }
-        if (obj1 == null) {
-            return -1;
-        }
-        if (obj2 == null) {
-            return 1;
-        }
-        return obj1.compareTo(obj2);
       }
     }
 }
