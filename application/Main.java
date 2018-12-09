@@ -175,8 +175,8 @@ public class Main extends Application {
                 	  }
                 	  Files.lines(file.toPath());
                 	  foodMaster.loadFoodItems(fileName);
-                      foodList.setAll(foodMaster.getAllFoodItems());
-                      //TODO
+                      //foodList.setAll(foodMaster.getAllFoodItems());
+                      resetDisplay(foodMaster);
                   } catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
@@ -633,7 +633,8 @@ public class Main extends Application {
             newFood.addNutrient("fiber", fiberValue);
             newFood.addNutrient("protein", proteinValue);
             foodMaster.addFoodItem(newFood);
-            foodList.setAll(foodMaster.getAllFoodItems());
+            resetDisplay(foodMaster);
+            //foodList.setAll(foodMaster.getAllFoodItems());
           }
         }
     );
