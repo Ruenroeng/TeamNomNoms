@@ -172,10 +172,11 @@ public class Main extends Application {
                 		  Alert noFileAlert = new Alert(AlertType.ERROR, "File Doesn't exist.");
                 		  noFileAlert.show();
                 		  return;
-                	  }*/
-                	  //Files.lines(file.toPath());
+                	  }
+                	  Files.lines(file.toPath());
                 	  foodMaster.loadFoodItems(fileName);
-                      foodList.setAll(foodMaster.getAllFoodItems());
+                      //foodList.setAll(foodMaster.getAllFoodItems());
+                      resetDisplay(foodMaster);
                   /*} catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
@@ -200,7 +201,7 @@ public class Main extends Application {
           });
         Button saveFoodButton = new Button();
         saveFoodButton.setText("Save Food List");
-        saveFoodButton.setOnAction(
+       saveFoodButton.setOnAction(
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
@@ -223,9 +224,9 @@ public class Main extends Application {
         VBox fileButtons = new VBox();
         
         fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
-        HBoxTop.getChildren().addAll(title,fileButtons);
+        HBoxTop.getChildren().addAll(fileButtons,title);
         HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
-        HBoxTop.setAlignment(Pos.CENTER_RIGHT);
+        HBoxTop.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(title, Priority.ALWAYS);
         HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
         HBoxTop.setMinHeight(50);
@@ -272,23 +273,23 @@ public class Main extends Application {
         
      // left food pane
         FoodItem f1 = new FoodItem("0","Soda");
-        f1.addNutrient("Calories", 123.4);
-        f1.addNutrient("Fats", 0);
-        f1.addNutrient("Carbs", 23);
-        f1.addNutrient("Fiber", 0);
-        f1.addNutrient("Protein", .1);
+        f1.addNutrient("calories", 123.4);
+        f1.addNutrient("fat", 0);
+        f1.addNutrient("carbohydrate", 23);
+        f1.addNutrient("fiber", 0);
+        f1.addNutrient("protein", .1);
         FoodItem f2 = new FoodItem("1","Pizza");
-        f2.addNutrient("Calories", 200);
-        f2.addNutrient("Fats", 20);
-        f2.addNutrient("Carbs", 25);
-        f2.addNutrient("Fiber", 10);
+        f2.addNutrient("calories", 200);
+        f2.addNutrient("fat", 20);
+        f2.addNutrient("carbohydrate", 25);
+        f2.addNutrient("fiber", 10);
         f2.addNutrient("Protein", 14);
         FoodItem f3 = new FoodItem("2","Bread Sticks");
-        f3.addNutrient("Calories", 150);
-        f3.addNutrient("Fats", 10);
-        f3.addNutrient("Carbs", 30);
-        f3.addNutrient("Fiber", 7);
-        f3.addNutrient("Protein", 2);
+        f3.addNutrient("calories", 150);
+        f3.addNutrient("fat", 10);
+        f3.addNutrient("carbohydrate", 30);
+        f3.addNutrient("fiber", 7);
+        f3.addNutrient("protein", 2);
         foodList.add(f1);
         foodList.add(f2);
         foodList.add(f3);
@@ -632,7 +633,8 @@ public class Main extends Application {
             newFood.addNutrient("fiber", fiberValue);
             newFood.addNutrient("protein", proteinValue);
             foodMaster.addFoodItem(newFood);
-            foodList.setAll(foodMaster.getAllFoodItems());
+            resetDisplay(foodMaster);
+            //foodList.setAll(foodMaster.getAllFoodItems());
           }
         }
     );
@@ -741,20 +743,32 @@ public class Main extends Application {
 	
 	public void resetDisplay(FoodData d) {
 		foodList.setAll(d.getAllFoodItems());
+		updateFoodCount();
 		}
-	
+	public void updateFoodCount() {
+		foodCount = foodList.size();
+	}
+	/*
 	public void addToDisplay( FoodItem f) {
 		foodList.add(f);
 	}
-	
+	*/
 	public void addToMenu(FoodItem f){
 		menuList.add(f);
 		menuCount++;
+		//keeping running totals up to date
 		totalCals += f.getNutrientValue("calories");
 		totalFats += f.getNutrientValue("fat");
 		totalCarbs += f.getNutrientValue("carbohydrate");
 		totalFiber += f.getNutrientValue("fiber");
-		totalProtein += f.getNutrientValue("protein");
+		totalProtein += f.getNutrientValue("protein");	
+		//rounding because we're handling doubles.
+		totalCals = Math.round(totalCals*10.0)/10.0;
+		totalFats  = Math.round(totalFats*10.0)/10.0;
+		totalCarbs = Math.round(totalCarbs*10.0)/10.0;
+		totalFiber = Math.round(totalFiber*10.0)/10.0;
+		totalProtein = Math.round(totalProtein*10.0)/10.0;
+		//displaying text
 		totalCalsLabel.setText(totalCals + "");
 		totalFatsLabel.setText(totalFats + "");
 		totalCarbsLabel.setText(totalCarbs + "");
@@ -765,11 +779,19 @@ public class Main extends Application {
 	public void subFromMenu(FoodItem f){
 		menuList.remove(f);
 		menuCount--;
+		//keeping running totals up to date
 		totalCals -= f.getNutrientValue("calories");
 		totalFats -= f.getNutrientValue("fat");
 		totalCarbs -= f.getNutrientValue("carbohydrate");
 		totalFiber -= f.getNutrientValue("fiber");
 		totalProtein -= f.getNutrientValue("protein");
+		//rounding because we're handling doubles.
+		totalCals = Math.round(totalCals*10.0)/10.0;
+		totalFats  = Math.round(totalFats*10.0)/10.0;
+		totalCarbs = Math.round(totalCarbs*10.0)/10.0;
+		totalFiber = Math.round(totalFiber*10.0)/10.0;
+		totalProtein = Math.round(totalProtein*10.0)/10.0;
+		//displaying text
 		totalCalsLabel.setText(totalCals + "");
 		totalFatsLabel.setText(totalFats + "");
 		totalCarbsLabel.setText(totalCarbs + "");
