@@ -228,6 +228,7 @@ public class Main extends Application {
             });
         VBox fileButtons = new VBox();
         fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
+        fileButtons.setPadding(new Insets(0,0,0,10));
         
         Button clearMenuButton = new Button();
         clearMenuButton.setText("Clear Menu");
@@ -238,9 +239,15 @@ public class Main extends Application {
               }
             });
         
+        HBox clearButtonBox = new HBox();
+        clearButtonBox.getChildren().addAll(clearMenuButton);
+        clearButtonBox.setPadding(new Insets(10,10,0,0));
+        clearButtonBox.setAlignment(Pos.TOP_RIGHT);
+        
+        
         gPaneTop.add(fileButtons, 0, 0);
         gPaneTop.add(title, 1, 0);
-        gPaneTop.add(clearMenuButton, 2, 0);
+        gPaneTop.add(clearButtonBox, 2, 0);
         
         ColumnConstraints lc = new ColumnConstraints();
         lc.setPercentWidth(100/(3*1.0));
@@ -256,13 +263,8 @@ public class Main extends Application {
         rc.setPercentWidth(100/(3*1.0));
         rc.setHalignment(HPos.RIGHT);
         gPaneTop.getColumnConstraints().add(rc);
+
         
-        //HBoxTop.getChildren().addAll(fileButtons,title,clearMenuButton);
-        HBox.setMargin(gPaneTop, new Insets(10,10,10,10));
-        //HBoxTop.setAlignment(Pos.CENTER_LEFT);
-        //HBox.setHgrow(title, Priority.ALWAYS);
-        //HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
-        //HBox.setHgrow(clearMenuButton, Priority.ALWAYS);
         gPaneTop.setMinHeight(50);
         bPane.setTop(gPaneTop);
         
@@ -301,6 +303,7 @@ public class Main extends Application {
         VBoxRight.getChildren().addAll(getHeader(),listViewRight,menuTotals);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
         VBoxRight.setMinWidth(600);
+        VBoxRight.setPadding(new Insets(0,10,0,0));
         //bPane.setRight(VBoxRight);
         BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
         
@@ -336,6 +339,7 @@ public class Main extends Application {
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft,foodCountLabel);
         VBoxLeft.setAlignment(Pos.TOP_CENTER);
         VBoxLeft.setMinWidth(600);
+        VBoxLeft.setPadding(new Insets(0,0,0,10));
         
         GridPane centerPane = new GridPane();
 		int numCols=2;
