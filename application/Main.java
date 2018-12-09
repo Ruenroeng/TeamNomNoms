@@ -633,6 +633,7 @@ public class Main extends Application {
             newFood.addNutrient("fiber", fiberValue);
             newFood.addNutrient("protein", proteinValue);
             foodMaster.addFoodItem(newFood);
+            
             resetDisplay(foodMaster);
             //foodList.setAll(foodMaster.getAllFoodItems());
           }
