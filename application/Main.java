@@ -107,19 +107,19 @@ public class Main extends Application {
 	            if (empty) {
 	                setGraphic(null);
 	            } else {
-	            	nameLabel.setWrapText(true);
-	            	calsLabel.setWrapText(true);
-	            	fatLabel.setWrapText(true);
-	            	carbsLabel.setWrapText(true);
-	            	fiberLabel.setWrapText(true);
-	            	proteinLabel.setWrapText(true);
-	            	nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-	            	calsLabel.setText(item.getNutrientValue("calories")+"");
-	            	fatLabel.setText(item.getNutrientValue("fat")+"");
-	            	carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
-	            	fiberLabel.setText(item.getNutrientValue("fiber")+"");
-	            	proteinLabel.setText(item.getNutrientValue("protein")+"");
-	            	button.setText(this.buttonText);
+	            nameLabel.setWrapText(true);
+	            calsLabel.setWrapText(true);
+	            fatLabel.setWrapText(true);
+	            carbsLabel.setWrapText(true);
+	            fiberLabel.setWrapText(true);
+	            proteinLabel.setWrapText(true);
+                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
+                calsLabel.setText(item.getNutrientValue("calories")+"");
+                fatLabel.setText(item.getNutrientValue("fat")+"");
+                carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
+                fiberLabel.setText(item.getNutrientValue("fiber")+"");
+                proteinLabel.setText(item.getNutrientValue("protein")+"");
+                button.setText(this.buttonText);
 	                
 	                if(this.isMeal) {
 	                	button.setOnAction(new EventHandler<ActionEvent>() {
@@ -222,13 +222,23 @@ public class Main extends Application {
                 }
             });
         VBox fileButtons = new VBox();
-        
         fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
-        HBoxTop.getChildren().addAll(fileButtons,title);
+        
+        Button clearMenuButton = new Button();
+        clearMenuButton.setText("Clear Menu");
+        clearMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(final ActionEvent e) {
+            	  menuList.clear();
+              }
+            });
+        
+        HBoxTop.getChildren().addAll(fileButtons,title,clearMenuButton);
         HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
         HBoxTop.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(title, Priority.ALWAYS);
-        HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
+        //HBox.setHgrow(title, Priority.ALWAYS);
+        //HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
+        //HBox.setHgrow(clearMenuButton, Priority.ALWAYS);
         HBoxTop.setMinHeight(50);
         bPane.setTop(HBoxTop);
         
@@ -676,7 +686,7 @@ public class Main extends Application {
 		}
 		gPane.add(new Label("Name"), 0, 0);
 		gPane.add(new Label("Calories"), 1, 0);
-		gPane.add(new Label("Fats"), 2, 0);
+		gPane.add(new Label("Fat"), 2, 0);
 		gPane.add(new Label("Carbs"), 3, 0);
 		gPane.add(new Label("Fiber"), 4, 0);
 		gPane.add(new Label("Protein"), 5, 0);
@@ -746,6 +756,7 @@ public class Main extends Application {
 		}
 	public void updateFoodCount() {
 		foodCount = foodList.size();
+		foodCountLabel.setText("Count: "+foodCount);	
 	}
 	/*
 	public void addToDisplay( FoodItem f) {
