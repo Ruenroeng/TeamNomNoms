@@ -113,13 +113,13 @@ public class Main extends Application {
 	            	carbsLabel.setWrapText(true);
 	            	fiberLabel.setWrapText(true);
 	            	proteinLabel.setWrapText(true);
-                nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-                calsLabel.setText(item.getNutrientValue("calories")+"");
-                fatLabel.setText(item.getNutrientValue("fat")+"");
-                carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
-                fiberLabel.setText(item.getNutrientValue("fiber")+"");
-                proteinLabel.setText(item.getNutrientValue("protein")+"");
-                button.setText(this.buttonText);
+	            	nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
+	            	calsLabel.setText(item.getNutrientValue("calories")+"");
+	            	fatLabel.setText(item.getNutrientValue("fat")+"");
+	            	carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
+	            	fiberLabel.setText(item.getNutrientValue("fiber")+"");
+	            	proteinLabel.setText(item.getNutrientValue("protein")+"");
+	            	button.setText(this.buttonText);
 	                
 	                if(this.isMeal) {
 	                	button.setOnAction(new EventHandler<ActionEvent>() {
