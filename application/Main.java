@@ -20,6 +20,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -41,6 +42,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 
 public class Main extends Application {
@@ -372,8 +375,35 @@ public class Main extends Application {
         Label NutritionLinksLabel = new Label("Nutrition Links");
         NutritionLinksLabel.setFont(new Font("Arial",18));
         NutritionLinksBox.getChildren().add(NutritionLinksLabel);
-        Hyperlink link = new Hyperlink("https://tinyurl.com/yccjpbok");
-        NutritionLinksBox.getChildren().add(new HBox(link));
+        //all URLs stored in array
+        String [] urls = {
+          "https://tinyurl.com/yccjpbok",
+          "https://www.nutrition.gov",
+          "http://www.quickmeme.com/meme/361zsh",
+          "https://nutrition.org",
+          "https://giphy.com/gifs/hungry-chipmunk-om-nom-YmYemei6DDkrK"
+        };
+        //loop over URLs to create pop up when clicked
+        for(int i = 0; i < urls.length; i++) {
+          final String url = urls[i];
+          final Hyperlink link = new Hyperlink(url);
+          link.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+              WebView webView = new WebView();
+              WebEngine webEngine = webView.getEngine();
+              webEngine.load(url);
+              Stage webPopup = new Stage();
+              webPopup.initModality(Modality.APPLICATION_MODAL);
+              webPopup.initOwner(primaryStage);
+              Scene popupScene = new Scene(webView, 1500,700);
+              webPopup.setScene(popupScene);
+              webPopup.show();
+            }
+          });
+          //add URLs to main stage
+          NutritionLinksBox.getChildren().add(new HBox(link)); 
+        }
         HBox.setMargin(NutritionLinksBox, new Insets(10,10,10,10));
 
         
