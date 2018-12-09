@@ -176,6 +176,7 @@ public class Main extends Application {
                 	  Files.lines(file.toPath());
                 	  foodMaster.loadFoodItems(fileName);
                       foodList.setAll(foodMaster.getAllFoodItems());
+                      //TODO
                   } catch(IOException e1) {
                 	  Alert invalidFileAlert = new Alert(AlertType.ERROR, "Invalid File");
                 	  invalidFileAlert.show();
@@ -741,12 +742,16 @@ public class Main extends Application {
 	
 	public void resetDisplay(FoodData d) {
 		foodList.setAll(d.getAllFoodItems());
+		updateFoodCount();
 		}
-	
+	public void updateFoodCount() {
+		foodCount = foodList.size();
+	}
+	/*
 	public void addToDisplay( FoodItem f) {
 		foodList.add(f);
 	}
-	
+	*/
 	public void addToMenu(FoodItem f){
 		menuList.add(f);
 		menuCount++;
