@@ -27,6 +27,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -132,7 +135,8 @@ public class Main extends Application {
         Scene scene = new Scene(bPane,1600,750);
       
         // top pane
-        HBox HBoxTop = new HBox(500);
+        //HBox HBoxTop = new HBox();
+        GridPane gPaneTop = new GridPane();
         Label title = new Label("NomNom Meal Prep Program.");
         title.setUnderline(true);
         title.setFont(new Font("Arial",20));
@@ -154,7 +158,7 @@ public class Main extends Application {
                 		  noFileAlert.show();
                 		  return;
                 	  }
-                	  Files.lines(file.toPath());
+                	  Files.lines(file.toPath());*/
                 	  foodMaster.loadFoodItems(fileName);
                       //foodList.setAll(foodMaster.getAllFoodItems());
                       resetDisplay(foodMaster);
@@ -204,6 +208,7 @@ public class Main extends Application {
             });
         VBox fileButtons = new VBox();
         fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
+        fileButtons.setPadding(new Insets(0,0,0,10));
         
         Button clearMenuButton = new Button();
         clearMenuButton.setText("Clear Menu");
@@ -214,13 +219,38 @@ public class Main extends Application {
               }
             });
         
-        HBoxTop.getChildren().addAll(fileButtons,title,clearMenuButton);
-        HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
-        HBoxTop.setAlignment(Pos.CENTER_LEFT);
-        HBoxTop.setMinHeight(50);
-        bPane.setTop(HBoxTop);
+        HBox clearButtonBox = new HBox();
+        clearButtonBox.getChildren().addAll(clearMenuButton);
+        clearButtonBox.setPadding(new Insets(10,10,0,0));
+        clearButtonBox.setAlignment(Pos.TOP_RIGHT);
         
+        
+        gPaneTop.add(fileButtons, 0, 0);
+        gPaneTop.add(title, 1, 0);
+        gPaneTop.add(clearButtonBox, 2, 0);
+        
+        ColumnConstraints lc = new ColumnConstraints();
+        lc.setPercentWidth(100/(3*1.0));
+        lc.setHalignment(HPos.LEFT);
+        gPaneTop.getColumnConstraints().add(lc);
+        
+        ColumnConstraints c = new ColumnConstraints();
+        c.setPercentWidth(100/(3*1.0));
+        c.setHalignment(HPos.CENTER);
+        gPaneTop.getColumnConstraints().add(c);
+        
+        ColumnConstraints rc = new ColumnConstraints();
+        rc.setPercentWidth(100/(3*1.0));
+        rc.setHalignment(HPos.RIGHT);
+        gPaneTop.getColumnConstraints().add(rc);
 
+        
+        gPaneTop.setMinHeight(50);
+        bPane.setTop(gPaneTop);
+        
+      
+        
+        
         // right pane
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         listViewRight.setCellFactory(param -> new FoodListItem(true));
@@ -240,6 +270,7 @@ public class Main extends Application {
     		menuTotals.add(totalProteinLabel, 5, 0);
     		menuTotals.add(menuCountLabel, 6, 0);
         VBox VBoxRight = new VBox(10,VBoxRightLabel);
+        VBox.setMargin(VBoxRightLabel, new Insets(10,10,10,10));
         VBoxRight.getChildren().addAll(getHeader(),listViewRight,menuTotals);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
         VBoxRight.setMinWidth(600);
@@ -270,12 +301,35 @@ public class Main extends Application {
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem(false));
+        TextField searchBar = new TextField();
+        searchBar.setPromptText("Search Food");
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
-        VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
+        HBox VBoxLeftHeader = new HBox(100,searchBar, VBoxLeftLabel);
+        HBox.setMargin(searchBar, new Insets(10,10,10,10));
+        HBox.setMargin(VBoxLeftLabel, new Insets(10,10,10,10));
+        VBoxLeftHeader.setAlignment(Pos.BOTTOM_LEFT);
+        VBox VBoxLeft = new VBox(10, VBoxLeftHeader);
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft,foodCountLabel);
-        VBoxLeft.setAlignment(Pos.TOP_CENTER);
+        VBoxLeft.setAlignment(Pos.BOTTOM_CENTER);
         VBoxLeft.setMinWidth(600);
+        VBoxLeft.setPadding(new Insets(0,0,0,10));
+        
+        // setup listener for food item search
+        searchBar.setOnMouseClicked(
+                new EventHandler<MouseEvent>() {
+                  @Override
+                  public void handle(MouseEvent e) {
+                	  searchBar.setOnKeyReleased(
+                			  new EventHandler<KeyEvent>() {
+                				  @Override
+                				  public void handle (KeyEvent e) {
+                					  foodList.setAll(foodMaster.filterByName(searchBar.getText().toUpperCase()));
+                					  updateFoodCount();
+                				  }
+                			  });
+                  }
+                  });
         
         GridPane centerPane = new GridPane();
       	int numCols=2;
