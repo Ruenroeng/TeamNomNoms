@@ -208,6 +208,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          */
         InternalNode() {
             super();
+            //initialize children array
             this.children = new ArrayList<Node>();
         }
         
@@ -249,6 +250,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
                     break;
                 }
             }
+            //we found the index to insert in, so insert into that child
             this.children.get(index).insert(key, value);
             //see if we need to split the child
             if(this.children.get(index).isOverflow()) {
@@ -266,6 +268,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
         Node split() {
+            //find the middle index of the node
             int middleIndex = this.keys.size() / 2;
             //middle key has already been propagated up so remove it from the internal node
             this.keys.remove(middleIndex);
@@ -325,7 +328,9 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * Package constructor
          */
         LeafNode() {
+            //call Node constructor
             super();
+            //initialize values, next, and previous references
             this.values = new ArrayList<V>();
             this.next = null;
             this.previous = null;
@@ -350,6 +355,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#isOverflow()
          */
         boolean isOverflow() {
+            //compare size of values to branching factor
             if(this.values.size() >= branchingFactor) {
                 return true;
             }
@@ -380,6 +386,7 @@ public class BPTree<K extends Comparable<K>, V> implements BPTreeADT<K, V> {
          * @see BPTree.Node#split()
          */
         Node split() {
+            //create new leaf node to be the sibling on the right
             LeafNode sibling = new LeafNode();
             int middleIndex = this.keys.size() / 2;
             int originalSize = this.keys.size();
