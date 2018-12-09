@@ -33,6 +33,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -173,7 +176,7 @@ public class Main extends Application {
                 		  noFileAlert.show();
                 		  return;
                 	  }
-                	  Files.lines(file.toPath());
+                	  Files.lines(file.toPath());*/
                 	  foodMaster.loadFoodItems(fileName);
                       //foodList.setAll(foodMaster.getAllFoodItems());
                       resetDisplay(foodMaster);
@@ -264,6 +267,7 @@ public class Main extends Application {
     		menuTotals.add(totalProteinLabel, 5, 0);
     		menuTotals.add(menuCountLabel, 6, 0);
         VBox VBoxRight = new VBox(10,VBoxRightLabel);
+        VBox.setMargin(VBoxRightLabel, new Insets(10,10,10,10));
         VBoxRight.getChildren().addAll(getHeader(),listViewRight,menuTotals);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
         VBoxRight.setMinWidth(600);
@@ -296,12 +300,34 @@ public class Main extends Application {
         ListView<FoodItem> listViewLeft = new ListView<>(foodList);
         
         listViewLeft.setCellFactory(param -> new FoodListItem(false));
+        TextField searchBar = new TextField();
+        searchBar.setPromptText("Search Food");
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
-        VBox VBoxLeft = new VBox(10, VBoxLeftLabel);
+        HBox VBoxLeftHeader = new HBox(100,searchBar, VBoxLeftLabel);
+        HBox.setMargin(searchBar, new Insets(10,10,10,10));
+        HBox.setMargin(VBoxLeftLabel, new Insets(10,10,10,10));
+        VBoxLeftHeader.setAlignment(Pos.BOTTOM_LEFT);
+        VBox VBoxLeft = new VBox(10, VBoxLeftHeader);
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft,foodCountLabel);
-        VBoxLeft.setAlignment(Pos.TOP_CENTER);
+        VBoxLeft.setAlignment(Pos.BOTTOM_CENTER);
         VBoxLeft.setMinWidth(600);
+        
+        // setup listener for food item search
+        searchBar.setOnMouseClicked(
+                new EventHandler<MouseEvent>() {
+                  @Override
+                  public void handle(MouseEvent e) {
+                	  searchBar.setOnKeyReleased(
+                			  new EventHandler<KeyEvent>() {
+                				  @Override
+                				  public void handle (KeyEvent e) {
+                					  foodList.setAll(foodMaster.filterByName(searchBar.getText().toUpperCase()));
+                					  updateFoodCount();
+                				  }
+                			  });
+                  }
+                  });
         
         GridPane centerPane = new GridPane();
 		int numCols=2;
