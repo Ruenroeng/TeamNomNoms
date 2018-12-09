@@ -1,13 +1,7 @@
 package application;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +14,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -31,7 +26,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -40,10 +34,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 
 public class Main extends Application {
@@ -68,7 +62,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		class FoodListItem extends ListCell<FoodItem>{
-			//HBox hBox = new HBox();
 			GridPane gPane = new GridPane();
 			Label nameLabel = new Label();
 			Label calsLabel = new Label();
@@ -77,23 +70,18 @@ public class Main extends Application {
 			Label fiberLabel = new Label();
 			Label proteinLabel = new Label();
 			Button button = new Button();
-			//ObservableList<FoodItem> target;
 			String buttonText;
 			public boolean isMeal;
-			public FoodListItem( boolean isMeal) { //, ObservableList<FoodItem> target) {
+			public FoodListItem( boolean isMeal) { 
 				super();
 				buttonText=(isMeal == true ? "Remove" : "Add");
 				this.isMeal=isMeal;
-				//this.target=target;
-				//hBox.getChildren().addAll(nameLabel,calsLabel,addButton);
 				int numCols=7;
 				for (int col = 0 ; col < numCols; col++ ) {
-		            ColumnConstraints cc = new ColumnConstraints();
-		            cc.setPercentWidth(100/(numCols*1.0));
-		            cc.setMaxWidth(60);
-		            //cc.setFillWidth(true);
-		            //cc.setHgrow(Priority.ALWAYS);
-		            gPane.getColumnConstraints().add(cc);
+          ColumnConstraints cc = new ColumnConstraints();
+          cc.setPercentWidth(100/(numCols*1.0));
+          cc.setMaxWidth(60);
+          gPane.getColumnConstraints().add(cc);
 				}
 				gPane.add(nameLabel, 0, 0);
 				gPane.add(calsLabel, 1, 0);
@@ -104,51 +92,44 @@ public class Main extends Application {
 				gPane.add(button, 6, 0);
 			}
 			@Override
-	        protected void updateItem(FoodItem item, boolean empty) {
-	            super.updateItem(item, empty);
-	            setText(null);  // No text in label of super class
-	            if (empty) {
-	                setGraphic(null);
-	            } else {
-	            	nameLabel.setWrapText(true);
-	            	calsLabel.setWrapText(true);
-	            	fatLabel.setWrapText(true);
-	            	carbsLabel.setWrapText(true);
-	            	fiberLabel.setWrapText(true);
-	            	proteinLabel.setWrapText(true);
-	            	nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
-	            	calsLabel.setText(item.getNutrientValue("calories")+"");
-	            	fatLabel.setText(item.getNutrientValue("fat")+"");
-	            	carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
-	            	fiberLabel.setText(item.getNutrientValue("fiber")+"");
-	            	proteinLabel.setText(item.getNutrientValue("protein")+"");
-	            	button.setText(this.buttonText);
+      protected void updateItem(FoodItem item, boolean empty) {
+        super.updateItem(item, empty);
+        setText(null);
+        if (empty) {
+            setGraphic(null);
+        } else {
+        nameLabel.setWrapText(true);
+        calsLabel.setWrapText(true);
+        fatLabel.setWrapText(true);
+        carbsLabel.setWrapText(true);
+        fiberLabel.setWrapText(true);
+        proteinLabel.setWrapText(true);
+        nameLabel.setText(item.getName()!=null ? item.getName() : "<null>");
+        calsLabel.setText(item.getNutrientValue("calories")+"");
+        fatLabel.setText(item.getNutrientValue("fat")+"");
+        carbsLabel.setText(item.getNutrientValue("carbohydrate")+"");
+        fiberLabel.setText(item.getNutrientValue("fiber")+"");
+        proteinLabel.setText(item.getNutrientValue("protein")+"");
+        button.setText(this.buttonText);
 	                
-	                if(this.isMeal) {
-	                	button.setOnAction(new EventHandler<ActionEvent>() {
-	                    @Override
-	                    public void handle(ActionEvent event) {
-	                    	//System.out.println("Remove " + getItem());
-	                    	subFromMenu(getItem());
-	                        //getListView().getItems().remove(getItem());
-	                    }
+        if(this.isMeal) {
+        	button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	subFromMenu(getItem());
+        }
 	                });
 	                } else {
 	                	button.setOnAction(new EventHandler<ActionEvent>() {
 	                        @Override
 	                        public void handle(ActionEvent event) {
 	                            addToMenu(getItem());
-	                        	//menuList.add(getItem());
-	                        	//System.out.println("Add " + getItem());
-	                            //getListView().getItems().remove(getItem());
 	                        }
-	                    });
+                    });
 	                }
-	             
-	                //setGraphic(hBox);
 	                setGraphic(gPane);
-	            }
-	        }
+	              }
+      }
 		}          
   	    BorderPane bPane = new BorderPane();
         Scene scene = new Scene(bPane,1600,750);
@@ -204,7 +185,7 @@ public class Main extends Application {
           });
         Button saveFoodButton = new Button();
         saveFoodButton.setText("Save Food List");
-       saveFoodButton.setOnAction(
+        saveFoodButton.setOnAction(
             new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
@@ -225,31 +206,26 @@ public class Main extends Application {
                 }
             });
         VBox fileButtons = new VBox();
-        
         fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
-        HBoxTop.getChildren().addAll(fileButtons,title);
+        
+        Button clearMenuButton = new Button();
+        clearMenuButton.setText("Clear Menu");
+        clearMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+              @Override
+              public void handle(final ActionEvent e) {
+            	  menuList.clear();
+              }
+            });
+        
+        HBoxTop.getChildren().addAll(fileButtons,title,clearMenuButton);
         HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
         HBoxTop.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(title, Priority.ALWAYS);
-        HBox.setHgrow(loadFoodButton, Priority.ALWAYS);
         HBoxTop.setMinHeight(50);
         bPane.setTop(HBoxTop);
         
-      
-        
-        
+
         // right pane
-        //menuList.add(new FoodItem("0","1 Food"));
-        //menuList.add(new FoodItem("1","2 Food"));
-        //menuList.add(new FoodItem("2","3 Food"));
-        //menuList.add(new FoodItem("3","4 Food"));
-        // right menu pane
-        //menuList.add(new FoodItem("0","1 Food"));
-        //menuList.add(new FoodItem("1","2 Food"));
-        //menuList.add(new FoodItem("2","3 Food"));
-        //menuList.add(new FoodItem("3","4 Food"));
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
-        
         listViewRight.setCellFactory(param -> new FoodListItem(true));
         Label VBoxRightLabel = new Label("Meal");
         VBoxRightLabel.setFont(new Font("Arial",18));
@@ -271,11 +247,9 @@ public class Main extends Application {
         VBoxRight.getChildren().addAll(getHeader(),listViewRight,menuTotals);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
         VBoxRight.setMinWidth(600);
-        //bPane.setRight(VBoxRight);
         BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
         
-        
-     // left food pane
+        // left food pane
         FoodItem f1 = new FoodItem("0","Soda");
         f1.addNutrient("calories", 123.4);
         f1.addNutrient("fat", 0);
@@ -330,13 +304,12 @@ public class Main extends Application {
                   });
         
         GridPane centerPane = new GridPane();
-		int numCols=2;
-		for (int col = 0 ; col < numCols; col++ ) {
-            ColumnConstraints cc = new ColumnConstraints();
-            cc.setPercentWidth(100/(numCols*1.0));
-            centerPane.getColumnConstraints().add(cc);
-		}
-		
+      	int numCols=2;
+      	for (int col = 0 ; col < numCols; col++ ) {
+          ColumnConstraints cc = new ColumnConstraints();
+          cc.setPercentWidth(100/(numCols*1.0));
+          centerPane.getColumnConstraints().add(cc);
+      	}
     		centerPane.add(VBoxLeft, 0, 0);
     		centerPane.add(VBoxRight, 1, 0);
     		bPane.setCenter(centerPane);
@@ -354,7 +327,6 @@ public class Main extends Application {
         
         GridPane ItemDetailsBox = new GridPane();
         constructItemDetailsBox(ItemDetailsBox,foodMaster,foodList);   
-        
         HBoxBottom.getChildren().add(ItemDetailsBox);        
         HBox.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
         
@@ -369,16 +341,19 @@ public class Main extends Application {
         
         // setup HBox for filter entries
         HBox filter = new HBox(10);
+        
         // Drop down list for Macro field options to choose from 
         ComboBox<String> macroSelect = new ComboBox<String>();
         macroSelect.getItems().addAll("Carbs", "Calories", "Fat", "Fiber", "Protein");
         macroSelect.setPromptText("Macro");
         macroSelect.setMinWidth(100);
+        
         // Drop down list for Comparator field options to choose from
         ComboBox<String> comparatorSelect = new ComboBox<String>();
         comparatorSelect.getItems().addAll("=", ">", "<", ">=", "<=");
         comparatorSelect.setPromptText("Comparator");
         comparatorSelect.setMinWidth(100);
+        
         // Text field for numeric value to compare to
         TextField value = new TextField();
         value.setPromptText("Value");
@@ -388,8 +363,35 @@ public class Main extends Application {
         Label NutritionLinksLabel = new Label("Nutrition Links");
         NutritionLinksLabel.setFont(new Font("Arial",18));
         NutritionLinksBox.getChildren().add(NutritionLinksLabel);
-        Hyperlink link = new Hyperlink("https://tinyurl.com/yccjpbok");
-        NutritionLinksBox.getChildren().add(new HBox(link));
+        //all URLs stored in array
+        String [] urls = {
+          "https://tinyurl.com/yccjpbok",
+          "https://www.nutrition.gov",
+          "http://www.quickmeme.com/meme/361zsh",
+          "https://nutrition.org",
+          "https://giphy.com/gifs/hungry-chipmunk-om-nom-YmYemei6DDkrK"
+        };
+        //loop over URLs to create pop up when clicked
+        for(int i = 0; i < urls.length; i++) {
+          final String url = urls[i];
+          final Hyperlink link = new Hyperlink(url);
+          link.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+              WebView webView = new WebView();
+              WebEngine webEngine = webView.getEngine();
+              webEngine.load(url);
+              Stage webPopup = new Stage();
+              webPopup.initModality(Modality.APPLICATION_MODAL);
+              webPopup.initOwner(primaryStage);
+              Scene popupScene = new Scene(webView, 1500,700);
+              webPopup.setScene(popupScene);
+              webPopup.show();
+            }
+          });
+          //add URLs to main stage
+          NutritionLinksBox.getChildren().add(new HBox(link)); 
+        }
         HBox.setMargin(NutritionLinksBox, new Insets(10,10,10,10));
 
         
@@ -408,13 +410,9 @@ public class Main extends Application {
         // Add HBox and buttons to the filter area grid
         filterArea.add(filterLabel, 0, 0);
         filterArea.add(filter, 0, 1);
-        //filterArea.add(buttons, 1, 1);
         GridPane.setHalignment(filterLabel, HPos.CENTER);
-        //filterArea.add(clearButton, 1, 1);
-        //filterArea.add(applyButton, 1, 2);
         filterArea.setHgap(10);
         filterArea.setVgap(10);
-        
         bottomCenter.getChildren().addAll(filterArea, buttons);
         HBoxBottom.getChildren().addAll(bottomCenter, NutritionLinksBox);
         bPane.setBottom(HBoxBottom);
@@ -425,22 +423,23 @@ public class Main extends Application {
         
         // create actions for when add filter button is pressed
         filterButton.setOnAction( new EventHandler<ActionEvent>(){
-        	@Override
-            public void handle(ActionEvent e) {
-        	addFilter(macroSelect, comparatorSelect, value, appliedFilters);
-        }});
+          @Override
+          public void handle(ActionEvent e) {
+            addFilter(macroSelect, comparatorSelect, value, appliedFilters);
+          }
+        });
         
         // create action for when clear filters button is pressed
         clearButton.setOnAction( new EventHandler<ActionEvent>(){
         	@Override
             public void handle(ActionEvent e) {
-        	appliedFilters.getChildren().clear();
-        	try {
-        	applyFilters(appliedFilters);
-        	} catch(Exception e1) {
-        		
-        	}
-        }});
+        	  appliedFilters.getChildren().clear();
+        	  try {
+        	    applyFilters(appliedFilters);
+        	  } catch(Exception e1) {
+        		  }
+        	  }
+        });
         
         // create actions for when apply filters button is pressed
         applyButton.setOnAction( new EventHandler<ActionEvent>(){
@@ -454,17 +453,14 @@ public class Main extends Application {
         			}
         }});
         filterArea.add(appliedFilters, 0, 2);
-        //RowConstraints rr = new RowConstraints();
         
-        
-        
-  
-        primaryStage.setTitle("NomNomNom");
         //show stage
+        primaryStage.setTitle("NomNomNom");
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
   /**
+   * Sets up the buttons, fields, and handling for the add item box.
    * @param ItemDetailsBox
    */
   private void constructItemDetailsBox(GridPane ItemDetailsBox, FoodData foodMaster,ObservableList<FoodItem> foodList) {
@@ -474,7 +470,7 @@ public class Main extends Application {
     cc1.setHalignment(HPos.LEFT);
     ItemDetailsBox.getColumnConstraints().add(cc1);
     
-  //Column 2 setup
+    //Column 2 setup
     ColumnConstraints cc2 = new ColumnConstraints();
     cc2.setMinWidth(200);
     cc2.setFillWidth(true);
@@ -485,21 +481,21 @@ public class Main extends Application {
     ItemDetailsBox.setVgap(10);
     GridPane.setMargin(ItemDetailsBox, new Insets(10,10,10,10));
     
+    //Instantiate Add button.
     Button AddItemButton = new Button("Add Item");
-    
-            
     ItemDetailsBox.add(AddItemButton, 0, 1);
 
-   // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
+    // page.add(Node, colIndex, rowIndex, colSpan, rowSpan):
     Label ItemDetailsBoxLabel = new Label("Add New Food Item ");
     ItemDetailsBoxLabel.setFont(new Font("Arial",18));
     ItemDetailsBox.add(ItemDetailsBoxLabel, 0, 0, 2, 1);
     
+    //Setup variables to construct the grid of fields and labels for user input.
     String LabelString;
     TextField LabelField;
     int row = 1;
     
-  //Name Field Build
+    //UniqueID Field Build
     LabelString = "UniqueID";
     TextField UniqueIDField = new TextField();
     LabelField = UniqueIDField;
@@ -556,129 +552,114 @@ public class Main extends Application {
             
     addItemDetailsRow(ItemDetailsBox, LabelString, LabelField, row);
     
-    //Setup Listener for AddItemButton
+    //Setup action handler for AddItemButton
     AddItemButton.setOnAction(
-        new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent e) {
-            String uniqueIDValue;
-            String nameValue;
-            Double caloriesValue;
-            Double fatsValue;
-            Double carbsValue;
-            Double fiberValue;
-            Double proteinValue;
-            try {
-              uniqueIDValue = UniqueIDField.getText();
-              if (uniqueIDValue.equals("")) throw new Exception(); 
-            }
-            catch(Exception err) {
-            Alert BlankNameAlert = new Alert(AlertType.ERROR, "A unique ID must be specified.");
-              BlankNameAlert.show();
-              return;
-            }
-            try {
-              nameValue = NameField.getText();
-              if (nameValue.equals("")) throw new Exception(); 
-            }
-            catch(Exception err) {
-            Alert BlankNameAlert = new Alert(AlertType.ERROR, "Name value cannot be blank.");
-              BlankNameAlert.show();
-              return;
-            }
-            try {
-              caloriesValue = Double.parseDouble(CaloriesField.getText());
-              if (caloriesValue<0) throw new Exception();
-            }
-            catch(NumberFormatException err) {
-            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Calories value \"" + CaloriesField.getText() + "\" is non-numeric.");
-              nonNumericValueAlert.show();
-              return;
-            }  catch(Exception err) {
-                Alert negativeValueAlert = new Alert(AlertType.ERROR, "Calories cannot be a negative value");
-                negativeValueAlert.show();
-              return;
-            }
-            try {
-              fatsValue = Double.parseDouble(FatsField.getText());
-              if (fatsValue<0) throw new Exception();
-            }
-            catch(NumberFormatException err) {
-            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fats value \"" + FatsField.getText() + "\" is non-numeric.");
-              nonNumericValueAlert.show();
-              return;
-            }  catch(Exception err) {
-              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Fats cannot be a negative value");
-              negativeValueAlert.show();
-            return;
-            } 
-            try {
-              carbsValue = Double.parseDouble(CarbsField.getText());
-              if (carbsValue<0) throw new Exception();
-            }
-            catch(NumberFormatException err) {
-            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Carbs value \"" + CarbsField.getText() + "\" is non-numeric.");
-              nonNumericValueAlert.show();
-              return;
-            }  catch(Exception err) {
-              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Carbohydrate cannot be a negative value");
-              negativeValueAlert.show();
-            return;
-            }
-            try {
-              fiberValue = Double.parseDouble(FiberField.getText());
-              if (fiberValue<0) throw new Exception();
-            }
-            catch(NumberFormatException err) {
-            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fiber value \"" + FiberField.getText() + "\" is non-numeric.");
-              nonNumericValueAlert.show();
-              return;
-            }  catch(Exception err) {
-              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Fiber cannot be a negative value");
-              negativeValueAlert.show();
-            return;
-            }
-            try {
-              proteinValue = Double.parseDouble(ProteinField.getText());
-              if (proteinValue<0) throw new Exception();
-            }
-            catch(NumberFormatException err) {
-            Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Protein value \"" + ProteinField.getText() + "\" is non-numeric.");
-              nonNumericValueAlert.show();
-              return; 
-            }  catch(Exception err) {
-              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Protein cannot be a negative value");
-              negativeValueAlert.show();
-            return;
-            }
-
-            FoodItem newFood = new FoodItem(uniqueIDValue, nameValue);
-            newFood.addNutrient("calories", caloriesValue);
-            newFood.addNutrient("fat", fatsValue);
-            newFood.addNutrient("carbohydrate", carbsValue);
-            newFood.addNutrient("fiber", fiberValue);
-            newFood.addNutrient("protein", proteinValue);
-            foodMaster.addFoodItem(newFood);
-            resetDisplay(foodMaster);
-            //foodList.setAll(foodMaster.getAllFoodItems());
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+          String uniqueIDValue;
+          String nameValue;
+          Double caloriesValue;
+          Double fatsValue;
+          Double carbsValue;
+          Double fiberValue;
+          Double proteinValue;
+          try {
+            uniqueIDValue = UniqueIDField.getText();
+            if (uniqueIDValue.equals("")) throw new Exception(); 
           }
+          catch(Exception err) {
+          Alert BlankNameAlert = new Alert(AlertType.ERROR, "A unique ID must be specified.");
+            BlankNameAlert.show();
+            return;
+          }
+          try {
+            nameValue = NameField.getText();
+            if (nameValue.equals("")) throw new Exception(); 
+          }
+          catch(Exception err) {
+          Alert BlankNameAlert = new Alert(AlertType.ERROR, "Name value cannot be blank.");
+            BlankNameAlert.show();
+            return;
+          }
+          try {
+            caloriesValue = Double.parseDouble(CaloriesField.getText());
+            if (caloriesValue<0) throw new Exception();
+          }
+          catch(NumberFormatException err) {
+          Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Calories value \"" + CaloriesField.getText() + "\" is non-numeric.");
+            nonNumericValueAlert.show();
+            return;
+          }  catch(Exception err) {
+              Alert negativeValueAlert = new Alert(AlertType.ERROR, "Calories cannot be a negative value");
+              negativeValueAlert.show();
+            return;
+          }
+          try {
+            fatsValue = Double.parseDouble(FatsField.getText());
+            if (fatsValue<0) throw new Exception();
+          }
+          catch(NumberFormatException err) {
+          Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fats value \"" + FatsField.getText() + "\" is non-numeric.");
+            nonNumericValueAlert.show();
+            return;
+          }  catch(Exception err) {
+            Alert negativeValueAlert = new Alert(AlertType.ERROR, "Fats cannot be a negative value");
+            negativeValueAlert.show();
+          return;
+          } 
+          try {
+            carbsValue = Double.parseDouble(CarbsField.getText());
+            if (carbsValue<0) throw new Exception();
+          }
+          catch(NumberFormatException err) {
+          Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Carbs value \"" + CarbsField.getText() + "\" is non-numeric.");
+            nonNumericValueAlert.show();
+            return;
+          }  catch(Exception err) {
+            Alert negativeValueAlert = new Alert(AlertType.ERROR, "Carbohydrate cannot be a negative value");
+            negativeValueAlert.show();
+          return;
+          }
+          try {
+            fiberValue = Double.parseDouble(FiberField.getText());
+            if (fiberValue<0) throw new Exception();
+          }
+          catch(NumberFormatException err) {
+          Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Fiber value \"" + FiberField.getText() + "\" is non-numeric.");
+            nonNumericValueAlert.show();
+            return;
+          }  catch(Exception err) {
+            Alert negativeValueAlert = new Alert(AlertType.ERROR, "Fiber cannot be a negative value");
+            negativeValueAlert.show();
+          return;
+          }
+          try {
+            proteinValue = Double.parseDouble(ProteinField.getText());
+            if (proteinValue<0) throw new Exception();
+          }
+          catch(NumberFormatException err) {
+          Alert nonNumericValueAlert = new Alert(AlertType.ERROR, "Protein value \"" + ProteinField.getText() + "\" is non-numeric.");
+            nonNumericValueAlert.show();
+            return; 
+          }  catch(Exception err) {
+            Alert negativeValueAlert = new Alert(AlertType.ERROR, "Protein cannot be a negative value");
+            negativeValueAlert.show();
+          return;
+          }
+
+          FoodItem newFood = new FoodItem(uniqueIDValue, nameValue);
+          newFood.addNutrient("calories", caloriesValue);
+          newFood.addNutrient("fat", fatsValue);
+          newFood.addNutrient("carbohydrate", carbsValue);
+          newFood.addNutrient("fiber", fiberValue);
+          newFood.addNutrient("protein", proteinValue);
+          foodMaster.addFoodItem(newFood);
+          resetDisplay(foodMaster);
         }
+      }
     );
   }
-  private String generateSHA256(String input) throws NoSuchAlgorithmException {
-    return generateString(input, "SHA-256", 64);
-}
-  
-  private static String generateString(String input, String algorithm, int minLength) throws NoSuchAlgorithmException {
-    MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-    byte[] bytes = messageDigest.digest(input.getBytes());
-    BigInteger integer = new BigInteger(1, bytes);
-    String result = integer.toString(16);
-    while (result.length() < minLength) {
-        result = "0" + result;
-    }
-    return result;
-}
   /**
    * @param ItemDetailsBox
    * @param LabelString
@@ -703,7 +684,7 @@ public class Main extends Application {
 		}
 		gPane.add(new Label("Name"), 0, 0);
 		gPane.add(new Label("Calories"), 1, 0);
-		gPane.add(new Label("Fats"), 2, 0);
+		gPane.add(new Label("Fat"), 2, 0);
 		gPane.add(new Label("Carbs"), 3, 0);
 		gPane.add(new Label("Fiber"), 4, 0);
 		gPane.add(new Label("Protein"), 5, 0);
@@ -746,8 +727,6 @@ public class Main extends Application {
         }
         filter = macro.getValue() + " " + comparator.getValue() + " " + filterValue;
         filters.getChildren().add(new Label(filter));
-        
-		
 	}
 	
 	public void applyFilters(VBox filters) throws Exception {
@@ -764,7 +743,6 @@ public class Main extends Application {
 		}
 		List<FoodItem> filteredList = foodMaster.filterByNutrients(filterList);
 		foodList.retainAll(filteredList);
-		
 	}
 	
 	public void resetDisplay(FoodData d) {
@@ -773,6 +751,7 @@ public class Main extends Application {
 		}
 	public void updateFoodCount() {
 		foodCount = foodList.size();
+		foodCountLabel.setText("Count: "+foodCount);	
 	}
 	/*
 	public void addToDisplay( FoodItem f) {
@@ -782,18 +761,21 @@ public class Main extends Application {
 	public void addToMenu(FoodItem f){
 		menuList.add(f);
 		menuCount++;
+		
 		//keeping running totals up to date
 		totalCals += f.getNutrientValue("calories");
 		totalFats += f.getNutrientValue("fat");
 		totalCarbs += f.getNutrientValue("carbohydrate");
 		totalFiber += f.getNutrientValue("fiber");
 		totalProtein += f.getNutrientValue("protein");	
+		
 		//rounding because we're handling doubles.
 		totalCals = Math.round(totalCals*10.0)/10.0;
 		totalFats  = Math.round(totalFats*10.0)/10.0;
 		totalCarbs = Math.round(totalCarbs*10.0)/10.0;
 		totalFiber = Math.round(totalFiber*10.0)/10.0;
 		totalProtein = Math.round(totalProtein*10.0)/10.0;
+		
 		//displaying text
 		totalCalsLabel.setText(totalCals + "");
 		totalFatsLabel.setText(totalFats + "");
@@ -805,18 +787,21 @@ public class Main extends Application {
 	public void subFromMenu(FoodItem f){
 		menuList.remove(f);
 		menuCount--;
+		
 		//keeping running totals up to date
 		totalCals -= f.getNutrientValue("calories");
 		totalFats -= f.getNutrientValue("fat");
 		totalCarbs -= f.getNutrientValue("carbohydrate");
 		totalFiber -= f.getNutrientValue("fiber");
 		totalProtein -= f.getNutrientValue("protein");
+		
 		//rounding because we're handling doubles.
 		totalCals = Math.round(totalCals*10.0)/10.0;
 		totalFats  = Math.round(totalFats*10.0)/10.0;
 		totalCarbs = Math.round(totalCarbs*10.0)/10.0;
 		totalFiber = Math.round(totalFiber*10.0)/10.0;
 		totalProtein = Math.round(totalProtein*10.0)/10.0;
+		
 		//displaying text
 		totalCalsLabel.setText(totalCals + "");
 		totalFatsLabel.setText(totalFats + "");
