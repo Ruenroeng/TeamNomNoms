@@ -421,8 +421,6 @@ public class Main extends Application {
           NutritionLinksBox.getChildren().add(new HBox(link)); 
         }
         HBox.setMargin(NutritionLinksBox, new Insets(10,10,10,10));
-
-        
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
         
         // create filter buttons
