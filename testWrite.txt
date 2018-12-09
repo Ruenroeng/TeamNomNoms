@@ -1,2 +1,1 @@
-5551,pie,calories,300.0,fat,3.0,carbohydrate,0.0,fiber,0.0,protein,0.0
-555,pretzels,calories,400.0,fat,3.0,carbohydrate,0.0,fiber,0.0,protein,0.0
+njsdhbsaf,njjskfa,calories,8.0,fat,8.0,carbohydrate,8.0,fiber,8.0,protein,8.0
