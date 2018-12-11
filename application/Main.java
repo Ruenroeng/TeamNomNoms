@@ -34,6 +34,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
@@ -229,6 +230,8 @@ public class Main extends Application {
         listViewRight.setCellFactory(param -> new FoodListItem(true));
         Label VBoxRightLabel = new Label("Meal");
         VBoxRightLabel.setFont(new Font("Arial",18));
+        HBox VBoxRightHeader = new HBox();
+        VBoxRightHeader.getChildren().add(VBoxRightLabel);
         GridPane menuTotals = new GridPane();
         for (int col = 0 ; col < 7; col++ ) {
             ColumnConstraints cc = new ColumnConstraints();
@@ -242,8 +245,8 @@ public class Main extends Application {
     		menuTotals.add(totalFiberLabel, 4, 0);
     		menuTotals.add(totalProteinLabel, 5, 0);
     		menuTotals.add(menuCountLabel, 6, 0);
-        VBox VBoxRight = new VBox(10,VBoxRightLabel);
-        VBox.setMargin(VBoxRightLabel, new Insets(10,10,10,10));
+        VBox VBoxRight = new VBox(10,VBoxRightHeader);
+        VBox.setMargin(VBoxRightHeader, new Insets(10,10,10,10));
         VBoxRight.getChildren().addAll(getHeader(),listViewRight,menuTotals);
         VBoxRight.setAlignment(Pos.TOP_CENTER);
         VBoxRight.setMinWidth(600);
@@ -279,8 +282,8 @@ public class Main extends Application {
         Label VBoxLeftLabel = new Label("Food List");
         VBoxLeftLabel.setFont(new Font("Arial",18));
         HBox VBoxLeftHeader = new HBox(100,searchBar, VBoxLeftLabel);
-        HBox.setMargin(searchBar, new Insets(10,10,10,10));
-        HBox.setMargin(VBoxLeftLabel, new Insets(10,10,10,10));
+        VBoxLeftHeader.setMaxHeight(1);
+        VBox.setMargin(VBoxLeftHeader, new Insets(10,10,10,10));
         VBoxLeftHeader.setAlignment(Pos.BOTTOM_LEFT);
         VBox VBoxLeft = new VBox(10, VBoxLeftHeader);
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft,foodCountLabel);
@@ -350,7 +353,7 @@ public class Main extends Application {
         
         // Drop down list for Comparator field options to choose from
         ComboBox<String> comparatorSelect = new ComboBox<String>();
-        comparatorSelect.getItems().addAll("=", ">", "<", ">=", "<=");
+        comparatorSelect.getItems().addAll("=",">=", "<=");
         comparatorSelect.setPromptText("Comparator");
         comparatorSelect.setMinWidth(100);
         
