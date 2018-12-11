@@ -136,7 +136,8 @@ public class Main extends Application {
         Scene scene = new Scene(bPane,1600,750);
       
         // top pane
-        HBox HBoxTop = new HBox(500);
+        //HBox HBoxTop = new HBox();
+        GridPane gPaneTop = new GridPane();
         Label title = new Label("NomNom Meal Prep Program.");
         title.setUnderline(true);
         title.setFont(new Font("Arial",20));
@@ -208,23 +209,49 @@ public class Main extends Application {
             });
         VBox fileButtons = new VBox();
         fileButtons.getChildren().addAll(loadFoodButton,saveFoodButton);
+        fileButtons.setPadding(new Insets(0,0,0,10));
         
         Button clearMenuButton = new Button();
         clearMenuButton.setText("Clear Menu");
         clearMenuButton.setOnAction(new EventHandler<ActionEvent>() {
               @Override
               public void handle(final ActionEvent e) {
-            	  menuList.clear();
+            	  clearMenu();
               }
             });
         
-        HBoxTop.getChildren().addAll(fileButtons,title,clearMenuButton);
-        HBox.setMargin(HBoxTop, new Insets(10,10,10,10));
-        HBoxTop.setAlignment(Pos.CENTER_LEFT);
-        HBoxTop.setMinHeight(50);
-        bPane.setTop(HBoxTop);
+        HBox clearButtonBox = new HBox();
+        clearButtonBox.getChildren().addAll(clearMenuButton);
+        clearButtonBox.setPadding(new Insets(10,10,0,0));
+        clearButtonBox.setAlignment(Pos.TOP_RIGHT);
         
+        
+        gPaneTop.add(fileButtons, 0, 0);
+        gPaneTop.add(title, 1, 0);
+        gPaneTop.add(clearButtonBox, 2, 0);
+        
+        ColumnConstraints lc = new ColumnConstraints();
+        lc.setPercentWidth(100/(3*1.0));
+        lc.setHalignment(HPos.LEFT);
+        gPaneTop.getColumnConstraints().add(lc);
+        
+        ColumnConstraints c = new ColumnConstraints();
+        c.setPercentWidth(100/(3*1.0));
+        c.setHalignment(HPos.CENTER);
+        gPaneTop.getColumnConstraints().add(c);
+        
+        ColumnConstraints rc = new ColumnConstraints();
+        rc.setPercentWidth(100/(3*1.0));
+        rc.setHalignment(HPos.RIGHT);
+        gPaneTop.getColumnConstraints().add(rc);
 
+        
+        gPaneTop.setMinHeight(50);
+        bPane.setTop(gPaneTop);
+        
+      
+        
+        
         // right pane
         ListView<FoodItem> listViewRight = new ListView<>(menuList);
         listViewRight.setCellFactory(param -> new FoodListItem(true));
@@ -289,6 +316,7 @@ public class Main extends Application {
         VBoxLeft.getChildren().addAll(getHeader(),listViewLeft,foodCountLabel);
         VBoxLeft.setAlignment(Pos.BOTTOM_CENTER);
         VBoxLeft.setMinWidth(600);
+        VBoxLeft.setPadding(new Insets(0,0,0,10));
         
         // setup listener for food item search
         searchBar.setOnMouseClicked(
@@ -396,8 +424,6 @@ public class Main extends Application {
           NutritionLinksBox.getChildren().add(new HBox(link)); 
         }
         HBox.setMargin(NutritionLinksBox, new Insets(10,10,10,10));
-
-        
         filter.getChildren().addAll(macroSelect, comparatorSelect, value);
         
         // create filter buttons
@@ -761,6 +787,24 @@ public class Main extends Application {
 		foodList.add(f);
 	}
 	*/
+	
+	public void clearMenu() {
+		menuList.clear();
+		menuCount = 0;
+		totalCals = 0;
+		totalFats = 0;
+		totalCarbs = 0;
+		totalFiber = 0;
+		totalProtein = 0;
+		//displaying text
+		totalCalsLabel.setText(totalCals + "");
+		totalFatsLabel.setText(totalFats + "");
+		totalCarbsLabel.setText(totalCarbs + "");
+		totalFiberLabel.setText(totalFiber + "");
+		totalProteinLabel.setText(totalProtein + "");
+		menuCountLabel.setText("Count: "+menuCount);
+	}
+	
 	public void addToMenu(FoodItem f){
 		menuList.add(f);
 		menuCount++;
