@@ -159,22 +159,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
         	List<FoodItem> singleRuleResult;
         	String[] ruleParts = rule.split(" ");
         	String macro = ruleParts[0].trim();
-        	switch(macro.charAt(2)) {
-        	case 'r':
-        		macro = "carbohydrate";
-        		break;
-        	case 'l':
-        		macro = "calories";
-        		break;
-        	case 't':
-        		macro = "fat";
-        		break;
-        	case 'b':
-        		macro = "fiber";
-        		break;
-        	default:
-        		macro = "protein";
-        	}
         	String comparator = ruleParts[1].trim();
         	comparator = (comparator.equals("="))? "==": comparator;
         	double value = Double.parseDouble(ruleParts[2].trim());
@@ -236,7 +220,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
       TreeMap<String, FoodItem> map = new TreeMap<String, FoodItem>();
       while (itr.hasNext()) {
     	  currFood = itr.next();
-    	  map.put(currFood.getName(), currFood);
+    	  map.put(currFood.getName().toUpperCase(), currFood);
       }
       
       try {
