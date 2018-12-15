@@ -1,5 +1,7 @@
 package application;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -153,22 +155,25 @@ public class Main extends Application {
 		loadFoodButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {
-				// File file = fileChooser.showOpenDialog(primaryStage);
-				// String fileName = file.getName();
-				String fileName = "foodItems.txt";
-				/*
-				 * try { Path path = FileSystems.getDefault().getPath(fileName); if
-				 * (!Files.exists(path)) { Alert noFileAlert = new Alert(AlertType.ERROR,
-				 * "File Doesn't exist."); noFileAlert.show(); return; }
-				 * Files.lines(file.toPath());
-				 */
+				File file = fileChooser.showOpenDialog(primaryStage);
+				String fileName = file.getName();
+				//String fileName = "foodItems.txt";
+				
+				  try { Path path = FileSystems.getDefault().getPath(fileName); 
+				  if (!Files.exists(path)) { 
+					  Alert noFileAlert = new Alert(AlertType.ERROR,"File Doesn't exist."); 
+					  noFileAlert.show(); 
+					  return; 
+					  }
+				  Files.lines(file.toPath());
+				 
 				foodMaster.loadFoodItems(fileName);
 				// foodList.setAll(foodMaster.getAllFoodItems());
 				resetDisplay(foodMaster);
-				/*
-				 * } catch(IOException e1) { Alert invalidFileAlert = new Alert(AlertType.ERROR,
-				 * "Invalid File"); invalidFileAlert.show(); }
-				 */
+				
+				 } catch(IOException e1) { Alert invalidFileAlert = new Alert(AlertType.ERROR,
+				 "Invalid File"); invalidFileAlert.show(); }
+				
 				// foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
 				/*
 				 * ( if (file != null) { long counter; try { counter =
@@ -269,7 +274,7 @@ public class Main extends Application {
 		BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
 
 		// left food pane
-		FoodItem f1 = new FoodItem("0", "Soda");
+		/*FoodItem f1 = new FoodItem("0", "Soda");
 		f1.addNutrient("calories", 123.4);
 		f1.addNutrient("fat", 0);
 		f1.addNutrient("carbohydrate", 23);
@@ -289,7 +294,7 @@ public class Main extends Application {
 		f3.addNutrient("protein", 2);
 		foodList.add(f1);
 		foodList.add(f2);
-		foodList.add(f3);
+		foodList.add(f3);*/
 		ListView<FoodItem> listViewLeft = new ListView<>(foodList);
 		listViewLeft.setCellFactory(param -> new FoodListItem(false));
 		

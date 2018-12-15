@@ -38,8 +38,8 @@
 51c35f4497c3e69de4b01c33,ChefHans_CajunShrimpCrawfishCrabBoil,calories,0.0,fat,0.0,carbohydrate,0.0,fiber,0.0,protein,0.0
 54761f6f59752938643a8c68,ChefSolutions_BroccoliCheddarRice,calories,190.0,fat,13.0,carbohydrate,10.0,fiber,1.0,protein,9.0
 561b02c51657bb352c688bb9,ChexMix_TrailMixChocolateCaramel,calories,150.0,fat,10.0,carbohydrate,12.0,fiber,1.0,protein,4.0
-55c8b8d2df77efc05b0f8e88,ChobaniGreekYogurt_NonfatYogurtVanillaBlended,calories,120.0,fat,0.0,carbohydrate,16.0,fiber,0.5,protein,13.0
 51d37629cc9bff5553aa9292,Chobani_YogurtGreekLowFatVeryBerry,calories,100.0,fat,1.0,carbohydrate,13.0,fiber,0.0,protein,8.0
+55c8b8d2df77efc05b0f8e88,ChobaniGreekYogurt_NonfatYogurtVanillaBlended,calories,120.0,fat,0.0,carbohydrate,16.0,fiber,0.5,protein,13.0
 51c3eff197c3e6de73cbc2d5,ColoraCookie_HandDecoratedMLBCookiesBostonRedSox,calories,220.0,fat,8.0,carbohydrate,34.0,fiber,0.0,protein,2.0
 51c3ee0497c3e6de73cbb5cd,CrownPrince_ShrimpBroken,calories,60.0,fat,0.0,carbohydrate,0.0,fiber,0.0,protein,13.0
 55853b3df448376823bbedfb,Deans_MintChocolateChipIceCream,calories,150.0,fat,9.0,carbohydrate,17.0,fiber,0.0,protein,2.0
@@ -138,9 +138,9 @@
 551cefb9c66514eb0b4a41fb,McCutcheons_AppleButter,calories,30.0,fat,0.0,carbohydrate,8.0,fiber,0.0,protein,0.0
 5534fe805dee4c3e21c0636a,MedicalWeightLossClinic_FruitDrinkMixedBerry,calories,60.0,fat,0.0,carbohydrate,1.0,fiber,0.0,protein,12.0
 54748895cabbc1f8661c06ee,MediWEightloss_MapleBrownSugarOatmeal,calories,100.0,fat,1.0,carbohydrate,9.0,fiber,2.0,protein,14.0
-54f52a118001e26807e3e59f,MeijerOrganics_ExtraVirginOliveOil,calories,120.0,fat,14.0,carbohydrate,0.0,fiber,0.0,protein,0.0
 54f6974937382cb131262e9f,Meijer_BalsamicVinaigrette,calories,100.0,fat,10.0,carbohydrate,2.0,fiber,0.0,protein,0.0
 51c37bca97c3e6d272824d94,Meijer_CottageCheeseLargeCurd4MilkfatMin,calories,110.0,fat,5.0,carbohydrate,4.0,fiber,0.0,protein,13.0
+54f52a118001e26807e3e59f,MeijerOrganics_ExtraVirginOliveOil,calories,120.0,fat,14.0,carbohydrate,0.0,fiber,0.0,protein,0.0
 51c3e9ef97c3e6de73cb9a40,MidwestCountryFare_TomatoesWholePeeled,calories,25.0,fat,0.0,carbohydrate,5.0,fiber,1.0,protein,1.0
 548f0bdfe1928e5266156723,MMMeatShops_StuffedHamandSwissChickenBurgers,calories,290.0,fat,17.0,carbohydrate,1.0,fiber,1.0,protein,33.0
 5596d1f1693d7e7a0196f266,Monster_EnergyDrinkAbsolutelyZero,calories,0.0,fat,0.0,carbohydrate,2.0,fiber,0.0,protein,0.0
