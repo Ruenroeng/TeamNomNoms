@@ -297,6 +297,7 @@ public class Main extends Application {
 		VBoxRight.getChildren().addAll(getHeader(), listViewRight, menuTotals);
 		VBoxRight.setAlignment(Pos.TOP_CENTER);
 		VBoxRight.setMinWidth(600);
+		VBoxRight.setPadding(new Insets(10, 10, 10, 10));
 		BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
 
 		// left food pane
