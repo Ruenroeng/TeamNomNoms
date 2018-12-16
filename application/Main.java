@@ -69,7 +69,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		/**
-		 * custom listcell to show food items in the food picker and menu
+		 * custom list cell to show food items in the food picker and menu
 		 */
 		class FoodListItem extends ListCell<FoodItem> {
 			GridPane gPane = new GridPane();
@@ -190,7 +190,7 @@ public class Main extends Application {
 		saveFoodButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {
-				File file = fileChooser.showOpenDialog(primaryStage);
+				File file = fileChooser.showSaveDialog(primaryStage);
         if (file == null) { //do nothing if the popup was dismissed
           return;
         }
