@@ -694,6 +694,11 @@ public class Main extends Application {
 				newFood.addNutrient("protein", proteinValue);
 				foodMaster.addFoodItem(newFood);
 				resetDisplay(foodMaster);
+				try {
+          applyFilters(appliedFilters);
+        } catch (Exception e1) {
+          e1.printStackTrace();
+        }
 			}
 		});
 	}
