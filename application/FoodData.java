@@ -59,6 +59,9 @@ public class FoodData implements FoodDataADT<FoodItem> {
         foodItemList = new ArrayList<FoodItem>();
     }
     
+    /**
+     * clears all data stored in the object
+     */
     public void clearFoodData() {
     	foodItemList.clear();
     	calorieTree.clear();
@@ -145,9 +148,11 @@ public class FoodData implements FoodDataADT<FoodItem> {
     }
     
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Filter all food items by whether they contain the the string passed in in their food name
      * @see skeleton.FoodDataADT#filterByName(java.lang.String)
+     * @param substring is the string to check if it is contained in the food title
+     * @return List of food items that contain the substring in their title
      */
     @Override
     public List<FoodItem> filterByName(String substring) {
@@ -164,9 +169,12 @@ public class FoodData implements FoodDataADT<FoodItem> {
         return filterList;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Filters all food items base on passed in substring. Assumes substring contains 
+     * nutrients stored in food data, a comparator, and a numeric value
      * @see skeleton.FoodDataADT#filterByNutrients(java.util.List)
+     * @param rules string that contains the filter rules to use in the range search of fooditems
+     * @list of food items that pass the filter rules
      */
     @Override
     public List<FoodItem> filterByNutrients(List<String> rules) {
