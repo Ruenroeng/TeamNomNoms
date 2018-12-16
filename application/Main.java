@@ -1,3 +1,13 @@
+/**
+ * Filename: Main.java Project: p4 
+ * Authors: Aron Denenberg, Ryan Ruenroeng, Nick Ferrentino, Jacob Bur 
+ * Due Date: 12/16/18
+ * 
+ * Bugs or Other Notes: 
+ * 
+ * JavaFx file creating front end of the application
+ * 
+ */
 package application;
 
 import java.io.File;
@@ -42,6 +52,9 @@ import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+/**
+ *  Main class to build out user GUI and interface with back end of the application.
+ */
 public class Main extends Application {
 	//create objects that we will need through out project
 	FoodData foodMaster = new FoodData();
@@ -193,6 +206,7 @@ public class Main extends Application {
           return;
         }
 				String fileName = file.getAbsolutePath();
+				fileName = fileName + ".txt";
 				Path path = FileSystems.getDefault().getPath(fileName);
 				try {
 					Files.newBufferedWriter(path);
