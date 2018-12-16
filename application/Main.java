@@ -167,7 +167,7 @@ public class Main extends Application {
 				if (file == null) { //do nothing if the popup was dismissed
 					return;
 				}
-				String fileName = file.getName();
+				String fileName = file.getAbsolutePath();
 				  try { Path path = FileSystems.getDefault().getPath(fileName); 
 				  if (!Files.exists(path)) { 
 					  Alert noFileAlert = new Alert(AlertType.ERROR,"File Doesn't exist."); 
@@ -194,13 +194,14 @@ public class Main extends Application {
         if (file == null) { //do nothing if the popup was dismissed
           return;
         }
-				String fileName = file.getName();
+				String fileName = file.getAbsolutePath();
 				Path path = FileSystems.getDefault().getPath(fileName);
 				try {
 					Files.newBufferedWriter(path);
 					if (!Files.isWritable(path)) {
 						throw new Exception();
 					}
+					System.out.println(fileName);
 					foodMaster.saveFoodItems(fileName);
 				} catch (Exception e1) {
 					Alert invalidFileAlert = new Alert(AlertType.ERROR, "Cannot write to file.");
