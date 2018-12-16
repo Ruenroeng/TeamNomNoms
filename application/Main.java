@@ -45,11 +45,13 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 public class Main extends Application {
+	//create objects that we will need through out project
 	FoodData foodMaster = new FoodData();
 	ObservableList<FoodItem> foodList = FXCollections.observableArrayList();
 	ObservableList<FoodItem> menuList = FXCollections.observableArrayList();
 	VBox appliedFilters = new VBox(5);
 	TextField searchBar = new TextField();
+	//declare variables that will be used to keep track of nutrition totals
 	int foodCount = 0;
 	int menuCount = 0;
 	double totalCals = 0;
@@ -57,6 +59,7 @@ public class Main extends Application {
 	double totalCarbs = 0;
 	double totalFiber = 0;
 	double totalProtein = 0;
+	//initialize the labels to 0;
 	Label totalCalsLabel = new Label(totalCals + "");
 	Label totalFatsLabel = new Label(totalFats + "");
 	Label totalCarbsLabel = new Label(totalCarbs + "");
@@ -67,6 +70,9 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		/**
+		 * custom listcell to show food items in the food picker and menu
+		 */
 		class FoodListItem extends ListCell<FoodItem> {
 			GridPane gPane = new GridPane();
 			Label nameLabel = new Label();
@@ -78,11 +84,13 @@ public class Main extends Application {
 			Button button = new Button();
 			String buttonText;
 			public boolean isMeal;
-
+			//constructor for new cells
 			public FoodListItem(boolean isMeal) {
 				super();
+				//setting button text
 				buttonText = (isMeal == true ? "Remove" : "Add");
 				this.isMeal = isMeal;
+				//spacing the columns 
 				int numCols = 7;
 				for (int col = 0; col < numCols; col++) {
 					ColumnConstraints cc = new ColumnConstraints();
@@ -90,6 +98,7 @@ public class Main extends Application {
 					cc.setMaxWidth(60);
 					gPane.getColumnConstraints().add(cc);
 				}
+				//adding child objects to  the new cell
 				gPane.add(nameLabel, 0, 0);
 				gPane.add(calsLabel, 1, 0);
 				gPane.add(fatLabel, 2, 0);
@@ -103,9 +112,9 @@ public class Main extends Application {
 			protected void updateItem(FoodItem item, boolean empty) {
 				super.updateItem(item, empty);
 				setText(null);
-				if (empty) {
+				if (empty) { //if we don't need to show anything, show nothing.
 					setGraphic(null);
-				} else {
+				} else { //else set the object text to be the new food's nutrient info
 					nameLabel.setWrapText(true);
 					calsLabel.setWrapText(true);
 					fatLabel.setWrapText(true);
@@ -119,15 +128,15 @@ public class Main extends Application {
 					fiberLabel.setText(item.getNutrientValue("fiber") + "");
 					proteinLabel.setText(item.getNutrientValue("protein") + "");
 					button.setText(this.buttonText);
-
-					if (this.isMeal) {
+					
+					if (this.isMeal) { //handle case where remove was clicked from menu
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							@Override
 							public void handle(ActionEvent event) {
 								subFromMenu(getItem());
 							}
 						});
-					} else {
+					} else { //handle case where add was clicked from foodlist
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							@Override
 							public void handle(ActionEvent event) {
@@ -221,7 +230,7 @@ public class Main extends Application {
 				clearMenu();
 			}
 		});
-
+		//aligning title bar and buttons
 		HBox clearButtonBox = new HBox();
 		clearButtonBox.getChildren().addAll(clearMenuButton);
 		clearButtonBox.setPadding(new Insets(10, 10, 0, 0));
@@ -230,17 +239,20 @@ public class Main extends Application {
 		gPaneTop.add(fileButtons, 0, 0);
 		gPaneTop.add(title, 1, 0);
 		gPaneTop.add(clearButtonBox, 2, 0);
-
+		
+		//aligning save/load buttons to the left
 		ColumnConstraints lc = new ColumnConstraints();
 		lc.setPercentWidth(100 / (3 * 1.0));
 		lc.setHalignment(HPos.LEFT);
 		gPaneTop.getColumnConstraints().add(lc);
 
+		//centering title
 		ColumnConstraints c = new ColumnConstraints();
 		c.setPercentWidth(100 / (3 * 1.0));
 		c.setHalignment(HPos.CENTER);
 		gPaneTop.getColumnConstraints().add(c);
 
+		//alligning clear button to the right
 		ColumnConstraints rc = new ColumnConstraints();
 		rc.setPercentWidth(100 / (3 * 1.0));
 		rc.setHalignment(HPos.RIGHT);
@@ -250,12 +262,15 @@ public class Main extends Application {
 		bPane.setTop(gPaneTop);
 
 		// right pane
+		//constructing foodlist view
 		ListView<FoodItem> listViewRight = new ListView<>(menuList);
 		listViewRight.setCellFactory(param -> new FoodListItem(true));
+		//label header for meal
 		Label VBoxRightLabel = new Label("Meal");
 		VBoxRightLabel.setFont(new Font("Arial", 18));
 		HBox VBoxRightHeader = new HBox();
 		VBoxRightHeader.getChildren().add(VBoxRightLabel);
+		//totals bar along the bottom
 		GridPane menuTotals = new GridPane();
 		for (int col = 0; col < 7; col++) {
 			ColumnConstraints cc = new ColumnConstraints();
@@ -271,33 +286,13 @@ public class Main extends Application {
 		menuTotals.add(menuCountLabel, 6, 0);
 		VBox VBoxRight = new VBox(10, VBoxRightHeader);
 		VBox.setMargin(VBoxRightHeader, new Insets(10, 10, 10, 10));
+		//adding components to a VBox
 		VBoxRight.getChildren().addAll(getHeader(), listViewRight, menuTotals);
 		VBoxRight.setAlignment(Pos.TOP_CENTER);
 		VBoxRight.setMinWidth(600);
 		BorderPane.setAlignment(VBoxRight, Pos.CENTER_LEFT);
 
 		// left food pane
-		/*FoodItem f1 = new FoodItem("0", "Soda");
-		f1.addNutrient("calories", 123.4);
-		f1.addNutrient("fat", 0);
-		f1.addNutrient("carbohydrate", 23);
-		f1.addNutrient("fiber", 0);
-		f1.addNutrient("protein", .1);
-		FoodItem f2 = new FoodItem("1", "Pizza");
-		f2.addNutrient("calories", 200);
-		f2.addNutrient("fat", 20);
-		f2.addNutrient("carbohydrate", 25);
-		f2.addNutrient("fiber", 10);
-		f2.addNutrient("Protein", 14);
-		FoodItem f3 = new FoodItem("2", "Bread Sticks");
-		f3.addNutrient("calories", 150);
-		f3.addNutrient("fat", 10);
-		f3.addNutrient("carbohydrate", 30);
-		f3.addNutrient("fiber", 7);
-		f3.addNutrient("protein", 2);
-		foodList.add(f1);
-		foodList.add(f2);
-		foodList.add(f3);*/
 		ListView<FoodItem> listViewLeft = new ListView<>(foodList);
 		listViewLeft.setCellFactory(param -> new FoodListItem(false));
 		
@@ -342,7 +337,7 @@ public class Main extends Application {
 				});
 			}
 		});
-
+		//center of the activity is the two list views for food and menu, aligning those here
 		GridPane centerPane = new GridPane();
 		int numCols = 2;
 		for (int col = 0; col < numCols; col++) {
@@ -716,6 +711,10 @@ public class Main extends Application {
 		LabelField.setPromptText("Enter " + LabelString);
 	}
 
+	/**
+	 * constructs the header for the food item tables
+	 * @return gPane containing the label names
+	 */
 	public Node getHeader() {
 		GridPane gPane = new GridPane();
 		int numCols = 7;
@@ -723,8 +722,6 @@ public class Main extends Application {
 			ColumnConstraints cc = new ColumnConstraints();
 			cc.setPercentWidth(100 / (numCols * 1.0));
 			cc.setMaxWidth(60);
-			// cc.setFillWidth(true);
-			// cc.setHgrow(Priority.ALWAYS);
 			gPane.getColumnConstraints().add(cc);
 		}
 		gPane.add(new Label("Name"), 0, 0);
@@ -797,19 +794,24 @@ public class Main extends Application {
 		updateFoodCount();
 	}
 
+	/**
+	 * function to reset foodList with new data
+	 * @param d new data to show
+	 */
 	public void resetDisplay(FoodData d) {
 		foodList.setAll(d.getAllFoodItems());
 		updateFoodCount();
 	}
-
+	/**
+	 * function to update count of food in foodList
+	 */
 	public void updateFoodCount() {
 		foodCount = foodList.size();
 		foodCountLabel.setText("Count: " + foodCount);
 	}
-	/*
-	 * public void addToDisplay( FoodItem f) { foodList.add(f); }
+	/**
+	 * clears the menuList and resets counts
 	 */
-
 	public void clearMenu() {
 		menuList.clear();
 		menuCount = 0;
@@ -826,7 +828,10 @@ public class Main extends Application {
 		totalProteinLabel.setText(totalProtein + "");
 		menuCountLabel.setText("Count: " + menuCount);
 	}
-
+	/**
+	 * adds a food item to the menu list and updates counts
+	 * @param f food item to add
+	 */
 	public void addToMenu(FoodItem f) {
 		menuList.add(f);
 		menuCount++;
@@ -854,6 +859,10 @@ public class Main extends Application {
 		menuCountLabel.setText("Count: " + menuCount);
 	}
 
+	/**
+	 * removes a given food item from the list
+	 * @param f food item to remove
+	 */
 	public void subFromMenu(FoodItem f) {
 		menuList.remove(f);
 		menuCount--;
