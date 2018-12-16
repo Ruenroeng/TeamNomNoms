@@ -791,7 +791,12 @@ public class Main extends Application {
 		filter = macro.getValue() + " " + comparator.getValue() + " " + filterValue;
 		filters.getChildren().add(new Label(filter));
 	}
-
+	
+	/**
+	 * Collects all filters from the filter list and calls filter functions on the FoodData item
+	 * @param filters to apply to the food data
+	 * @throws Exception
+	 */
 	public void applyFilters(VBox filters) throws Exception {
 		if (filters.getChildren().isEmpty()) {
 			resetDisplay(foodMaster);
