@@ -1,3 +1,13 @@
+/**
+ * Filename: Main.java Project: p4 
+ * Authors: Aron Denenberg, Ryan Ruenroeng, Nick Ferrentino, Jacob Bur 
+ * Due Date: 12/16/18
+ * 
+ * Bugs or Other Notes: 
+ * 
+ * JavaFx file creating front end of the application
+ * 
+ */
 package application;
 
 import java.io.File;
@@ -42,6 +52,9 @@ import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+/**
+ *  Main class to build out user GUI and interface with back end of the application.
+ */
 public class Main extends Application {
 	//create objects that we will need through out project
 	FoodData foodMaster = new FoodData();
@@ -155,7 +168,7 @@ public class Main extends Application {
 
 		// top pane
 		GridPane gPaneTop = new GridPane();
-		Label title = new Label("NomNom Meal Prep Program.");
+		Label title = new Label("NomNom Meal Prep Program");
 		title.setUnderline(true);
 		title.setFont(new Font("Arial", 20));
 		title.setMinWidth(350);
@@ -197,6 +210,7 @@ public class Main extends Application {
           return;
         }
 				String fileName = file.getAbsolutePath();
+				fileName = fileName + ".txt";
 				Path path = FileSystems.getDefault().getPath(fileName);
 				try {
 					Files.newBufferedWriter(path);
@@ -490,7 +504,9 @@ public class Main extends Application {
 	/**
 	 * Sets up the buttons, fields, and handling for the add item box.
 	 * 
-	 * @param ItemDetailsBox
+	 * @param ItemDetailsBox - Box to allow a user to add an item to foodMaster and then display in app.
+	 * @param foodMaster - Array List of food items used as the source of truth for the app. 
+	 * @param foodList - Array List of items used to display in the application.
 	 */
 	private void constructItemDetailsBox(GridPane ItemDetailsBox, FoodData foodMaster,
 			ObservableList<FoodItem> foodList) {
@@ -698,10 +714,10 @@ public class Main extends Application {
 		});
 	}
 	/**
-	 * @param ItemDetailsBox
-	 * @param LabelString - 
-	 * @param LabelField
-	 * @param row
+	 * @param ItemDetailsBox - Box to allow users to add new Food Items to the app.
+	 * @param LabelString - String to indicate the type of data being stored in this row.
+	 * @param LabelField - Field to store the data in this row.
+	 * @param row - Iterates as new rows are added.
 	 */
 	private void addItemDetailsRow(GridPane ItemDetailsBox, String LabelString, TextField LabelField, int row) {
 		ItemDetailsBox.add(new Label(LabelString), 0, row);
