@@ -37,7 +37,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
@@ -180,9 +179,9 @@ public class Main extends Application {
 					  }
 				  Files.lines(file.toPath());
 				 
-				foodMaster.loadFoodItems(fileName);
-				// foodList.setAll(foodMaster.getAllFoodItems());
-				resetDisplay(foodMaster);
+				  foodMaster.loadFoodItems(fileName);
+				  // foodList.setAll(foodMaster.getAllFoodItems());
+				  resetDisplay(foodMaster);
 				
 				 } catch(IOException e1) { Alert invalidFileAlert = new Alert(AlertType.ERROR,
 				 "Invalid File"); invalidFileAlert.show(); }
