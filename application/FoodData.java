@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -116,6 +117,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
         	
         } finally {
         	inStream.close();
+        	Collections.sort(foodItemList,(t1,t2) -> t1.getName().toLowerCase().compareTo(t2.getName().toLowerCase()));
         }
     	} catch (FileNotFoundException e) {
     		System.out.println("File was not found.");
@@ -159,22 +161,6 @@ public class FoodData implements FoodDataADT<FoodItem> {
         	List<FoodItem> singleRuleResult;
         	String[] ruleParts = rule.split(" ");
         	String macro = ruleParts[0].trim();
-        	switch(macro.charAt(2)) {
-        	case 'r':
-        		macro = "carbohydrate";
-        		break;
-        	case 'l':
-        		macro = "calories";
-        		break;
-        	case 't':
-        		macro = "fat";
-        		break;
-        	case 'b':
-        		macro = "fiber";
-        		break;
-        	default:
-        		macro = "protein";
-        	}
         	String comparator = ruleParts[1].trim();
         	comparator = (comparator.equals("="))? "==": comparator;
         	double value = Double.parseDouble(ruleParts[2].trim());
@@ -208,6 +194,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
     @Override
     public void addFoodItem(FoodItem foodItem) {
       foodItemList.add(foodItem);
+      Collections.sort(foodItemList, (t1,t2) -> t1.getName().toLowerCase().compareTo(t2.getName().toLowerCase()));
       calorieTree.insert(foodItem.getNutrientValue("calories"), foodItem);
       fatTree.insert(foodItem.getNutrientValue("fat"), foodItem);
       carbTree.insert(foodItem.getNutrientValue("carbohydrate"), foodItem);
@@ -233,19 +220,11 @@ public class FoodData implements FoodDataADT<FoodItem> {
       Iterator<FoodItem> itr = this.foodItemList.iterator();
       FoodItem currFood = null;
       String saveString = new String();
-      TreeMap<String, FoodItem> map = new TreeMap<String, FoodItem>();
-      while (itr.hasNext()) {
-    	  currFood = itr.next();
-    	  map.put(currFood.getName(), currFood);
-      }
-      
-      try {
+       try {
         BufferedWriter Writer = new BufferedWriter(new FileWriter(filePath));
-        Set<Map.Entry<String, FoodItem>> foodItems = map.entrySet();
-        Iterator<Map.Entry<String, FoodItem>> itr2 = foodItems.iterator();
-        while (itr2.hasNext()) {
+        while (itr.hasNext()) {
+          currFood = itr.next();
           StringBuilder sb = new StringBuilder();
-          currFood = itr2.next().getValue();
           sb.append(currFood.getID()+",");
           sb.append(currFood.getName()+",");
           sb.append("calories"+","+currFood.getNutrientValue("calories")+",");
