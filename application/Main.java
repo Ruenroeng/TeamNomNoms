@@ -106,7 +106,9 @@ public class Main extends Application {
 				gPane.add(proteinLabel, 5, 0);
 				gPane.add(button, 6, 0);
 			}
-
+			/**
+			 * Routine to update the food item in the list
+			 */
 			@Override
 			protected void updateItem(FoodItem item, boolean empty) {
 				super.updateItem(item, empty);
@@ -128,7 +130,7 @@ public class Main extends Application {
 					proteinLabel.setText(item.getNutrientValue("protein") + "");
 					button.setText(this.buttonText);
 					
-					if (this.isMeal) { //handle case where remove was clicked from menu
+					if (this.isMeal) { //handle case where remove was clicked from menuList
 						button.setOnAction(new EventHandler<ActionEvent>() {
 							@Override
 							public void handle(ActionEvent event) {
@@ -251,7 +253,7 @@ public class Main extends Application {
 		c.setHalignment(HPos.CENTER);
 		gPaneTop.getColumnConstraints().add(c);
 
-		//alligning clear button to the right
+		//Aligning clear button to the right
 		ColumnConstraints rc = new ColumnConstraints();
 		rc.setPercentWidth(100 / (3 * 1.0));
 		rc.setHalignment(HPos.RIGHT);
