@@ -711,7 +711,9 @@ public class Main extends Application {
         } catch (Exception e1) {
           e1.printStackTrace();
         }
-			}
+        foodList.retainAll(foodMaster.filterByName(searchBar.getText().toUpperCase()));
+        updateFoodCount();
+        }
 		});
 	}
 	/**
