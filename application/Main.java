@@ -105,10 +105,8 @@ public class Main extends Application {
 				gPane.add(proteinLabel, 5, 0);
 				gPane.add(button, 6, 0);
 			}
-			/**
-			 * Routine to update the food item in the list
-			 */
-			@Override
+
+
 			protected void updateItem(FoodItem item, boolean empty) {
 				super.updateItem(item, empty);
 				setText(null);
@@ -488,7 +486,9 @@ public class Main extends Application {
 	/**
 	 * Sets up the buttons, fields, and handling for the add item box.
 	 * 
-	 * @param ItemDetailsBox
+	 * @param ItemDetailsBox - Box to allow a user to add an item to foodMaster and then display in app.
+	 * @param foodMaster - Array List of food items used as the source of truth for the app. 
+	 * @param foodList - Array List of items used to display in the application.
 	 */
 	private void constructItemDetailsBox(GridPane ItemDetailsBox, FoodData foodMaster,
 			ObservableList<FoodItem> foodList) {
@@ -696,10 +696,10 @@ public class Main extends Application {
 		});
 	}
 	/**
-	 * @param ItemDetailsBox
-	 * @param LabelString - 
-	 * @param LabelField
-	 * @param row
+	 * @param ItemDetailsBox - Box to allow users to add new Food Items to the app.
+	 * @param LabelString - String to indicate the type of data being stored in this row.
+	 * @param LabelField - Field to store the data in this row.
+	 * @param row - Iterates as new rows are added.
 	 */
 	private void addItemDetailsRow(GridPane ItemDetailsBox, String LabelString, TextField LabelField, int row) {
 		ItemDetailsBox.add(new Label(LabelString), 0, row);
