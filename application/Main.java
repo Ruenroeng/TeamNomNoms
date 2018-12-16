@@ -153,7 +153,7 @@ public class Main extends Application {
 
 		// top pane
 		GridPane gPaneTop = new GridPane();
-		Label title = new Label("NomNom Meal Prep Program.");
+		Label title = new Label("NomNom Meal Prep Program");
 		title.setUnderline(true);
 		title.setFont(new Font("Arial", 20));
 		title.setMinWidth(350);
