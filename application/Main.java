@@ -156,6 +156,9 @@ public class Main extends Application {
 			@Override
 			public void handle(final ActionEvent e) {
 				File file = fileChooser.showOpenDialog(primaryStage);
+				if (file == null) { //do nothing if the popup was dismissed
+					return;
+				}
 				String fileName = file.getName();
 				//String fileName = "foodItems.txt";
 				
