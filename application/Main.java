@@ -195,6 +195,7 @@ public class Main extends Application {
           return;
         }
 				String fileName = file.getAbsolutePath();
+				fileName = fileName + ".txt";
 				Path path = FileSystems.getDefault().getPath(fileName);
 				try {
 					Files.newBufferedWriter(path);
