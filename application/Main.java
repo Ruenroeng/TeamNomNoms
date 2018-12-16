@@ -176,6 +176,7 @@ public class Main extends Application {
 				  Files.lines(file.toPath());
 				 
 				foodMaster.loadFoodItems(fileName);
+				// foodList.setAll(foodMaster.getAllFoodItems());
 				resetDisplay(foodMaster);
 				
 				 } catch(IOException e1) { Alert invalidFileAlert = new Alert(AlertType.ERROR,

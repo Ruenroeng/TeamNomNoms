@@ -59,13 +59,19 @@ public class FoodData implements FoodDataADT<FoodItem> {
     }
     
     
-    /*
+    /**
+     * Reads a file containing food data and loads it into the food data object to be available to main application GUI
+     * 
      * (non-Javadoc)
      * @see skeleton.FoodDataADT#loadFoodItems(java.lang.String)
+     * @param Filepath of the file containing the food information
      */
     @Override
     public void loadFoodItems(String filePath){ 
+    	// reset food data each time we load from file
     	clearFoodData();
+    	
+    	// read file and parse it to get all necessary information for food data item
       try {
         BufferedReader inStream = new BufferedReader(new FileReader(filePath));
         String inLine;
@@ -86,6 +92,7 @@ public class FoodData implements FoodDataADT<FoodItem> {
     			continue;
     		}
     		try {
+    		// load each piece of data into the different field of the food data item
     		double calorieCount = Double.parseDouble(foodInfo[3].trim());
     		double fatCount = Double.parseDouble(foodInfo[5].trim());
     		double carbCount = Double.parseDouble(foodInfo[7].trim());
