@@ -276,6 +276,7 @@ public class Main extends Application {
 		Label VBoxRightLabel = new Label("Meal");
 		VBoxRightLabel.setFont(new Font("Arial", 18));
 		HBox VBoxRightHeader = new HBox();
+		VBoxRightHeader.setAlignment(Pos.CENTER);
 		VBoxRightHeader.getChildren().add(VBoxRightLabel);
 		//totals bar along the bottom
 		GridPane menuTotals = new GridPane();
@@ -310,13 +311,12 @@ public class Main extends Application {
 		VBoxLeftLabel.setFont(new Font("Arial", 18));
 		HBox VBoxLeftHeader = new HBox(100, searchBar, VBoxLeftLabel);
 		VBoxLeftHeader.setMaxHeight(1);
-		VBox.setMargin(VBoxLeftHeader, new Insets(10, 10, 10, 10));
 		VBoxLeftHeader.setAlignment(Pos.BOTTOM_LEFT);
 		VBox VBoxLeft = new VBox(10, VBoxLeftHeader);
 		VBoxLeft.getChildren().addAll(getHeader(), listViewLeft, foodCountLabel);
 		VBoxLeft.setAlignment(Pos.BOTTOM_CENTER);
 		VBoxLeft.setMinWidth(600);
-		VBoxLeft.setPadding(new Insets(0, 0, 0, 10));
+		VBoxLeft.setPadding(new Insets(16, 0, 0, 10));
 
 		// setup listener for food item search
 		searchBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
