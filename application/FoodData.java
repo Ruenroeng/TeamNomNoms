@@ -205,6 +205,8 @@ public class FoodData implements FoodDataADT<FoodItem> {
     }
 
     /*
+     * Adds a food item to the ArrayList in the app. Sorts the list and inserts the new item into 
+     * the appropriate BPTree indices.  
      * (non-Javadoc)
      * @see skeleton.FoodDataADT#addFoodItem(skeleton.FoodItem)
      */
