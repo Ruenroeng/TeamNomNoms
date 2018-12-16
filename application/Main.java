@@ -151,7 +151,6 @@ public class Main extends Application {
 		Scene scene = new Scene(bPane, 1600, 750);
 
 		// top pane
-		// HBox HBoxTop = new HBox();
 		GridPane gPaneTop = new GridPane();
 		Label title = new Label("NomNom Meal Prep Program.");
 		title.setUnderline(true);
@@ -168,8 +167,6 @@ public class Main extends Application {
 					return;
 				}
 				String fileName = file.getName();
-				//String fileName = "foodItems.txt";
-				
 				  try { Path path = FileSystems.getDefault().getPath(fileName); 
 				  if (!Files.exists(path)) { 
 					  Alert noFileAlert = new Alert(AlertType.ERROR,"File Doesn't exist."); 
@@ -179,19 +176,10 @@ public class Main extends Application {
 				  Files.lines(file.toPath());
 				 
 				foodMaster.loadFoodItems(fileName);
-				// foodList.setAll(foodMaster.getAllFoodItems());
 				resetDisplay(foodMaster);
 				
 				 } catch(IOException e1) { Alert invalidFileAlert = new Alert(AlertType.ERROR,
 				 "Invalid File"); invalidFileAlert.show(); }
-				
-				// foodList = FXCollections.observableArrayList(foodMaster.getAllFoodItems());
-				/*
-				 * ( if (file != null) { long counter; try { counter =
-				 * Files.lines(file.toPath()) .map(String::trim) .map(String::toLowerCase)
-				 * .count(); System.out.println(counter); } catch (IOException e1) { // TODO
-				 * Auto-generated catch block e1.printStackTrace(); } }
-				 */
 			}
 
 			// }
@@ -201,9 +189,11 @@ public class Main extends Application {
 		saveFoodButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {
-				// File file = fileChooser.showOpenDialog(primaryStage);
-				// String fileName = file.getName();
-				String fileName = "testWrite.txt";
+				File file = fileChooser.showOpenDialog(primaryStage);
+        if (file == null) { //do nothing if the popup was dismissed
+          return;
+        }
+				String fileName = file.getName();
 				Path path = FileSystems.getDefault().getPath(fileName);
 				try {
 					Files.newBufferedWriter(path);
@@ -702,10 +692,9 @@ public class Main extends Application {
 			}
 		});
 	}
-
 	/**
 	 * @param ItemDetailsBox
-	 * @param LabelString
+	 * @param LabelString - 
 	 * @param LabelField
 	 * @param row
 	 */
