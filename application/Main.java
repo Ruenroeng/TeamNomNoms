@@ -107,6 +107,8 @@ public class Main extends Application {
 			}
 			/**
 			 * Routine to update the food item in the list
+			 * @param item food item for this card
+			 * @param empty is the list item we are trying to display empty. if so, do nothing
 			 */
 			@Override
 			protected void updateItem(FoodItem item, boolean empty) {
