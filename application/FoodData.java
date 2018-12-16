@@ -1,3 +1,13 @@
+ /**
+ * Filename: Main.java Project: p4 
+ * Authors: Aron Denenberg, Ryan Ruenroeng, Nick Ferrentino, Jacob Bur, Deb Deppler 
+ * Due Date: 12/16/18
+ * 
+ * Bugs or Other Notes: 
+ * 
+ * Define food data for all food items in application
+ * 
+ */
 package application;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,7 +30,7 @@ import java.util.TreeMap;
  * This class represents the backend for managing all 
  * the operations associated with FoodItems
  * 
- * @author sapan (sapan@cs.wisc.edu)
+ * @author sapan (sapan@cs.wisc.edu), aron (adenenberg@cs.wisc.edu), ryan (ruenroeng@cs.wisc.edu), nick(nferrentino@cs.wisc.edu), jacob (bur@cs.wisc.edu)
  */
 public class FoodData implements FoodDataADT<FoodItem> {
     

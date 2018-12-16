@@ -1,12 +1,20 @@
+/**
+ * Filename: Main.java Project: p4 
+ * Authors: Aron Denenberg, Ryan Ruenroeng, Nick Ferrentino, Jacob Bur 
+ * Due Date: 12/16/18
+ * 
+ * Bugs or Other Notes: 
+ * 
+ * Define a single food item
+ * 
+ */
 package application;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * This class represents a food item with all its properties.
  * 
- * @author aka
+ * @author aron(adenenberg@cs.wisc.edu), ryan(ruenroeng@cs.wisc.edu), nick(nferrentino@cs.wisc.edu), jacob(bur@cs.wisc.edu)
  */
 public class FoodItem {
     // The name of the food item.
