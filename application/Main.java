@@ -365,6 +365,7 @@ public class Main extends Application {
 		Label filterLabel = new Label("Filter List Options");
 		filterLabel.setFont(new Font("Arial", 18));
 		HBox bottomCenter = new HBox(10); // Add to the bottom center of the screen
+		HBox.setMargin(bottomCenter, new Insets(10, 10, 10, 10));
 		bottomCenter.setAlignment(Pos.TOP_CENTER);
 
 		// setup grid for filter area
